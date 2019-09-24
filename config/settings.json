@@ -1,9 +1,15 @@
 {
 	"prefix": "!vtm",
 	"subPrefixes": {
-		"globalTest": "-gt-",
-		"messageMultiplePlayers": "-mmp-",
-		"multiMessenger": "-mm-",
-		"statInsight": "-si-"
+		"globalTest": "gt",
+		"messageMultiplePlayers": "mmp",
+		"multiMessenger": "mm",
+		"statInsight": "si"
+	},
+	"prefixStructure": {
+		"vtm": 1,
+		"eventType": 2,
+		"eventName": 3,
+		"value": 4
 	}
 }

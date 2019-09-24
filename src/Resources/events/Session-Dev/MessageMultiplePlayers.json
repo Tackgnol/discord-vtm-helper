@@ -1,0 +1,17 @@
+[
+	{
+		"name": "onlyTagy",
+		"userList": ["Tackgnol"],
+		"value": "This is only for Tackgnol"
+	},
+	{
+		"name": "onlyAnia",
+		"userList": ["Ania"],
+		"value": "This is only for Ania"
+	},
+	{
+		"name": "TagyAnia",
+		"userList": ["Ania", "Tackgnol"],
+		"value": "This is only for Ania & Tackgnol"
+	}
+]

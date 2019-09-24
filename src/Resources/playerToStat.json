@@ -1,6 +1,10 @@
 {
 	"Tackgnol": {
 		"Politics": 4,
-		"Occult": 1
+		"Occult": 5,
+		"Insight": 5
+	},
+	"Ania": {
+		"Insight": 5
 	}
 }

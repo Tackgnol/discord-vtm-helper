@@ -14,7 +14,7 @@ class StatInsightManager {
 				channelMembers.forEach(p => {
 					const thisPlayer = playerStats[p.user.username];
 					if (!isNil(thisPlayer) && thisPlayer[statName] >= minValue) {
-						p.send(successMessage);
+						p.send(`(${statName}:${thisPlayer[statName]}) ${successMessage}`);
 					}
 				});
 			}

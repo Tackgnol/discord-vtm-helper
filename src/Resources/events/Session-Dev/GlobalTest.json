@@ -20,6 +20,30 @@
 		]
 	},
 	{
+		"name": "przykladoweZwloki",
+		"testMessage": "Znajdujecie zwłoki, możecie się im przyjżeć na podstawie testu Wits + Investigation lub Intelligence + Medicine, następnie wpiszcie !vtm-gt-przykladowe-zwloki wartość wyniku",
+		"shortCircut": false,
+		"replyPrefix": "Przyglądasz się zwłokom...",
+		"optionArray": [
+			{
+				"minResult": 0,
+				"resultMessage": "Wygląda na samobójstwo"
+			},
+			{
+				"minResult": 2,
+				"resultMessage": "Hmmm... Natomiast widzę krew pod paznokciami, osoby trzecie?"
+			},
+			{
+				"minResult": 5,
+				"resultMessage": "Ofiara ma obite podbrzusze, kto bije się po brzuchu zanim się powiesi?"
+			},
+			{
+				"minResult": 7,
+				"resultMessage": "Twoje lata doświadczenia pozwalają Ci ocenić na podstawie rozbyzgu krwi że nie mogła ona pochodzić od jednej osoby"
+			}
+		]
+	},
+	{
 		"name": "strachSluzby",
 		"testMessage": "Po rozmowie z całą służbą ewidetnie dom jest pełen strachu. Wykorzystując zdobyte informacje możesz jeszcze raz ich przepytać wykonując test Persuasion + Intimidate lub Charisma + Leadership",
 		"shortCircut": false,

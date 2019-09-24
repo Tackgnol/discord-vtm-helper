@@ -1,0 +1,20 @@
+[
+	{
+		"name": "theSmell",
+		"statName": "Occult",
+		"minValue": 2,
+		"successMessage": "W mieszkaniu aż śmierdzi jakąś nadprzyrodzoną mocą, mieszkanie udaje normalne, ale Ciebie to nie zwiedzie..."
+	},
+	{
+		"name": "gangrelLeader",
+		"statName": "Politics",
+		"minValue": 3,
+		"successMessage": "Aleksiej nie opowiada się po żadnej ze stron prawie w ogóle, politykował na ukrainie, tutaj chce po prostu przetrwać. Czyni to z niego potencjalnego sojusznika. "
+	},
+	{
+		"name": "liarliar",
+		"statName": "Insight",
+		"minValue": 4,
+		"successMessage": "Wojciech, nie ma pojęcia o czym mówi, i jest bardzo słabym kłamcą"
+	}
+]
