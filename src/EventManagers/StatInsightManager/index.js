@@ -1,5 +1,5 @@
-const _ = require('lodash');
-const playerStats = require('./playerToStat.json');
+const { isNil, isEmpty } = require('lodash');
+const playerStats = require('../../Resources/playerToStat.json');
 class StatInsightManager {
 	constructor(message) {
 		this.message = message;
@@ -10,11 +10,10 @@ class StatInsightManager {
 		const messageChanel = this.message.channel;
 		if (messageChanel.type === 'text') {
 			const channelMembers = messageChanel.members;
-			if (!_.isEmpty(channelMembers)) {
+			if (!isEmpty(channelMembers)) {
 				channelMembers.forEach(p => {
 					const thisPlayer = playerStats[p.user.username];
-					console.log(p.user.username);
-					if (!_.isNil(thisPlayer) && thisPlayer[statName] >= minValue) {
+					if (!isNil(thisPlayer) && thisPlayer[statName] >= minValue) {
 						p.send(`you have completed the ${statName} test`);
 					}
 				});
