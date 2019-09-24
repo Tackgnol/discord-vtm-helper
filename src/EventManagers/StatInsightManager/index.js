@@ -6,7 +6,7 @@ class StatInsightManager {
 		this.client = message.client;
 	}
 
-	checkStat(statName, minValue) {
+	checkStat(statName, minValue, successMessage) {
 		const messageChanel = this.message.channel;
 		if (messageChanel.type === 'text') {
 			const channelMembers = messageChanel.members;
@@ -14,7 +14,7 @@ class StatInsightManager {
 				channelMembers.forEach(p => {
 					const thisPlayer = playerStats[p.user.username];
 					if (!isNil(thisPlayer) && thisPlayer[statName] >= minValue) {
-						p.send(`you have completed the ${statName} test`);
+						p.send(successMessage);
 					}
 				});
 			}

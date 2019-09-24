@@ -1,0 +1,9 @@
+{
+	"prefix": "!vtm",
+	"subPrefixes": {
+		"globalTest": "-gt-",
+		"messageMultiplePlayers": "-mmp-",
+		"multiMessenger": "-mm-",
+		"statInsight": "-si-"
+	}
+}

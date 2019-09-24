@@ -1,0 +1,42 @@
+[
+	{
+		"name": "domStaruszki",
+		"testMessage": "Tylni korytarz wydaje się być znacznie dłuższy niż pokój do niego przylegający. Chętni mogą spróbować sprawdzić korytarz testem Intelligence + Investigation, bądź Wits + Academics (architektura)",
+		"shortCircut": false,
+		"replyPrefix": "Przeszukujesz korytarz...",
+		"optionArray": [
+			{
+				"minResult": 1,
+				"resultMessage": "Ściana wykonana jest z innego matriału"
+			},
+			{
+				"minResult": 3,
+				"resultMessage": "Budynek nie powinen mieć tam żadnej infrastuktury, być może coś jest tutaj ukryte?"
+			},
+			{
+				"minResult": 5,
+				"resultMessage": "Przeszukując dokładnie korytarz wyczuwasz że w pewnym momencie uderzając w ścianę słyszysz dźwięk charakterystyczny dla pustki za nią"
+			}
+		]
+	},
+	{
+		"name": "strachSluzby",
+		"testMessage": "Po rozmowie z całą służbą ewidetnie dom jest pełen strachu. Wykorzystując zdobyte informacje możesz jeszcze raz ich przepytać wykonując test Persuasion + Intimidate lub Charisma + Leadership",
+		"shortCircut": false,
+		"replyPrefix": "Przepytujesz ponownie służbę...",
+		"optionArray": [
+			{
+				"minResult": 1,
+				"resultMessage": "Lokaj mówił, że nidługo nie będzie już niczyim sługą jak kiedyś wypił za dużo... (Jacek)"
+			},
+			{
+				"minResult": 4,
+				"resultMessage": "Pan z Lokajem bardzo się kłócili jakiś tydzień temu, Pan wyszedł z pomieszczenia wyłamując drzwi, z 2 dni to naprawialiśmy..."
+			},
+			{
+				"minResult": 6,
+				"resultMessage": "Każdy z nas ma obiecane że kiedyś będzie żył wiecznie... może Lokaj stwierdził że dość czekania. "
+			}
+		]
+	}
+]
