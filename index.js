@@ -3,6 +3,8 @@ const client = new Discord.Client();
 const config = require('./config/auth.json');
 const StatInsightManager = require('./src/EventManagers/StatInsightManager');
 const GlobalTestManager = require('./src/EventManagers/GlobalTestManager');
+const MessageMultiplePlayers = require('./src/EventManagers/MessageMultiplePlayersManager');
+const MultiMessageManager = require('./src/EventManagers/MultiMessageManager');
 client.once('ready', () => {
 	console.log('Ready!');
 });
@@ -15,6 +17,23 @@ client.on('message', message => {
 
 	if (message.content === '!Occult' && !message.author.bot) {
 		statInsightHandler.checkStat('Occult', 2);
+	}
+
+	if (message.content === '!EnteredTheHouse' && !message.author.bot) {
+		const messageMultiplePlayers = new MessageMultiplePlayers(message);
+		messageMultiplePlayers.messageUsers(
+			'To jest wiadomość tylko do Tackgnola',
+			['Tackgnol']
+		);
+	}
+
+	if (message.content === '!EnteredTheHouse2' && !message.author.bot) {
+		const multiMessageManager = new MultiMessageManager(message);
+		const messageArray = [
+			{ userList: ['Tackgnol'], value: 'To jest do Tackgnola' },
+			{ userList: ['Morthaliar'], value: 'To nie jest do Tackgnola' }
+		];
+		multiMessageManager.messageUsers(messageArray);
 	}
 
 	if (message.content.startsWith('!investigation') && !message.author.bot) {
