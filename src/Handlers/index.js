@@ -1,13 +1,22 @@
+const { get, find } = require('lodash');
+
 const { subPrefixes } = require('../../config/settings.json');
 const GlobaTestHandler = require('./GlobalTestHandler');
 const StatInsightHandler = require('./StatInsightHandler');
 const MessageMultiplePlayersHandler = require('./MessageMultiplePlayersHandler');
 const MultiMessageHandler = require('./MultiMessageHandler');
+
+const channelToSession = require('../Resources/channelToSession.json');
 const sessionData = require('../Resources/events/');
 
-const globalHandler = (query, message, session) => {
+const globalHandler = (channelId, query, message) => {
 	const queryType = query.type;
-	const currentSession = sessionData[session];
+
+	const sessionId = get(
+		find(channelToSession, c => c.id === +channelId),
+		'session'
+	);
+	const currentSession = sessionData[sessionId];
 	let handler;
 	switch (queryType) {
 	case subPrefixes.globalTest:

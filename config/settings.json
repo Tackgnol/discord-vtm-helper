@@ -11,5 +11,8 @@
 		"eventType": 2,
 		"eventName": 3,
 		"value": 4
+	},
+	"additionalCommands": {
+		"test": "test"
 	}
 }

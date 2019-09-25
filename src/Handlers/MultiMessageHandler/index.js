@@ -12,7 +12,6 @@ class MultiMessageHandler {
 	}
 
 	handle() {
-		console.log(this.sessionData);
 		const currentSession = get(this.sessionData, 'multiMessage');
 		const displayTest = find(currentSession, c => c.name === this.eventName);
 		if (!isNil(displayTest)) {
