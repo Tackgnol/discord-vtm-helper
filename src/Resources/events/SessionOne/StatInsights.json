@@ -28,5 +28,17 @@
 		"statName": "Survival",
 		"minValue": 2,
 		"successMessage": "PUŁAPKI! Pułapki na niedźwiedzie w całym korytarzu! STOP!"
+	}, 
+	{
+		"name":"baronsRoom",
+		"statName": "Medicine",
+		"minValue": 2,
+		"successMessage": "Sporo z tych kości i czaszek były kiedyś ludzkie, jednak ktoś zrobił z nimi coś okropnego..."
+	},
+	{
+		"name": "theBaron",
+		"statName": "Occult",
+		"minValue": 3,
+		"successMessage": "Tzimizie!W Łodzi! Fascynujące! Jak? Skąd? W poszukiwaniu dalszych informacji jeśli chcesz możesz poprosić opowiadającego o materiał"
 	}
 ]

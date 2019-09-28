@@ -63,6 +63,7 @@
 		"name": "intoTheTraps",
 		"testMessage": "Mimo złego przeczucia postanawiacie iść dalej, nagle słyszycie głośny huk metalu... Postacie z przodu (opowiadający decyduje) muszą wykonać test Dex + Awarness",
 		"shortCircut": true, 
+		"replyPrefix": "Ups...",
 		"optionArray": [
 			{
 				"minResult": 0,
@@ -77,6 +78,51 @@
 				"minResult":5,
 				"resultMessage": "Gdy stawiasz stopę widzisz pod nią pułapkę na niedźwiedzie, jest już za późno Twoja stopa ląduje w mechaniźmie, jednak uda Ci się wykonać szybki wyskok do przodu unikając szczęk,jednak zamykające się szczęki na pewno były słyszalne dla wszystkich w tunelach"
 			}
+		]
+	},
+	{
+		"name": "theGlop",
+		"testMessage": "(Gracze którzy wkroczyli...) Podłoże jest strasznie grząskie, wciąga Cię! Wciąga cholernie mocno! (Strenght + Dex)",
+		"shortCircut":true,
+		"replyPrefix": "Walczysz z wciągającym Cię błotem...",
+		"optionArray": [
+			{
+				"minResult":0,
+				"resultMessage": "Ciągnie Cię na samo dno, jeśli ktoś Ci nie pomoże to skończysz na dnie aż nie umrzesz z głodu..."
+			},
+			{
+				"minResult":2, 
+				"resultMessage": "Z wielkim trudem cały/a w błocie przechodzisz na drugą stronę (rzuć K10 daj znać opowiadającemu)"
+			},
+			{
+				"minResult": 4,
+				"resultMessage": "Nie z takim błotem sobie radziłeś/aś, żwawym krokiem przechodzisz na drugą stronę"
+			},
+			{
+				"minResult": 5,
+				"resultMessage": "Bezproblemowo przedzierasz się przez błoto, sumie to masz nawet sporo czasu żeby pokazać towarzyszom miejsce gdzie błoto jest tylko do pasa (nikt więcej nie musi wykonywać testu aby przejść"
+			}
+		]
+	},
+	{
+		"name":"theAltarRoom",
+		"testMessage": "Przyglądacie się pomieszczeniu, jest jak z Lovecraftowego Horroru, są to rzeczy o których nauka nie słyszała (Intelligence + Occult lub Wits + Investigation -2 (chyba że specjalizacja Paranormalna)",
+		"shortCircut":false,
+		"replyPrefix": "Pomieszczenie jest niezwykłe",
+		"optionArray": [
+			{
+				"minResult": 1,
+				"resultMessage": "Pomieszczenie służy do rytuałów Sabbatu, nie wiesz jakich ani po co..."
+			},
+			{
+				"minResult":2,
+				"resultMessage": "Wśród obiektów na stole rozpoznajesz kielich rytualny, to wspólnego picia krwi (Sabbat piją krew pobratymców aby 'wzmocnić więź Koterii')"
+			},
+			{	
+				"minResult": 4,
+				"resultMessage": "Nie możesz być pewien czym jest wielka przymocowana do Ziemi paszcza, masz jednak podejżenia iż może być to jednak z mitycznych 'Paszczy Ziemi' o których szepczą wilkołaki (ale kto by ich słuchał...) może jest to rezultat eksperymentów Tzimisce?" 
+			}
+
 		]
 	}
 ]
