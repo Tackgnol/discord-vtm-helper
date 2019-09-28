@@ -1,0 +1,82 @@
+[
+	{
+		"name": "domStaruszki",
+		"testMessage": "Tylni korytarz wydaje się być znacznie dłuższy niż pokój do niego przylegający. Chętni mogą spróbować sprawdzić korytarz testem Intelligence + Investigation, bądź Wits + Academics (architektura)",
+		"shortCircut": false,
+		"replyPrefix": "Przeszukujesz korytarz...",
+		"optionArray": [
+			{
+				"minResult": 1,
+				"resultMessage": "Ściana wykonana jest z innego matriału"
+			},
+			{
+				"minResult": 3,
+				"resultMessage": "Budynek nie powinen mieć tam żadnej infrastuktury, być może coś jest tutaj ukryte?"
+			},
+			{
+				"minResult": 5,
+				"resultMessage": "Przeszukując dokładnie korytarz wyczuwasz że w pewnym momencie uderzając w ścianę słyszysz dźwięk charakterystyczny dla pustki za nią"
+			}
+		]
+	},
+	{
+		"name": "strachSluzby",
+		"testMessage": "Po rozmowie z całą służbą ewidetnie dom jest pełen strachu. Wykorzystując zdobyte informacje możesz jeszcze raz ich przepytać wykonując test Persuasion + Intimidate lub Charisma + Leadership",
+		"shortCircut": false,
+		"replyPrefix": "Przepytujesz ponownie służbę...",
+		"optionArray": [
+			{
+				"minResult": 1,
+				"resultMessage": "Lokaj mówił, że nidługo nie będzie już niczyim sługą jak kiedyś wypił za dużo... (Jacek)"
+			},
+			{
+				"minResult": 4,
+				"resultMessage": "Pan z Lokajem bardzo się kłócili jakiś tydzień temu, Pan wyszedł z pomieszczenia wyłamując drzwi, z 2 dni to naprawialiśmy..."
+			},
+			{
+				"minResult": 6,
+				"resultMessage": "Każdy z nas ma obiecane że kiedyś będzie żył wiecznie... może Lokaj stwierdził że dość czekania. "
+			}
+		]
+	},
+	{
+		"name":"anotherWay",
+		"testMessage": "Hmmm może faktycznie da się znaleźć inne wejście... Postacie ze Steath 3+ mogą po cichu przeszukać okolice mieszkania. Pozostali wykonują test Dex+Stealth (ST3) lub Wits + Survival (ST3) i raportują wynik opowiadającemu. \n Postacie z Stealth Powyżej 3 i Ci którym udał się test mogą wykonać test Larceny + Awarness lub Wits + Academics (Architecture)",
+		"shortCircut":false,
+		"replyPrefix":"Rozglądasz się po obżerzach włości...",
+		"optionArray": [
+			{
+				"minResult": 0,
+				"resultMessage": "Dom jest strasznie zniszczony, w sumie z każdej strony może być wejście przy odrobienie siły."
+			},
+			{
+				"minResult":2,
+				"resultMessage": "Wejście do krypty jest strasznie zużyte, jakby ktoś stale ją otwierał i zamykał dodatkowo zaglądając do środka widzisz dużo śladów prowadzących do jednej z komór"
+			},
+			{
+				"minResult": 4,
+				"resultMessage": "Z na prawo przykryta latami zadniednań (śmieci, stare deski, podgniłe liście) znajduje się olbżymia dziura w środku jest bardzo ciemno i nie widzisz jak daleko schodzi ale spadek jest na tyle mały że można spokojnie zejść nią w dół"
+			}
+		]
+	},
+	{
+		"name": "intoTheTraps",
+		"testMessage": "Mimo złego przeczucia postanawiacie iść dalej, nagle słyszycie głośny huk metalu... Postacie z przodu (opowiadający decyduje) muszą wykonać test Dex + Awarness",
+		"shortCircut": true, 
+		"optionArray": [
+			{
+				"minResult": 0,
+				"resultMessage":"Wyczuwasz jak pułapka zatrzaskuje Ci się na nodze Otrzymujesz 3 punkty obrażeń, jesteś unieruchomiony oraz Twoja noga. Po uwolnieniu noga wymaga wyleczenia innaczej kulejesz (wyleczenie 2x Rouse Check)"
+			},
+			{
+				"minResult":3,
+				"resultMessage": "Zauważasz zamykającą się na Twojej nodze pułąpkę, mimo tego faktu nie uda Ci się na czas wyciągnąć nogi, łapie Cię ona w okolicy kostki, jesteś unieruchomiony!"
+
+			},
+			{
+				"minResult":5,
+				"resultMessage": "Gdy stawiasz stopę widzisz pod nią pułapkę na niedźwiedzie, jest już za późno Twoja stopa ląduje w mechaniźmie, jednak uda Ci się wykonać szybki wyskok do przodu unikając szczęk,jednak zamykające się szczęki na pewno były słyszalne dla wszystkich w tunelach"
+			}
+		]
+	}
+]

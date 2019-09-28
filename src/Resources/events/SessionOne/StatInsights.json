@@ -1,0 +1,32 @@
+[
+	{
+		"name": "theSmell",
+		"statName": "Occult",
+		"minValue": 2,
+		"successMessage": "W mieszkaniu aż śmierdzi jakąś nadprzyrodzoną mocą, mieszkanie udaje normalne, ale Ciebie to nie zwiedzie..."
+	},
+	{
+		"name": "gangrelLeader",
+		"statName": "Politics",
+		"minValue": 3,
+		"successMessage": "Aleksiej nie opowiada się po żadnej ze stron prawie w ogóle, politykował na ukrainie, tutaj chce po prostu przetrwać. Czyni to z niego potencjalnego sojusznika. "
+	},
+	{
+		"name":"outsideTheHouse",
+		"statName": "Larceny",
+		"minValue":3,
+		"successMessage": "Dom jest stary na pewno jest więcej niż jedno wejście, bardzo możliwe że aktualni okupanci niz o nich nie wiedzą..."
+	}, 
+	{
+		"name": "thePorch",
+		"statName": "Animal Ken",
+		"minValue":1,
+		"successMessage": "Z psem jest coś nie tak, coś nienaturnalnego..."
+	},
+	{
+		"name": "darkHallway",
+		"statName": "Survival",
+		"minValue": 2,
+		"successMessage": "PUŁAPKI! Pułapki na niedźwiedzie w całym korytarzu! STOP!"
+	}
+]
