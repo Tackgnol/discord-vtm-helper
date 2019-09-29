@@ -40,5 +40,23 @@
 		"statName": "Occult",
 		"minValue": 3,
 		"successMessage": "Tzimizie!W Łodzi! Fascynujące! Jak? Skąd? W poszukiwaniu dalszych informacji jeśli chcesz możesz poprosić opowiadającego o materiał"
+	},
+	{
+		"name":"basementMain",
+		"statName": "Composure",
+		"minValue": 4,
+		"successMessage": "Wydarzenie Cię nie dotyczy możesz poszydzić z towarzyszy"
+	}, 
+	{
+		"name": "ritualRoom",
+		"statName": "Occult",
+		"minValue": 3,
+		"successMessage": "To ma tyle wspólnego z prawdziwym pentagramem i okultyzmem co Ouija board, jakieś amatorskie bezgroły i do tego sprayem z puszki..."
+	},
+	{
+		"name":"contessasRoom",
+		"statName":"Performance",
+		"minValue":3,
+		"successMessage": "Ubrania nie 'z epokoki baroku', są nowiutkie z tegorocznej kolekcji, coś co na pewno zwróci uwagę na scenie klubowej"
 	}
 ]

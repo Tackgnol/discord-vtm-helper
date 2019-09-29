@@ -124,5 +124,30 @@
 			}
 
 		]
-	}
+	},
+	{
+		"name":"theRoomWhereSheDied",
+		"testMessage": "Postanowiliście przyjżeć się zwłokom i pokojowi... (Investigation + Intelligence lub Medicine + Wits)",
+		"shortCircut": false,
+		"replyPrefix": "PrzeSzukujesz pokój...",
+		"optionArray": [
+			{
+				"minResult": 1,
+				"resultMessage": "Pokój żadko odwiedzany, i raczej jest w tym jeszcze zanim zasiedlił się w nim Sabbat"
+			},
+			{
+				"minResult":3,
+				"resultMessage": "Kobieta nie żyje od ponad 70 lat, z braku nawet strzępków ubrań wnioskuje że zmarła naga"
+			},
+			{
+				"minResult": 4,
+				"resultMessage": "Kobieta raczej na pewno umarła z głodu. Znajdujesz komodę w ścianie pełną sukienek oraz zdjęcie z ok 1920 roku przedstawiające niepokojąco wyglądającą rodzine"
+			},
+			{
+				"minResult": 5,
+				"resultMessage": "W komodzie znajdujesz ukryty dziennik (poproś opowiadającego o dziennik)"
+			}
+		]
+	},
+	
 ]
