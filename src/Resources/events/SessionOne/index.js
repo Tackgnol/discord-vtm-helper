@@ -1,11 +1,13 @@
-const globalTestsJSON = require('./GlobalTest.json.js');
-const statInsightsJSON = require('./StatInsights.json.js');
-const messageMultiplePlayersJSON = require('./MessageMultiplePlayers.json.js');
-const multiMessageJSON = require('./MultiMessage.json.js');
+const globalTestsJSON = require('./GlobalTest.json');
+const statInsightsJSON = require('./StatInsights.json');
+const messageMultiplePlayersJSON = require('./MessageMultiplePlayers.json');
+const multiMessageJSON = require('./MultiMessage.json');
+const narrationJSON = require('./Narration.json');
 
 module.exports = {
 	globalTests: globalTestsJSON,
 	statInsights: statInsightsJSON,
 	messageMultiplePlayers: messageMultiplePlayersJSON,
 	multiMessage: multiMessageJSON,
+	narration: narrationJSON
 };

@@ -5,6 +5,7 @@ const GlobaTestHandler = require('./GlobalTestHandler');
 const StatInsightHandler = require('./StatInsightHandler');
 const MessageMultiplePlayersHandler = require('./MessageMultiplePlayersHandler');
 const MultiMessageHandler = require('./MultiMessageHandler');
+const NarrationHandler = require('./NarrationHandler');
 
 const channelToSession = require('../Resources/channelToSession.json');
 const sessionData = require('../Resources/events/');
@@ -34,6 +35,9 @@ const globalHandler = (channelId, query, message) => {
 		break;
 	case subPrefixes.multiMessenger:
 		handler = new MultiMessageHandler(currentSession, message, query);
+		break;
+	case subPrefixes.narration:
+		handler = new NarrationHandler(currentSession, message,query);
 		break;
 	default:
 		return;

@@ -12,15 +12,15 @@
 		"successMessage": "Aleksiej nie opowiada się po żadnej ze stron prawie w ogóle, politykował na ukrainie, tutaj chce po prostu przetrwać. Czyni to z niego potencjalnego sojusznika. "
 	},
 	{
-		"name":"outsideTheHouse",
+		"name": "outsideTheHouse",
 		"statName": "Larceny",
-		"minValue":3,
+		"minValue": 3,
 		"successMessage": "Dom jest stary na pewno jest więcej niż jedno wejście, bardzo możliwe że aktualni okupanci niz o nich nie wiedzą..."
-	}, 
+	},
 	{
 		"name": "thePorch",
 		"statName": "Animal Ken",
-		"minValue":1,
+		"minValue": 1,
 		"successMessage": "Z psem jest coś nie tak, coś nienaturnalnego..."
 	},
 	{
@@ -28,9 +28,9 @@
 		"statName": "Survival",
 		"minValue": 2,
 		"successMessage": "PUŁAPKI! Pułapki na niedźwiedzie w całym korytarzu! STOP!"
-	}, 
+	},
 	{
-		"name":"baronsRoom",
+		"name": "baronsRoom",
 		"statName": "Medicine",
 		"minValue": 2,
 		"successMessage": "Sporo z tych kości i czaszek były kiedyś ludzkie, jednak ktoś zrobił z nimi coś okropnego..."
@@ -42,11 +42,11 @@
 		"successMessage": "Tzimizie!W Łodzi! Fascynujące! Jak? Skąd? W poszukiwaniu dalszych informacji jeśli chcesz możesz poprosić opowiadającego o materiał"
 	},
 	{
-		"name":"basementMain",
+		"name": "basementMain",
 		"statName": "Composure",
 		"minValue": 4,
 		"successMessage": "Wydarzenie Cię nie dotyczy możesz poszydzić z towarzyszy"
-	}, 
+	},
 	{
 		"name": "ritualRoom",
 		"statName": "Occult",
@@ -54,9 +54,15 @@
 		"successMessage": "To ma tyle wspólnego z prawdziwym pentagramem i okultyzmem co Ouija board, jakieś amatorskie bezgroły i do tego sprayem z puszki..."
 	},
 	{
-		"name":"contessasRoom",
-		"statName":"Performance",
-		"minValue":3,
+		"name": "contessasRoom",
+		"statName": "Performance",
+		"minValue": 3,
 		"successMessage": "Ubrania nie 'z epokoki baroku', są nowiutkie z tegorocznej kolekcji, coś co na pewno zwróci uwagę na scenie klubowej"
+	},
+	{
+		"name": "ceromonialRoom",
+		"statName": "Occult",
+		"minValue": 3,
+		"successMessage": "Pokój przygotowany aby przeprowadzić rytuały dowolnej plugawej religii dowolnego zdeprwawowanego gościa"
 	}
 ]

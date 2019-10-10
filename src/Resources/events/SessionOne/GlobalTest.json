@@ -40,17 +40,17 @@
 		]
 	},
 	{
-		"name":"anotherWay",
+		"name": "anotherWay",
 		"testMessage": "Hmmm może faktycznie da się znaleźć inne wejście... Postacie ze Steath 3+ mogą po cichu przeszukać okolice mieszkania. Pozostali wykonują test Dex+Stealth (ST3) lub Wits + Survival (ST3) i raportują wynik opowiadającemu. \n Postacie z Stealth Powyżej 3 i Ci którym udał się test mogą wykonać test Larceny + Awarness lub Wits + Academics (Architecture)",
-		"shortCircut":false,
-		"replyPrefix":"Rozglądasz się po obżerzach włości...",
+		"shortCircut": false,
+		"replyPrefix": "Rozglądasz się po obżerzach włości...",
 		"optionArray": [
 			{
 				"minResult": 0,
 				"resultMessage": "Dom jest strasznie zniszczony, w sumie z każdej strony może być wejście przy odrobienie siły."
 			},
 			{
-				"minResult":2,
+				"minResult": 2,
 				"resultMessage": "Wejście do krypty jest strasznie zużyte, jakby ktoś stale ją otwierał i zamykał dodatkowo zaglądając do środka widzisz dużo śladów prowadzących do jednej z komór"
 			},
 			{
@@ -62,20 +62,19 @@
 	{
 		"name": "intoTheTraps",
 		"testMessage": "Mimo złego przeczucia postanawiacie iść dalej, nagle słyszycie głośny huk metalu... Postacie z przodu (opowiadający decyduje) muszą wykonać test Dex + Awarness",
-		"shortCircut": true, 
+		"shortCircut": true,
 		"replyPrefix": "Ups...",
 		"optionArray": [
 			{
 				"minResult": 0,
-				"resultMessage":"Wyczuwasz jak pułapka zatrzaskuje Ci się na nodze Otrzymujesz 3 punkty obrażeń, jesteś unieruchomiony oraz Twoja noga. Po uwolnieniu noga wymaga wyleczenia innaczej kulejesz (wyleczenie 2x Rouse Check)"
+				"resultMessage": "Wyczuwasz jak pułapka zatrzaskuje Ci się na nodze Otrzymujesz 3 punkty obrażeń, jesteś unieruchomiony oraz Twoja noga. Po uwolnieniu noga wymaga wyleczenia innaczej kulejesz (wyleczenie 2x Rouse Check)"
 			},
 			{
-				"minResult":3,
+				"minResult": 3,
 				"resultMessage": "Zauważasz zamykającą się na Twojej nodze pułąpkę, mimo tego faktu nie uda Ci się na czas wyciągnąć nogi, łapie Cię ona w okolicy kostki, jesteś unieruchomiony!"
-
 			},
 			{
-				"minResult":5,
+				"minResult": 5,
 				"resultMessage": "Gdy stawiasz stopę widzisz pod nią pułapkę na niedźwiedzie, jest już za późno Twoja stopa ląduje w mechaniźmie, jednak uda Ci się wykonać szybki wyskok do przodu unikając szczęk,jednak zamykające się szczęki na pewno były słyszalne dla wszystkich w tunelach"
 			}
 		]
@@ -83,15 +82,15 @@
 	{
 		"name": "theGlop",
 		"testMessage": "(Gracze którzy wkroczyli...) Podłoże jest strasznie grząskie, wciąga Cię! Wciąga cholernie mocno! (Strenght + Dex)",
-		"shortCircut":true,
+		"shortCircut": true,
 		"replyPrefix": "Walczysz z wciągającym Cię błotem...",
 		"optionArray": [
 			{
-				"minResult":0,
+				"minResult": 0,
 				"resultMessage": "Ciągnie Cię na samo dno, jeśli ktoś Ci nie pomoże to skończysz na dnie aż nie umrzesz z głodu..."
 			},
 			{
-				"minResult":2, 
+				"minResult": 2,
 				"resultMessage": "Z wielkim trudem cały/a w błocie przechodzisz na drugą stronę (rzuć K10 daj znać opowiadającemu)"
 			},
 			{
@@ -105,9 +104,9 @@
 		]
 	},
 	{
-		"name":"theAltarRoom",
+		"name": "theAltarRoom",
 		"testMessage": "Przyglądacie się pomieszczeniu, jest jak z Lovecraftowego Horroru, są to rzeczy o których nauka nie słyszała (Intelligence + Occult lub Wits + Investigation -2 (chyba że specjalizacja Paranormalna)",
-		"shortCircut":false,
+		"shortCircut": false,
 		"replyPrefix": "Pomieszczenie jest niezwykłe",
 		"optionArray": [
 			{
@@ -115,28 +114,27 @@
 				"resultMessage": "Pomieszczenie służy do rytuałów Sabbatu, nie wiesz jakich ani po co..."
 			},
 			{
-				"minResult":2,
+				"minResult": 2,
 				"resultMessage": "Wśród obiektów na stole rozpoznajesz kielich rytualny, to wspólnego picia krwi (Sabbat piją krew pobratymców aby 'wzmocnić więź Koterii')"
 			},
-			{	
+			{
 				"minResult": 4,
-				"resultMessage": "Nie możesz być pewien czym jest wielka przymocowana do Ziemi paszcza, masz jednak podejżenia iż może być to jednak z mitycznych 'Paszczy Ziemi' o których szepczą wilkołaki (ale kto by ich słuchał...) może jest to rezultat eksperymentów Tzimisce?" 
+				"resultMessage": "Nie możesz być pewien czym jest wielka przymocowana do Ziemi paszcza, masz jednak podejżenia iż może być to jednak z mitycznych 'Paszczy Ziemi' o których szepczą wilkołaki (ale kto by ich słuchał...) może jest to rezultat eksperymentów Tzimisce? (poproś o handout)"
 			}
-
 		]
 	},
 	{
-		"name":"theRoomWhereSheDied",
+		"name": "theRoomWhereSheDied",
 		"testMessage": "Postanowiliście przyjżeć się zwłokom i pokojowi... (Investigation + Intelligence lub Medicine + Wits)",
 		"shortCircut": false,
 		"replyPrefix": "PrzeSzukujesz pokój...",
 		"optionArray": [
 			{
 				"minResult": 1,
-				"resultMessage": "Pokój żadko odwiedzany, i raczej jest w tym jeszcze zanim zasiedlił się w nim Sabbat"
+				"resultMessage": "Pokój rzadko odwiedzany, i raczej jest w tym jeszcze zanim zasiedlił się w nim Sabbat"
 			},
 			{
-				"minResult":3,
+				"minResult": 3,
 				"resultMessage": "Kobieta nie żyje od ponad 70 lat, z braku nawet strzępków ubrań wnioskuje że zmarła naga"
 			},
 			{
@@ -149,5 +147,46 @@
 			}
 		]
 	},
-	
+	{
+		"name": "staffBedrooms",
+		"testMessage": "Z pokoi obsługi co chwila ktoś wchodzi i wychodzi nie dacie rady przeszukać tego pokoju na spokojnie (DEX + Larceny)",
+		"shortCircut": true,
+		"replyPrefix": [
+			{
+				"minResult": 1,
+				"resultMessage": "Ktoś odkrył że myszkujesz koło jego łóżka (odegraj przyłapanie na kradzierzy)"
+			},
+			{
+				"minResult": 3,
+				"resultMessage": "Znajdujesz pamiętnik pokojówki, rozpisuje się w nim o Jaśku z sąsiadującej wsi. Kilka kartek jest wyrwanych, ale wydawało Ci się że ktoś Cię zauważył i nie miałeś szansy ich poszukać"
+			},
+			{
+				"minResult": 4,
+				"resultMessage": "Znajdujesz pamiętnik pokojówki, rozpisuje się w nim o Wojtku z sąsiadującej wsi. \n Szybko odrzucasz pamiętnik i wykorzystując chwilę czasu odnajdujesz kartki. \n Opisują one kłótnie Pana domu z lokajem. \n 'Chyba najwyższa pora aby po tych latach dostał co mi się należy?!',\n pokojówka w dalszej cześci próbuje wymyślić o jaki bonus chodziło Janowi..."
+			},
+			{
+				"minResult": 5,
+				"resultMessage": "Znajdujesz pamiętnik pokojówki, rozpisuje się w nim o Wojtku z sąsiadującej wsi. \n Szybko odrzucasz pamiętnik i wykorzystując chwilę czasu odnajdujesz kartki. \n Opisują one kłótnie Pana domu z lokajem. \n 'Chyba najwyższa pora aby po tych latach dostał co mi się należy?!',\n pokojówka w dalszej cześci próbuje wymyślić o jaki bonus chodziło Janowi... \n Ale, ale... Nie wierzysz własnym oczom, w otworze wydrążonym w łóżku znajdujesz telefon komórkowy! Jest zablokowany na ekranie blokady jest jakiś młody chłopak"
+			}
+		]
+	},
+	{
+		"name": "storage",
+		"testMessage": "Są tu tony skarbów, można by spędzić godziny przeszukując to pomieszczenie... Szkoda że macie z 10 min zanim kustoszka nie wróci...",
+		"shortCircut": true,
+		"replyPrefix": [
+			{
+				"minResult": 1,
+				"resultMessage": "Pistolet z 1905, nie strzela zbyt dobrze, natomiast podczas strzału bucha żywym ogniem"
+			},
+			{
+				"minResult": 2,
+				"resultMessage": "Sztylet rytualny ze znakiem Camarilla"
+			},
+			{
+				"minResult": 4,
+				"resultMessage": "Kusza z tajemniczym symbolem"
+			}
+		]
+	}
 ]

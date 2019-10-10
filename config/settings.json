@@ -4,7 +4,8 @@
 		"globalTest": "gt",
 		"messageMultiplePlayers": "mmp",
 		"multiMessenger": "mm",
-		"statInsight": "si"
+		"statInsight": "si",
+		"narration": "n"
 	},
 	"prefixStructure": {
 		"vtm": 1,
