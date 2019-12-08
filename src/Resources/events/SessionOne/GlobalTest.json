@@ -40,6 +40,48 @@
 		]
 	},
 	{
+		"name": "staffBedrooms",
+		"testMessage": "Z pokoi obsługi co chwila ktoś wchodzi i wychodzi nie dacie rady przeszukać tego pokoju na spokojnie (DEX + Larceny)",
+		"shortCircut": true,
+		"replyPrefix": [
+			{
+				"minResult": 1,
+				"resultMessage": "Ktoś odkrył że myszkujesz koło jego łóżka (odegraj przyłapanie na kradzierzy)"
+			},
+			{
+				"minResult": 3,
+				"resultMessage": "Znajdujesz pamiętnik pokojówki, rozpisuje się w nim o Jaśku z sąsiadującej wsi. Kilka kartek jest wyrwanych, ale wydawało Ci się że ktoś Cię zauważył i nie miałeś szansy ich poszukać"
+			},
+			{
+				"minResult": 4,
+				"resultMessage": "Znajdujesz pamiętnik pokojówki, rozpisuje się w nim o Wojtku z sąsiadującej wsi. \n Szybko odrzucasz pamiętnik i wykorzystując chwilę czasu odnajdujesz kartki. \n Opisują one kłótnie Pana domu z lokajem. \n 'Chyba najwyższa pora aby po tych latach dostał co mi się należy?!',\n pokojówka w dalszej cześci próbuje wymyślić o jaki bonus chodziło Janowi..."
+			},
+			{
+				"minResult": 5,
+				"resultMessage": "Znajdujesz pamiętnik pokojówki, rozpisuje się w nim o Wojtku z sąsiadującej wsi. \n Szybko odrzucasz pamiętnik i wykorzystując chwilę czasu odnajdujesz kartki. \n Opisują one kłótnie Pana domu z lokajem. \n 'Chyba najwyższa pora aby po tych latach dostał co mi się należy?!',\n pokojówka w dalszej cześci próbuje wymyślić o jaki bonus chodziło Janowi... \n Ale, ale... Nie wierzysz własnym oczom, w otworze wydrążonym w łóżku znajdujesz telefon komórkowy! Jest zablokowany na ekranie blokady jest jakiś młody chłopak"
+			}
+		]
+	},
+	{
+		"name": "storage",
+		"testMessage": "Są tu tony skarbów, można by spędzić godziny przeszukując to pomieszczenie... Szkoda że macie z 10 min zanim kustoszka nie wróci...",
+		"shortCircut": true,
+		"replyPrefix": [
+			{
+				"minResult": 1,
+				"resultMessage": "Pistolet z 1905, nie strzela zbyt dobrze, natomiast podczas strzału bucha żywym ogniem"
+			},
+			{
+				"minResult": 2,
+				"resultMessage": "Sztylet rytualny ze znakiem Camarilla"
+			},
+			{
+				"minResult": 4,
+				"resultMessage": "Kusza z tajemniczym symbolem"
+			}
+		]
+	},
+	{
 		"name": "anotherWay",
 		"testMessage": "Hmmm może faktycznie da się znaleźć inne wejście... Postacie ze Steath 3+ mogą po cichu przeszukać okolice mieszkania. Pozostali wykonują test Dex+Stealth (ST3) lub Wits + Survival (ST3) i raportują wynik opowiadającemu. \n Postacie z Stealth Powyżej 3 i Ci którym udał się test mogą wykonać test Larceny + Awarness lub Wits + Academics (Architecture)",
 		"shortCircut": false,
@@ -144,48 +186,6 @@
 			{
 				"minResult": 5,
 				"resultMessage": "W komodzie znajdujesz ukryty dziennik (poproś opowiadającego o dziennik)"
-			}
-		]
-	},
-	{
-		"name": "staffBedrooms",
-		"testMessage": "Z pokoi obsługi co chwila ktoś wchodzi i wychodzi nie dacie rady przeszukać tego pokoju na spokojnie (DEX + Larceny)",
-		"shortCircut": true,
-		"replyPrefix": [
-			{
-				"minResult": 1,
-				"resultMessage": "Ktoś odkrył że myszkujesz koło jego łóżka (odegraj przyłapanie na kradzierzy)"
-			},
-			{
-				"minResult": 3,
-				"resultMessage": "Znajdujesz pamiętnik pokojówki, rozpisuje się w nim o Jaśku z sąsiadującej wsi. Kilka kartek jest wyrwanych, ale wydawało Ci się że ktoś Cię zauważył i nie miałeś szansy ich poszukać"
-			},
-			{
-				"minResult": 4,
-				"resultMessage": "Znajdujesz pamiętnik pokojówki, rozpisuje się w nim o Wojtku z sąsiadującej wsi. \n Szybko odrzucasz pamiętnik i wykorzystując chwilę czasu odnajdujesz kartki. \n Opisują one kłótnie Pana domu z lokajem. \n 'Chyba najwyższa pora aby po tych latach dostał co mi się należy?!',\n pokojówka w dalszej cześci próbuje wymyślić o jaki bonus chodziło Janowi..."
-			},
-			{
-				"minResult": 5,
-				"resultMessage": "Znajdujesz pamiętnik pokojówki, rozpisuje się w nim o Wojtku z sąsiadującej wsi. \n Szybko odrzucasz pamiętnik i wykorzystując chwilę czasu odnajdujesz kartki. \n Opisują one kłótnie Pana domu z lokajem. \n 'Chyba najwyższa pora aby po tych latach dostał co mi się należy?!',\n pokojówka w dalszej cześci próbuje wymyślić o jaki bonus chodziło Janowi... \n Ale, ale... Nie wierzysz własnym oczom, w otworze wydrążonym w łóżku znajdujesz telefon komórkowy! Jest zablokowany na ekranie blokady jest jakiś młody chłopak"
-			}
-		]
-	},
-	{
-		"name": "storage",
-		"testMessage": "Są tu tony skarbów, można by spędzić godziny przeszukując to pomieszczenie... Szkoda że macie z 10 min zanim kustoszka nie wróci...",
-		"shortCircut": true,
-		"replyPrefix": [
-			{
-				"minResult": 1,
-				"resultMessage": "Pistolet z 1905, nie strzela zbyt dobrze, natomiast podczas strzału bucha żywym ogniem"
-			},
-			{
-				"minResult": 2,
-				"resultMessage": "Sztylet rytualny ze znakiem Camarilla"
-			},
-			{
-				"minResult": 4,
-				"resultMessage": "Kusza z tajemniczym symbolem"
 			}
 		]
 	}

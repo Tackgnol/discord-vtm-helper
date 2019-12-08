@@ -1,8 +1,14 @@
 [
 	{
+		"name": "ceromonialRoom",
+		"statName": "Occult",
+		"minValue": 3,
+		"successMessage": "Pokój przygotowany aby przeprowadzić rytuały dowolnej plugawej religii dowolnego zdeprwawowanego gościa"
+	},
+	{
 		"name": "theSmell",
 		"statName": "Occult",
-		"minValue": 2,
+		"minValue": 0,
 		"successMessage": "W mieszkaniu aż śmierdzi jakąś nadprzyrodzoną mocą, mieszkanie udaje normalne, ale Ciebie to nie zwiedzie..."
 	},
 	{
@@ -58,11 +64,5 @@
 		"statName": "Performance",
 		"minValue": 3,
 		"successMessage": "Ubrania nie 'z epokoki baroku', są nowiutkie z tegorocznej kolekcji, coś co na pewno zwróci uwagę na scenie klubowej"
-	},
-	{
-		"name": "ceromonialRoom",
-		"statName": "Occult",
-		"minValue": 3,
-		"successMessage": "Pokój przygotowany aby przeprowadzić rytuały dowolnej plugawej religii dowolnego zdeprwawowanego gościa"
 	}
 ]

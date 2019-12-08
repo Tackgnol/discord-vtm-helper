@@ -1,5 +1,9 @@
 [
 	{
+		"name": "start",
+		"narrationText": "Witamy w VTM 4 Łódź - Niechciani"
+	},
+	{
 		"name": "tremereRegent",
 		"narrationText": "Na pierwszy rzut oka mężczyzna jest bardzo nieimponujący, jednak w jego oczach znajduje się mądrość setek lat",
 		"image": "https://i.imgur.com/IDKLQ4k.jpg"
@@ -18,6 +22,41 @@
 		"name": "unexpectedGuests2",
 		"narrationText": "Ten ewidetnie musi się słuchać",
 		"image": "https://i.imgur.com/1NB8fxs.jpg"
+	},
+	{
+		"name": "maid",
+		"narrationText": "śliczna młoda dziewczyna",
+		"image": "https://i.imgur.com/ZFk1LXW.jpg"
+	},
+	{
+		"name": "theButler",
+		"narrationText": "Stoicki mężczyzna patrzy na was z lekkim zainteresowaniem",
+		"image": "https://i.imgur.com/CoSLfYE.jpg"
+	},
+	{
+		"name": "houndMaster",
+		"narrationText": "Młody radosny chłopak",
+		"image": "https://i.imgur.com/mZCCbGU.jpg"
+	},
+	{
+		"name": "librarian",
+		"narrationText": "Młoda kobieta bada was swoim bystrym zwrokiem",
+		"image": "https://i.imgur.com/8SzvzkH.jpg"
+	},
+	{
+		"name": "theCook",
+		"narrationText": "Kucharka patrzy na was życzliwie",
+		"image": "https://i.imgur.com/vWbRhaK.jpg"
+	},
+	{
+		"name": "errandBoy",
+		"narrationText": "młodzieniec ewidetnie odstaje od reszty",
+		"image": "https://i.imgur.com/iDdJm56.jpg"
+	},
+	{
+		"name": "stefan",
+		"narrationText": "Mężczyzna uśmiecha się grzecznie",
+		"image": "https://i.imgur.com/bLH5l7Z.jpg"
 	},
 	{
 		"name": "gentlemanNosferatu",
@@ -70,38 +109,58 @@
 		"image": "https://i.imgur.com/XkcKCpF.png"
 	},
 	{
-		"name": "maid",
-		"narrationText": "śliczna młoda dziewczyna",
-		"image": "https://i.imgur.com/ZFk1LXW.jpg"
+		"name": "lacroix",
+		"narrationText": "Mężczyzna apatycznie wysiada z samolotu",
+		"image": "https://i.pinimg.com/originals/93/90/22/939022866d0662884d285b31e00110b5.jpg"
 	},
 	{
-		"name": "theButler",
-		"narrationText": "Stoicki mężczyzna patrzy na was z lekkim zainteresowaniem",
-		"image": "https://i.imgur.com/CoSLfYE.jpg"
+		"name": "sherif-twins",
+		"narrationText": "Nagle z cieni pojawiają się przed wami dwie postacie",
+		"image": "https://i.imgur.com/6aEw1Qr.jpg"
 	},
 	{
-		"name": "houndMaster",
-		"narrationText": "Młody radosny chłopak",
-		"image": "https://i.imgur.com/mZCCbGU.jpg"
+		"name": "erica",
+		"narrationText": "Dziewczyna z bliźnią Lacroix'a ma ogień w oczach",
+		"image": "https://i.imgur.com/DmAEG9N.jpg"
 	},
 	{
-		"name": "librarian",
-		"narrationText": "Młoda kobieta bada was swoim bystrym zwrokiem",
-		"image": "https://i.imgur.com/8SzvzkH.jpg"
+		"name": "eric",
+		"narrationText": "Z dwójki to on wydaje się spokojnieszy",
+		"image": "https://i.imgur.com/AHuB2fv.jpg"
 	},
 	{
-		"name": "theCook",
-		"narrationText": "Kucharka patrzy na was życzliwie",
-		"image": "https://i.imgur.com/vWbRhaK.jpg"
+		"name": "the-truck-driver",
+		"narrationText": "Kierowca uśmiecha się szczerze",
+		"image": "https://i.imgur.com/fu1ufbB.jpg"
 	},
 	{
-		"name": "errandBoy",
-		"narrationText": "młodzieniec ewidetnie odstaje od reszty",
-		"image": "https://i.imgur.com/iDdJm56.jpg"
+		"name": "elena",
+		"narrationText": "Cień Lasombry przebija się przez tylnie drzwi i materializuje",
+		"image": "https://i.imgur.com/T3aOKwt.jpg"
 	},
 	{
-		"name": "stefan",
-		"narrationText": "Mężczyzna uśmiecha się grzecznie",
-		"image": "https://i.imgur.com/bLH5l7Z.jpg"
+		"name": "robert",
+		"narrationText": "Silne uderzenie roztrzaskuje tylne drzwi",
+		"image": "https://i.imgur.com/r55jYXl.jpg"
+	},
+	{
+		"name": "krzysztof",
+		"narrationText": "Przez otwór do ciężarówki wskakuje wątła postać",
+		"image": "https://i.imgur.com/NTkko3c.jpg"
+	},
+	{
+		"name": "marysia",
+		"narrationText": "Gdy iluzja pęką Twoim oczom ukazuje się twarz młodej dziwczyny postarzona o 30 lat",
+		"image": "https://i.imgur.com/m7hkw7R.jpg"
+	},
+	{
+		"name": "vitor",
+		"narrationText": "Gdyby nie pewne niepokojące szczegóły na jego twarzy mężczyzna mógłby nawet uchodzić za przystojnego",
+		"image": "https://i.imgur.com/mGp1ZKi.jpg"
+	},
+	{
+		"name": "rita",
+		"narrationText": "Czy ona jest... Niebieska?",
+		"image": "https://i.imgur.com/ZoBvm6F.jpg"
 	}
 ]
