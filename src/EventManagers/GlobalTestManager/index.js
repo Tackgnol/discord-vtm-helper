@@ -1,13 +1,13 @@
 const { isEmpty, isNil, isNaN, sortBy, join } = require('lodash');
 
 class GlobalTestManager {
-	constructor(message) {
+	constructor(message, channel) {
 		this.message = message;
-		this.client = message.client;
+		this.channel = channel;
 	}
 
 	performTest(testText, replyPrefix, versionOptions, shortCircut, value) {
-		const messageChanel = this.message.channel;
+		const messageChanel = this.channel;
 		if (messageChanel.type === 'text') {
 			if (value === 0 || isNil(value)) {
 				messageChanel.send(testText);

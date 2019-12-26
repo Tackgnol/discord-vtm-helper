@@ -1,13 +1,13 @@
 const { isEmpty, isNil } = require('lodash');
 
-class MessageMultiplePlayers {
-	constructor(message) {
+class FreeFormMultiMessageManager {
+	constructor(message, channel) {
 		this.message = message;
-		this.client = message.client;
+		this.channel = channel;
 	}
 
 	messageUsers(reply, userList) {
-		const messageChanel = this.message.channel;
+		const messageChanel = this.channel;
 		if (messageChanel.type === 'text') {
 			const channelMembers = messageChanel.members;
 			if (!isEmpty(userList)) {
@@ -22,4 +22,4 @@ class MessageMultiplePlayers {
 	}
 }
 
-module.exports = MessageMultiplePlayers;
+module.exports = FreeFormMultiMessageManager;

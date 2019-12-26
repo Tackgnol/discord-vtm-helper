@@ -1,15 +1,13 @@
-const { isEmpty, isNil, isNaN, sortBy, join } = require('lodash');
-
 class NarrationManager {
-	constructor(message) {
+	constructor(message, channel) {
 		this.message = message;
-		this.client = message.client;
-    }
-    
-    displayNarration(narrationText, image = null) {
-        const messageChanel = this.message.channel;
-        messageChanel.send(`${narrationText} \n ${image}`);
-    }
+		this.channel = channel;
+	}
+
+	displayNarration(narrationText, image = null) {
+		const messageChanel = this.channel;
+		messageChanel.send(`${narrationText} \n ${image}`);
+	}
 
 }
 

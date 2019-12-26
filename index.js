@@ -1,4 +1,13 @@
 const Discord = require('discord.js');
+const express = require('express');
+const bodyParser = require('body-parser');
+const FreeFormMessageMultiplePlayersHandler = require('./src/Handlers/FreeFormMultiMessageHandler')
+
+const app = express();
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.raw());
+
 const { isNil, find, findIndex } = require('lodash');
 
 const config = require('./config/auth.json');
@@ -25,7 +34,26 @@ const handleEvent = (parsedEventMessage, message, channelId) => {
 			prevCommand: parsedEventMessage,
 		};
 	}
-	globalHandler(channelId, parsedEventMessage, message);
+	globalHandler(channelId, parsedEventMessage, message, client);
+};
+
+const processMessage = (content, channelId, message) => {
+	if (content.startsWith('!')) {
+		const parsedEventMessage = parseEventMessage(content);
+		if (!isNil(parsedEventMessage)) {
+			handleEvent(parsedEventMessage, message, channelId);
+			return;
+		}
+		const activeSession = find(activeSessions, s => s.channelId === channelId);
+		const parsedCommandMessage = parseCommadMessage(
+			content,
+			activeSession
+		);
+		if (!isNil(parsedCommandMessage)) {
+			globalHandler(channelId, parsedCommandMessage, message, client);
+			return;
+		}
+	}
 };
 
 client.once('ready', () => {
@@ -34,22 +62,22 @@ client.once('ready', () => {
 
 client.on('message', message => {
 	const messageContent = message.content;
-	if (messageContent.startsWith('!')) {
-		const channelId = message.channel.id;
-		const parsedEventMessage = parseEventMessage(messageContent);
-		if (!isNil(parsedEventMessage)) {
-			handleEvent(parsedEventMessage, message, channelId);
-			return;
-		}
-		const activeSession = find(activeSessions, s => s.channelId === channelId);
-		const parsedCommandMessage = parseCommadMessage(
-			messageContent,
-			activeSession
-		);
-		if (!isNil(parsedCommandMessage)) {
-			globalHandler(channelId, parsedCommandMessage, message);
-			return;
-		}
-	}
+	const channelId = message.channel.id;
+	processMessage(messageContent, channelId, message);
 });
+
 client.login(config.token);
+
+app.post('/event', (req) => {
+	processMessage(req.body.content, req.body.channel);
+});
+
+app.post('/message', (req) => {
+	const { message, users, channel } = req.body;
+	const handler = new FreeFormMessageMultiplePlayersHandler(message, users, channel, client);
+	handler.handle();
+});
+
+app.listen(8080, () => {
+	console.log('listening now');
+});

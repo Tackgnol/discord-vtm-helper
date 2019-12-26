@@ -3,12 +3,13 @@ const { isNil, get, find } = require('lodash');
 const GlobalTestManager = require('../../EventManagers/GlobalTestManager');
 
 class GlobalTestHandler {
-	constructor(session, message, query) {
+	constructor(session, message, query, channelId, client = null) {
 		this.sessionData = session;
 		this.message = message;
 		this.eventName = query.eventName;
 		this.value = query.value;
-		this.manager = new GlobalTestManager(message);
+		const channel = !isNil(client) ? client.channels.find(c => channelId === c.id) : message.channel;
+		this.manager = new GlobalTestManager(message, channel);
 	}
 
 	handle() {

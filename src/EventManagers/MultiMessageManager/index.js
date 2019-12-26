@@ -1,9 +1,14 @@
 const { isEmpty, isNil } = require('lodash');
 
 class MultiMessageManager {
-	constructor(message) {
-		this.message = message;
-		this.client = message.client;
+	constructor(message, client = null) {
+		if(isNil(message.client)) {
+			this.message = message;
+			this.client = client;
+		} else {
+			this.message = message;
+			this.client = message.client;
+		}
 	}
 
 	messageUsers(messageObject) {
