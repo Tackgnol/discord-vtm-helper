@@ -15,5 +15,10 @@
 	},
 	"additionalCommands": {
 		"test": "test"
+	},
+	"soundCommands": {
+		"playTrack": "playTrack",
+		"playSound": "playSound",
+		"stop": "stop"
 	}
 }

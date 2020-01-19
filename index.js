@@ -1,14 +1,16 @@
 const Discord = require('discord.js');
 const express = require('express');
 const bodyParser = require('body-parser');
+
 const FreeFormMessageMultiplePlayersHandler = require('./src/Handlers/FreeFormMultiMessageHandler')
+const AmbianceHandler = require('./src/Handlers/AmbianceHandler');
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
 
-const { isNil, find, findIndex } = require('lodash');
+const {isNil, find, findIndex} = require('lodash');
 
 const config = require('./config/auth.json');
 const parseEventMessage = require('./src/Common/parseEventMessage');
@@ -17,40 +19,41 @@ const globalHandler = require('./src/Handlers');
 
 const client = new Discord.Client();
 const activeSessions = [];
+const activeVoiceChannels = [];
 
-const handleEvent = (parsedEventMessage, message, channelId) => {
+const handleEvent = (parsedEventMessage, message, channel) => {
 	const sessionIndex = findIndex(
 		activeSessions,
-		s => s.channelId === channelId
+		s => s.channelId === channel.id
 	);
 	if (sessionIndex === -1) {
 		activeSessions.push({
-			channelId: channelId,
+			channelId: channel.id,
 			prevCommand: parsedEventMessage,
 		});
 	} else {
 		activeSessions[sessionIndex] = {
-			channelId: channelId,
+			channelId: channel.id,
 			prevCommand: parsedEventMessage,
 		};
 	}
-	globalHandler(channelId, parsedEventMessage, message, client);
+	globalHandler(channel, parsedEventMessage, message, client);
 };
 
-const processMessage = (content, channelId, message) => {
+const processMessage = (content, channel, message) => {
 	if (content.startsWith('!')) {
 		const parsedEventMessage = parseEventMessage(content);
 		if (!isNil(parsedEventMessage)) {
-			handleEvent(parsedEventMessage, message, channelId);
+			handleEvent(parsedEventMessage, message, channel);
 			return;
 		}
-		const activeSession = find(activeSessions, s => s.channelId === channelId);
+		const activeSession = find(activeSessions, s => s.channelId === channel.channelId);
 		const parsedCommandMessage = parseCommadMessage(
 			content,
 			activeSession
 		);
 		if (!isNil(parsedCommandMessage)) {
-			globalHandler(channelId, parsedCommandMessage, message, client);
+			globalHandler(channel, parsedCommandMessage, message, client);
 			return;
 		}
 	}
@@ -63,13 +66,15 @@ client.once('ready', () => {
 client.on('message', message => {
 	const messageContent = message.content;
 	const channelId = message.channel.id;
-	processMessage(messageContent, channelId, message);
+	const channel = client.channels.get(channelId);
+	processMessage(messageContent, channel, message);
 });
 
 client.login(config.token);
 
 app.post('/event', (req) => {
-	processMessage(req.body.content, req.body.channel);
+	const channel = client.channels.get(req.body.channel);
+	processMessage(req.body.content, channel);
 });
 
 app.post('/message', (req) => {
@@ -78,6 +83,28 @@ app.post('/message', (req) => {
 	handler.handle();
 });
 
-app.listen(8080, () => {
-	console.log('listening now');
+app.post('/sound', (req) => {
+	const { filePath, channelId, command } = req.body;
+	let handler;
+	// const voiceChannel = activeVoiceChannels.find(c => c.id === channelId);
+	//
+	// if (!isNil(voiceChannel)) {
+	// 	handler = new AmbianceHandler(filePath, voiceChannel.dispatcher, command);
+	// 	handler.handle();
+	// } else {
+	const channel = client.channels.get(channelId);
+	if (channel.type === 'voice') {
+		channel.join().then(
+			connection => {
+				activeVoiceChannels.push({ id: channelId, dispatcher: connection, currentTrack: filePath});
+				handler = new AmbianceHandler(filePath, connection, command);
+				handler.handle();
+			}
+		);
+	}
 });
+
+app.listen(8080, () => {
+	console.log('listening now on 8080');
+});
+

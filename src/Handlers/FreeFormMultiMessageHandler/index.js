@@ -3,10 +3,9 @@ const { isNil } = require('lodash');
 const MessageMultiplePlayersManager = require('../../EventManagers/FreeFormMultiMessageManager');
 
 class FreeFormMessageMultiplePlayersHandler {
-	constructor(message, userList, channelId, client) {
+	constructor(message, userList, channel) {
 		this.message = message;
 		this.userList = userList
-		const channel = !isNil(client) ? client.channels.find(c => channelId === c.id) : message.channel;
 		this.manager = new MessageMultiplePlayersManager(message, channel);
 	}
 

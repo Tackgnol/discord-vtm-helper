@@ -10,35 +10,34 @@ const NarrationHandler = require('./NarrationHandler');
 const channelToSession = require('../Resources/channelToSession.json');
 const sessionData = require('../Resources/events/');
 
-const globalHandler = (channelId, query, message, client = null) => {
+const globalHandler = (channel, query, message, client = null) => {
 	const queryType = query.type;
 	const sessionId = get(
-		find(channelToSession, c => c.id === +channelId),
+		find(channelToSession, c => c.id === +channel.id),
 		'session'
 	);
 	const currentSession = sessionData[sessionId];
 	let handler;
 	switch (queryType) {
 	case subPrefixes.globalTest:
-		handler = new GlobaTestHandler(currentSession, message, query, channelId, client);
+		handler = new GlobaTestHandler(currentSession, message, query, channel);
 		break;
 	case subPrefixes.statInsight:
-		handler = new StatInsightHandler(currentSession, message, query, channelId, client);
+		handler = new StatInsightHandler(currentSession, message, query, channel);
 		break;
 	case subPrefixes.messageMultiplePlayers:
 		handler = new FreeFormMultiMessageHandler(
 			currentSession,
 			message,
 			query,
-			channelId,
-			client
+			channel
 		);
 		break;
 	case subPrefixes.multiMessenger:
 		handler = new MultiMessageHandler(currentSession, message, query);
 		break;
 	case subPrefixes.narration:
-		handler = new NarrationHandler(currentSession, message, query, channelId, client);
+		handler = new NarrationHandler(currentSession, message, query, channel, client);
 		break;
 	default:
 		return;
