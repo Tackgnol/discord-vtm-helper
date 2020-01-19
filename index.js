@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const express = require('express');
 const bodyParser = require('body-parser');
+const fs = require('fs');
 
 const FreeFormMessageMultiplePlayersHandler = require('./src/Handlers/FreeFormMultiMessageHandler')
 const AmbianceHandler = require('./src/Handlers/AmbianceHandler');
@@ -11,8 +12,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.raw());
 
 const {isNil, find, findIndex} = require('lodash');
-
-const config = require('./config/auth.json');
+let config;
+if(fs.existsSync('./config/auth.json')) {
+	config = require('./config/auth.json');
+}
 const parseEventMessage = require('./src/Common/parseEventMessage');
 const parseCommadMessage = require('./src/Common/parseCommadMessage');
 const globalHandler = require('./src/Handlers');
