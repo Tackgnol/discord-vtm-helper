@@ -70,7 +70,9 @@ client.on('message', message => {
 	processMessage(messageContent, channel, message);
 });
 
-client.login(config.token);
+const token = isNil(process.env.token) ? config.token : process.env.token ;
+
+client.login(token);
 
 app.post('/event', (req) => {
 	const channel = client.channels.get(req.body.channel);
