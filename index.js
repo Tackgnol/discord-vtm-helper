@@ -13,7 +13,7 @@ app.use(bodyParser.raw());
 
 const {isNil, find, findIndex} = require('lodash');
 let config;
-if(fs.existsSync('./config/auth.json')) {
+if (fs.existsSync('./config/auth.json')) {
 	config = require('./config/auth.json');
 }
 const parseEventMessage = require('./src/Common/parseEventMessage');
@@ -73,39 +73,49 @@ client.on('message', message => {
 	processMessage(messageContent, channel, message);
 });
 
-const token = isNil(process.env.token) ? config.token : process.env.token ;
+const token = isNil(process.env.token) ? config.token : process.env.token;
 
 client.login(token);
 
-app.post('/event', (req) => {
+app.post('/event', (req, res) => {
 	const channel = client.channels.get(req.body.channel);
-	processMessage(req.body.content, channel);
+	try {
+		processMessage(req.body.content, channel);
+		res.send('Success!');
+	} catch (e) {
+		res.send(e);
+	}
 });
 
-app.post('/message', (req) => {
+app.post('/message', (req, res) => {
 	const { message, users, channel } = req.body;
-	const handler = new FreeFormMessageMultiplePlayersHandler(message, users, channel, client);
-	handler.handle();
+	try {
+		const handler = new FreeFormMessageMultiplePlayersHandler(message, users, channel, client);
+		handler.handle();
+		res.send('Success!');
+	} catch (e) {
+		res.send(e);
+	}
+
 });
 
-app.post('/sound', (req) => {
+app.post('/sound', (req, res) => {
 	const { filePath, channelId, command } = req.body;
 	let handler;
-	// const voiceChannel = activeVoiceChannels.find(c => c.id === channelId);
-	//
-	// if (!isNil(voiceChannel)) {
-	// 	handler = new AmbianceHandler(filePath, voiceChannel.dispatcher, command);
-	// 	handler.handle();
-	// } else {
-	const channel = client.channels.get(channelId);
-	if (channel.type === 'voice') {
-		channel.join().then(
-			connection => {
-				activeVoiceChannels.push({ id: channelId, dispatcher: connection, currentTrack: filePath});
-				handler = new AmbianceHandler(filePath, connection, command);
-				handler.handle();
-			}
-		);
+	try {
+		const channel = client.channels.get(channelId);
+		if (channel.type === 'voice') {
+			channel.join().then(
+				connection => {
+					activeVoiceChannels.push({id: channelId, dispatcher: connection, currentTrack: filePath});
+					handler = new AmbianceHandler(filePath, connection, command);
+					handler.handle();
+					res.send('Success!');
+				}
+			);
+		}
+	} catch (e) {
+		res.send(e);
 	}
 });
 
