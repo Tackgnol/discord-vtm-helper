@@ -12,7 +12,7 @@ class NarrationHandler {
 	}
 
 	handle() {
-		const currentSession = get(this.sessionData, 'narration');
+		const currentSession = get(this.sessionData, 'narrationeventSet');
 		const narrationPiece = find(currentSession, c => c.name === this.eventName);
 		if (!isNil(narrationPiece)) {
 			const {

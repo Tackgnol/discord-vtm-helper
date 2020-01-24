@@ -1,11 +1,11 @@
-const { isNil } = require('lodash');
+const { isNil, isArray } = require('lodash');
 
 const MessageMultiplePlayersManager = require('../../EventManagers/FreeFormMultiMessageManager');
 
 class FreeFormMessageMultiplePlayersHandler {
 	constructor(message, userList, channel) {
 		this.message = message;
-		this.userList = userList
+		this.userList = isArray(userList) ? userList : [userList];
 		this.manager = new MessageMultiplePlayersManager(message, channel);
 	}
 

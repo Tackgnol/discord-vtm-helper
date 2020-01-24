@@ -2,25 +2,26 @@ const Discord = require('discord.js');
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
-
 const FreeFormMessageMultiplePlayersHandler = require('./src/Handlers/FreeFormMultiMessageHandler')
-const AmbianceHandler = require('./src/Handlers/AmbianceHandler');
+const SoundManager = require('./src/EventManagers/SoundManager');
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
 
-const {isNil, find, findIndex} = require('lodash');
+
+const { get, isNil, find, findIndex } = require('lodash');
 let config;
 if (fs.existsSync('./config/auth.json')) {
 	config = require('./config/auth.json');
 }
+const settings = require('./config/settings.json');
 const parseEventMessage = require('./src/Common/parseEventMessage');
 const parseCommadMessage = require('./src/Common/parseCommadMessage');
 const globalHandler = require('./src/Handlers');
 
-const client = new Discord.Client();
+const discordClient = new Discord.Client();
 const activeSessions = [];
 const activeVoiceChannels = [];
 
@@ -40,7 +41,7 @@ const handleEvent = (parsedEventMessage, message, channel) => {
 			prevCommand: parsedEventMessage,
 		};
 	}
-	globalHandler(channel, parsedEventMessage, message, client);
+	globalHandler(channel, parsedEventMessage, message, discordClient);
 };
 
 const processMessage = (content, channel, message) => {
@@ -50,35 +51,36 @@ const processMessage = (content, channel, message) => {
 			handleEvent(parsedEventMessage, message, channel);
 			return;
 		}
-		const activeSession = find(activeSessions, s => s.channelId === channel.channelId);
+		const activeSession = find(activeSessions, s => s.channelId === channel.id);
 		const parsedCommandMessage = parseCommadMessage(
 			content,
 			activeSession
 		);
 		if (!isNil(parsedCommandMessage)) {
-			globalHandler(channel, parsedCommandMessage, message, client);
+			globalHandler(channel, parsedCommandMessage, message, discordClient);
 			return;
 		}
 	}
 };
 
-client.once('ready', () => {
+discordClient.once('ready', () => {
 	console.log('Ready!');
 });
 
-client.on('message', message => {
+discordClient.on('message', message => {
 	const messageContent = message.content;
 	const channelId = message.channel.id;
-	const channel = client.channels.get(channelId);
+	const channel = discordClient.channels.get(channelId);
 	processMessage(messageContent, channel, message);
 });
 
 const token = isNil(process.env.token) ? config.token : process.env.token;
 
-client.login(token);
+discordClient.login(token);
 
 app.post('/event', (req, res) => {
-	const channel = client.channels.get(req.body.channel);
+	const channel = discordClient.channels.get(req.body.channel);
+
 	try {
 		processMessage(req.body.content, channel);
 		res.send('Success!');
@@ -88,9 +90,11 @@ app.post('/event', (req, res) => {
 });
 
 app.post('/message', (req, res) => {
-	const { message, users, channel } = req.body;
+	const { message, users, channelId } = req.body;
+	console.log(req.body)
+	const channel = discordClient.channels.get(channelId);
 	try {
-		const handler = new FreeFormMessageMultiplePlayersHandler(message, users, channel, client);
+		const handler = new FreeFormMessageMultiplePlayersHandler(message, users, channel);
 		handler.handle();
 		res.send('Success!');
 	} catch (e) {
@@ -99,26 +103,43 @@ app.post('/message', (req, res) => {
 
 });
 
-app.post('/sound', (req, res) => {
+app.post('/sound', async (req, res) => {
 	const { filePath, channelId, command } = req.body;
-	let handler;
+	let manager;
 	try {
-		const channel = client.channels.get(channelId);
-		if (channel.type === 'voice') {
-			channel.join().then(
-				connection => {
-					activeVoiceChannels.push({id: channelId, dispatcher: connection, currentTrack: filePath});
-					handler = new AmbianceHandler(filePath, connection, command);
-					handler.handle();
-					res.send('Success!');
-				}
-			);
+		let voiceChannel = find(activeVoiceChannels, vc => vc.id === channelId);
+		if (isNil(get(voiceChannel, 'connection'))) {
+			const channel = discordClient.channels.get(channelId);
+			if (channel.type === 'voice') {
+				const connection = await channel.join();
+				manager = new SoundManager(filePath, connection);
+				voiceChannel = { id: channelId, connection: connection, channel: channel, currentTrack: filePath, manager:manager };
+				activeVoiceChannels.push(voiceChannel);
+			}
 		}
+		switch (command) {
+		case settings.soundCommands.playTrack:
+			voiceChannel.manager.playAmbiance(filePath);
+			break;
+		case settings.soundCommands.playSound:
+			voiceChannel.manager.playSound(filePath);
+			break;
+		case settings.soundCommands.stop:
+			manager = voiceChannel.manager;
+			activeVoiceChannels.splice(findIndex(activeVoiceChannels, vc => vc.id === channelId), 1);
+			manager.stop();
+			break;
+		default:
+			voiceChannel.manager.stop();
+			activeVoiceChannels.splice(findIndex(activeVoiceChannels, vc => vc.id === channelId), 1);
+		}
+		res.send('Success!');
 	} catch (e) {
+		console.log(e);
 		res.send(e);
 	}
-});
-
+})
+;
 app.listen(8080, () => {
 	console.log('listening now on 8080');
 });

@@ -20,5 +20,6 @@
 		"playTrack": "playTrack",
 		"playSound": "playSound",
 		"stop": "stop"
-	}
+	},
+	"eventSource": "online"
 }

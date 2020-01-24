@@ -1,4 +1,4 @@
-const AmbianceManager = require('../../EventManagers/AmbianceManager');
+const AmbianceManager = require('../../EventManagers/SoundManager');
 
 const settings = require('../../../config/settings');
 

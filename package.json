@@ -6,13 +6,20 @@
   "license": "MIT",
   "type": "module",
   "dependencies": {
+    "apollo-boost": "^0.4.7",
     "body-parser": "^1.19.0",
     "discord.js": "^11.5.1",
     "express": "^4.17.1",
     "ffmpeg-binaries": "^4.0.0",
+    "graphql": "^14.5.8",
+    "graphql-tag": "^2.10.1",
+    "install": "^0.13.0",
     "lodash": "^4.17.15",
+    "node-fetch": "^2.6.0",
     "node-opus": "^0.3.3",
-    "opusscript": "^0.0.7"
+    "opusscript": "^0.0.7",
+    "turndown": "^5.0.3",
+    "ytdl-core": "^1.0.7"
   },
   "scripts": {
     "start": "node index.js",

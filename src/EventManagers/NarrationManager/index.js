@@ -1,3 +1,5 @@
+const TurndownService = require('turndown');
+
 class NarrationManager {
 	constructor(message, channel) {
 		this.message = message;
@@ -6,7 +8,9 @@ class NarrationManager {
 
 	displayNarration(narrationText, image = null) {
 		const messageChanel = this.channel;
-		messageChanel.send(`${narrationText} \n ${image}`);
+		const turndownService = new TurndownService()
+		const markdown = turndownService.turndown(narrationText)
+		messageChanel.send(`${markdown} \n ${image}`);
 	}
 
 }

@@ -5,9 +5,9 @@ const multiMessageJSON = require('./MultiMessage.json');
 const narrationJSON = require('./Narration.json');
 
 module.exports = {
-	globalTests: globalTestsJSON,
-	statInsights: statInsightsJSON,
+	globaltestSet: globalTestsJSON,
+	statinsightSet: statInsightsJSON,
 	messageMultiplePlayers: messageMultiplePlayersJSON,
 	multiMessage: multiMessageJSON,
-	narration: narrationJSON
+	narrationeventSet: narrationJSON,
 };
