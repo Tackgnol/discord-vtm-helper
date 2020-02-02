@@ -5,7 +5,11 @@
 		"messageMultiplePlayers": "mmp",
 		"multiMessenger": "mm",
 		"statInsight": "si",
-		"narration": "n"
+		"narration": "n",
+		"npcs": "npcs",
+		"npcsSubCommands": {
+			"all": "all"
+		} 
 	},
 	"prefixStructure": {
 		"vtm": 1,

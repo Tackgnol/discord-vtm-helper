@@ -8,8 +8,8 @@ class NarrationManager {
 
 	displayNarration(narrationText, image = null) {
 		const messageChanel = this.channel;
-		const turndownService = new TurndownService()
-		const markdown = turndownService.turndown(narrationText)
+		const turndownService = new TurndownService();
+		const markdown = turndownService.turndown(narrationText);
 		messageChanel.send(`${markdown} \n ${image}`);
 	}
 

@@ -6,16 +6,16 @@ const StatInsightHandler = require('./StatInsightHandler');
 const FreeFormMultiMessageHandler = require('./FreeFormMultiMessageHandler');
 const MultiMessageHandler = require('./DefinedMultiMessageHandler');
 const NarrationHandler = require('./NarrationHandler');
+const NPCHandler = require('./NPCHandler');
 
 const channelToSession = require('../Resources/channelToSession.json');
 const setting = require('../../config/settings');
 const sessionData = setting.eventSource === 'offline' ? require('../Resources/events/') : {};
 
-const globalHandler = async (channel, query, message, client = null) => {
-	let eventData;
+const fetchData = async (channelId, query = null, variables = null) => {
 	if (setting.eventSource === 'online') {
 		const { ApolloClient } = require('apollo-boost');
-		const GET_CHANNELS = require('../GraphQL/GET_CHANNELS');
+
 		const { createHttpLink } = require('apollo-link-http');
 		const { InMemoryCache } = require('apollo-cache-inmemory');
 		const fetch = require('node-fetch');
@@ -24,27 +24,48 @@ const globalHandler = async (channel, query, message, client = null) => {
 			cache: new InMemoryCache(),
 		});
 		const graphQLQuery = await apolloClient.query({
-			query: GET_CHANNELS,
+			query: query,
+			variables: variables,
 		});
-		eventData = find(get(graphQLQuery, 'data.allChannels'), ed => ed.discordId === channel.id);
+		return graphQLQuery;
 	} else {
-		const sessionId = get(
-			find(channelToSession, c => c.id === +channel.id),
+		return get(
+			find(channelToSession, c => c.id === +channelId),
 			'session'
 		);
-		eventData = sessionData[sessionId];
+
 	}
+};
+
+const fetchEventInfo = (data, channelId) => {
+	if (setting.eventSource === 'online') {
+		return find(get(data, 'data.allChannels'), ed => ed.discordId === channelId);
+	} else {
+		return sessionData[data];
+	}
+}
+
+
+const globalHandler = async (channel, query, message) => {
+	const GET_CHANNELS = require('../GraphQL/GET_CHANNELS');
+	const GET_NPCS = require('../GraphQL/GET_NPCS');
+	const isOnline = setting.eventSource === 'online';
+	let eventData;
+
 	const queryType = query.type;
 
 	let handler;
 	switch (queryType) {
 	case subPrefixes.globalTest:
+		eventData = fetchEventInfo(await fetchData(channel.id, isOnline ? GET_CHANNELS : null), channel.id);
 		handler = new GlobaTestHandler(eventData, message, query, channel);
 		break;
 	case subPrefixes.statInsight:
+		eventData = fetchEventInfo(await fetchData(channel.id, isOnline ? GET_CHANNELS : null), channel.id)
 		handler = new StatInsightHandler(eventData, message, query, channel);
 		break;
 	case subPrefixes.messageMultiplePlayers:
+		eventData = fetchEventInfo(await fetchData(channel.id, isOnline ? GET_CHANNELS : null), channel.id)
 		handler = new FreeFormMultiMessageHandler(
 			eventData,
 			message,
@@ -53,10 +74,16 @@ const globalHandler = async (channel, query, message, client = null) => {
 		);
 		break;
 	case subPrefixes.multiMessenger:
+		eventData = fetchEventInfo(await fetchData(channel.id, isOnline ? GET_CHANNELS : null), channel.id)
 		handler = new MultiMessageHandler(eventData, message, query);
 		break;
 	case subPrefixes.narration:
-		handler = new NarrationHandler(eventData, message, query, channel, client);
+		eventData = fetchEventInfo(await fetchData(channel.id, isOnline ? GET_CHANNELS : null), channel.id)
+		handler = new NarrationHandler(eventData, message, query, channel);
+		break;
+	case subPrefixes.npcs:
+		eventData = await fetchData(channel.id, GET_NPCS, { discordId: message.author.id });
+		handler = new NPCHandler(eventData, message, query, channel);
 		break;
 	default:
 		return;

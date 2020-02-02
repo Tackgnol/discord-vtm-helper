@@ -41,10 +41,10 @@ const handleEvent = (parsedEventMessage, message, channel) => {
 			prevCommand: parsedEventMessage,
 		};
 	}
-	globalHandler(channel, parsedEventMessage, message, discordClient);
+	globalHandler(channel, parsedEventMessage, message);
 };
 
-const processMessage = (content, channel, message) => {
+const processChannelMessage = (content, channel, message) => {
 	if (content.startsWith('!')) {
 		const parsedEventMessage = parseEventMessage(content);
 		if (!isNil(parsedEventMessage)) {
@@ -57,11 +57,23 @@ const processMessage = (content, channel, message) => {
 			activeSession
 		);
 		if (!isNil(parsedCommandMessage)) {
-			globalHandler(channel, parsedCommandMessage, message, discordClient);
+			globalHandler(channel, parsedCommandMessage, message);
 			return;
 		}
 	}
 };
+
+const processDirectMessage = (content, channel, message) => {
+	if(content.startsWith('!')) {
+		const parsedEventMessage = parseEventMessage(message);
+		globalHandler(channel, parsedEventMessage, message);
+	} else {
+		channel.send('I am sorry master, you cannot speak to me directly...yet... but I am at your command, start with !vtm- then your command type and command').catch(() => {
+			console.log('DM error, carry on nothing to se here..');
+		});
+	}
+
+}
 
 discordClient.once('ready', () => {
 	console.log('Ready!');
@@ -71,7 +83,11 @@ discordClient.on('message', message => {
 	const messageContent = message.content;
 	const channelId = message.channel.id;
 	const channel = discordClient.channels.get(channelId);
-	processMessage(messageContent, channel, message);
+	if(channel.type === 'dm') {
+		processDirectMessage(messageContent, message.author, message);
+		return;
+	}
+	processChannelMessage(messageContent, channel, message);
 });
 
 const token = isNil(process.env.token) ? config.token : process.env.token;
@@ -82,7 +98,7 @@ app.post('/event', (req, res) => {
 	const channel = discordClient.channels.get(req.body.channel);
 
 	try {
-		processMessage(req.body.content, channel);
+		processChannelMessage(req.body.content, channel);
 		res.send('Success!');
 	} catch (e) {
 		res.send(e);
@@ -91,7 +107,6 @@ app.post('/event', (req, res) => {
 
 app.post('/message', (req, res) => {
 	const { message, users, channelId } = req.body;
-	console.log(req.body)
 	const channel = discordClient.channels.get(channelId);
 	try {
 		const handler = new FreeFormMessageMultiplePlayersHandler(message, users, channel);
@@ -135,7 +150,6 @@ app.post('/sound', async (req, res) => {
 		}
 		res.send('Success!');
 	} catch (e) {
-		console.log(e);
 		res.send(e);
 	}
 })

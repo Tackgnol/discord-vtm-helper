@@ -39,7 +39,7 @@ class StatInsightManager {
 					if (!isNil(statValue) && statValue.value >= minValue) {
 						const turndownService = new TurndownService()
 						const markdown = turndownService.turndown(successMessage)
-						m.send(`(${statName}:${statValue.value}) ${markdown}`);
+						m.send(`(${statName}:${minValue}) ${markdown}`);
 					}
 				});
 			}

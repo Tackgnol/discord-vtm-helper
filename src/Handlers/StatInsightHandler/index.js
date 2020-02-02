@@ -1,5 +1,5 @@
 const { isNil, get, find } = require('lodash');
-
+const settings = require('../../../config/settings');
 const StatInsightManager = require('../../EventManagers/StatInsightManager');
 
 class StatsInsightHandler {

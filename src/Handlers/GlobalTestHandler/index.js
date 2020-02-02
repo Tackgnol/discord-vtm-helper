@@ -12,21 +12,20 @@ class GlobalTestHandler {
 	}
 
 	handle() {
-
 		const currentSession = get(this.sessionData, 'globaltestSet');
 		const displayTest = find(currentSession, c => c.name === this.eventName);
 		if (!isNil(displayTest)) {
 			const {
 				testMessage,
 				replyPrefix,
-				shortCircut,
+				shortCircuit,
 				globaltestoptionSet,
 			} = displayTest;
 			this.manager.performTest(
 				testMessage,
 				replyPrefix,
 				globaltestoptionSet,
-				shortCircut,
+				shortCircuit,
 				this.value
 			);
 		}
