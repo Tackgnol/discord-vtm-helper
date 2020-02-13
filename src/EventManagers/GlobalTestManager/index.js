@@ -1,4 +1,6 @@
 const { isEmpty, isNil, isNaN, sortBy, join } = require('lodash');
+const { RichEmbed } = require('discord.js');
+const settings = require('../../../config/settings');
 
 class GlobalTestManager {
 	constructor(message, channel) {
@@ -8,9 +10,14 @@ class GlobalTestManager {
 
 	performTest(testText, replyPrefix, versionOptions, shortCircut, value) {
 		const messageChanel = this.channel;
+		let richEmbed;
 		if (messageChanel.type === 'text') {
 			if (value === 0 || isNil(value)) {
-				messageChanel.send(testText);
+				richEmbed = new RichEmbed()
+					.setTitle(settings.Lines.globalTestHeader)
+					.setDescription(testText)
+					.setColor(settings.colors.richEmbeddedMain)
+				messageChanel.send(richEmbed);
 				return;
 			}
 			let reply;
@@ -19,12 +26,18 @@ class GlobalTestManager {
 			} else {
 				reply = this.fullTest(versionOptions, +value);
 			}
-			this.message.author.send(`${replyPrefix}\n\t${reply}`);
+			richEmbed = new RichEmbed()
+				.setTitle(settings.Lines.globalTestReply)
+				.addField(replyPrefix, reply)
+				.setColor(settings.colors.richEmbeddedMain)
+			this.message.author.send(richEmbed);
 		}
 	}
 
 	shortCircutedTest(versionOptions, value) {
-		if (isEmpty(versionOptions) || isNaN(value)) return;
+		if (isEmpty(versionOptions) || isNaN(value)) {
+			return;
+		}
 
 		const sortedOptions = sortBy(versionOptions, v => -v.minResult);
 		for (let i = 0; i <= sortedOptions.length; i++) {
@@ -36,7 +49,9 @@ class GlobalTestManager {
 	}
 
 	fullTest(versionOptions, value) {
-		if (isEmpty(versionOptions) || isNaN(value)) return;
+		if (isEmpty(versionOptions) || isNaN(value)) {
+			return;
+		}
 		const sortedOptions = sortBy(versionOptions, v => v.minResult);
 		const messageArray = [];
 		sortedOptions.forEach(o => {

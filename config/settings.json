@@ -9,7 +9,7 @@
 		"npcs": "npcs",
 		"npcsSubCommands": {
 			"all": "all"
-		} 
+		}
 	},
 	"prefixStructure": {
 		"vtm": 1,
@@ -25,5 +25,18 @@
 		"playSound": "playSound",
 		"stop": "stop"
 	},
-	"eventSource": "online"
+	"eventSource": "online",
+	"colors": {
+		"richEmbeddedMain": "#8a0303",
+		"richEmbeddedDetails":"#590101"
+	},
+	"Lines": {
+		"allNPCs": "Speak of which thou desire knowledge",
+		"narrationHeader": "Silence, as I show what thy must see!",
+		"npcType": "call upon",
+		"globalTestReply": "Trust thine instincts, however deceitful they may be",
+		"globalTestHeader": "Your skills will be put to a test",
+		"statInsightHeader": "All your hard work has payed of... Use your insight",
+		"userMessageHeader": "Whispers in the dark... be it friend or foe or thyself?"
+	}
 }

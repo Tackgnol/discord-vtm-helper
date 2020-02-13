@@ -1,4 +1,6 @@
 const TurndownService = require('turndown');
+const { RichEmbed } = require('discord.js');
+const settings = require('../../../config/settings');
 
 class NarrationManager {
 	constructor(message, channel) {
@@ -10,7 +12,12 @@ class NarrationManager {
 		const messageChanel = this.channel;
 		const turndownService = new TurndownService();
 		const markdown = turndownService.turndown(narrationText);
-		messageChanel.send(`${markdown} \n ${image}`);
+		const richEmbed = new RichEmbed()
+			.setColor(settings.colors.richEmbeddedMain)
+			.setTitle(settings.Lines.narrationHeader)
+			.setDescription(markdown)
+			.setImage(image)
+		messageChanel.send(richEmbed);
 	}
 
 }

@@ -1,6 +1,7 @@
 const { RichEmbed } = require('discord.js');
 const TurndownService = require('turndown');
 const { find } = require('lodash');
+const settings = require('../../../config/settings')
 
 class NPCManager {
 	constructor(message) {
@@ -11,10 +12,11 @@ class NPCManager {
 		const npcs = factSets.map(
 			fact => {
 				const npc = fact.npc;
-				return npc && `- ${npc.name} type in !vtm-npcs-${npc.callName}`;
+				return npc && `- ${npc.name} ${settings.Lines.npcType} !vtm-npcs-${npc.callName}`;
 			})
 		const richEmbed = new RichEmbed()
-			.setTitle('Available NPCs')
+			.setTitle(settings.Lines.allNPCs)
+			.setColor(settings.colors.richEmbeddedMain)
 			.setDescription(npcs);
 		this.message.author.send(richEmbed);
 	}
@@ -31,14 +33,16 @@ class NPCManager {
 		if (npc) {
 			const richEmbed = new RichEmbed()
 				.setTitle(npc.name)
-				.setImage(npc.image);
-
+				.setColor(settings.colors.richEmbeddedDetails)
+				.setThumbnail(npc.image)
+				.setDescription(turndownService.turndown(npc.description));
 			if (npc.facts) {
 				facts = npc.facts.map(
 					f => (`- ${f}`)
 				);
+				richEmbed
+					.addField('Facts:', facts);
 			}
-			richEmbed.setDescription(turndownService.turndown(npc.description) + '\n \n' + 'Facts:\n' + facts);
 			this.message.author.send(richEmbed);
 		}
 	}

@@ -1,6 +1,7 @@
 const TurndownService = require('turndown');
-const {isNil, isEmpty, find, get} = require('lodash');
-const settings = require('../../../config/settings')
+const { isNil, isEmpty, find, get } = require('lodash');
+const { RichEmbed } = require('discord.js');
+const settings = require('../../../config/settings');
 
 class StatInsightManager {
 	constructor(message, channel) {
@@ -15,13 +16,13 @@ class StatInsightManager {
 			if (settings.eventSource === 'offline') {
 				players = require('../../Resources/playerToStat.json');
 			} else {
-				const {ApolloClient} = require('apollo-boost');
+				const { ApolloClient } = require('apollo-boost');
 				const GET_CHANNEL_PLAYERS = require('../../GraphQL/GET_CHANNEL_PLAYERS');
-				const {createHttpLink} = require('apollo-link-http');
-				const {InMemoryCache} = require('apollo-cache-inmemory');
+				const { createHttpLink } = require('apollo-link-http');
+				const { InMemoryCache } = require('apollo-cache-inmemory');
 				const fetch = require('node-fetch');
 				const apolloClient = new ApolloClient({
-					link: createHttpLink({uri: 'http://localhost:8000/graphql', fetch: fetch}),
+					link: createHttpLink({ uri: 'http://localhost:8000/graphql', fetch: fetch }),
 					cache: new InMemoryCache(),
 				});
 				const graphQLQuery = await apolloClient.query({
@@ -37,9 +38,14 @@ class StatInsightManager {
 					const statValue = thisPlayer && find(thisPlayer.statisticsSet, s => s.name === statName);
 
 					if (!isNil(statValue) && statValue.value >= minValue) {
-						const turndownService = new TurndownService()
-						const markdown = turndownService.turndown(successMessage)
-						m.send(`(${statName}:${minValue}) ${markdown}`);
+						const turndownService = new TurndownService();
+						const markdown = turndownService.turndown(successMessage);
+						const richEmbed = new RichEmbed()
+							.setTitle(settings.Lines.statInsightHeader)
+							.addField(statName, minValue)
+							.setDescription(markdown)
+							.setColor(settings.colors.richEmbeddedMain);
+						m.send(richEmbed);
 					}
 				});
 			}
