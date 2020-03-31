@@ -4,7 +4,7 @@
 		"testMessage": "Tylni korytarz wydaje się być znacznie dłuższy niż pokój do niego przylegający. Chętni mogą spróbować sprawdzić korytarz testem Intelligence + Investigation, bądź Wits + Academics (architektura)",
 		"shortCircut": false,
 		"replyPrefix": "Przeszukujesz korytarz...",
-		"optionArray": [
+		"globaltestoptionSet": [
 			{
 				"minResult": 1,
 				"resultMessage": "Ściana wykonana jest z innego matriału"
@@ -24,7 +24,7 @@
 		"testMessage": "Po rozmowie z całą służbą ewidetnie dom jest pełen strachu. Wykorzystując zdobyte informacje możesz jeszcze raz ich przepytać wykonując test Persuasion + Intimidate lub Charisma + Leadership",
 		"shortCircut": false,
 		"replyPrefix": "Przepytujesz ponownie służbę...",
-		"optionArray": [
+		"globaltestoptionSet": [
 			{
 				"minResult": 1,
 				"resultMessage": "Lokaj mówił, że nidługo nie będzie już niczyim sługą jak kiedyś wypił za dużo... (Jacek)"
@@ -43,7 +43,8 @@
 		"name": "staffBedrooms",
 		"testMessage": "Z pokoi obsługi co chwila ktoś wchodzi i wychodzi nie dacie rady przeszukać tego pokoju na spokojnie (DEX + Larceny)",
 		"shortCircut": true,
-		"replyPrefix": [
+		"replyPrefix": "Przeszukujesz pokoje",
+		"globaltestoptionSet": [
 			{
 				"minResult": 1,
 				"resultMessage": "Ktoś odkrył że myszkujesz koło jego łóżka (odegraj przyłapanie na kradzierzy)"
@@ -63,30 +64,11 @@
 		]
 	},
 	{
-		"name": "storage",
-		"testMessage": "Są tu tony skarbów, można by spędzić godziny przeszukując to pomieszczenie... Szkoda że macie z 10 min zanim kustoszka nie wróci...",
-		"shortCircut": true,
-		"replyPrefix": [
-			{
-				"minResult": 1,
-				"resultMessage": "Pistolet z 1905, nie strzela zbyt dobrze, natomiast podczas strzału bucha żywym ogniem"
-			},
-			{
-				"minResult": 2,
-				"resultMessage": "Sztylet rytualny ze znakiem Camarilla"
-			},
-			{
-				"minResult": 4,
-				"resultMessage": "Kusza z tajemniczym symbolem"
-			}
-		]
-	},
-	{
 		"name": "anotherWay",
 		"testMessage": "Hmmm może faktycznie da się znaleźć inne wejście... Postacie ze Steath 3+ mogą po cichu przeszukać okolice mieszkania. Pozostali wykonują test Dex+Stealth (ST3) lub Wits + Survival (ST3) i raportują wynik opowiadającemu. \n Postacie z Stealth Powyżej 3 i Ci którym udał się test mogą wykonać test Larceny + Awarness lub Wits + Academics (Architecture)",
 		"shortCircut": false,
 		"replyPrefix": "Rozglądasz się po obżerzach włości...",
-		"optionArray": [
+		"globaltestoptionSet": [
 			{
 				"minResult": 0,
 				"resultMessage": "Dom jest strasznie zniszczony, w sumie z każdej strony może być wejście przy odrobienie siły."
@@ -106,7 +88,7 @@
 		"testMessage": "Mimo złego przeczucia postanawiacie iść dalej, nagle słyszycie głośny huk metalu... Postacie z przodu (opowiadający decyduje) muszą wykonać test Dex + Awarness",
 		"shortCircut": true,
 		"replyPrefix": "Ups...",
-		"optionArray": [
+		"globaltestoptionSet": [
 			{
 				"minResult": 0,
 				"resultMessage": "Wyczuwasz jak pułapka zatrzaskuje Ci się na nodze Otrzymujesz 3 punkty obrażeń, jesteś unieruchomiony oraz Twoja noga. Po uwolnieniu noga wymaga wyleczenia innaczej kulejesz (wyleczenie 2x Rouse Check)"
@@ -126,7 +108,7 @@
 		"testMessage": "(Gracze którzy wkroczyli...) Podłoże jest strasznie grząskie, wciąga Cię! Wciąga cholernie mocno! (Strenght + Dex)",
 		"shortCircut": true,
 		"replyPrefix": "Walczysz z wciągającym Cię błotem...",
-		"optionArray": [
+		"globaltestoptionSet": [
 			{
 				"minResult": 0,
 				"resultMessage": "Ciągnie Cię na samo dno, jeśli ktoś Ci nie pomoże to skończysz na dnie aż nie umrzesz z głodu..."
@@ -150,7 +132,7 @@
 		"testMessage": "Przyglądacie się pomieszczeniu, jest jak z Lovecraftowego Horroru, są to rzeczy o których nauka nie słyszała (Intelligence + Occult lub Wits + Investigation -2 (chyba że specjalizacja Paranormalna)",
 		"shortCircut": false,
 		"replyPrefix": "Pomieszczenie jest niezwykłe",
-		"optionArray": [
+		"globaltestoptionSet": [
 			{
 				"minResult": 1,
 				"resultMessage": "Pomieszczenie służy do rytuałów Sabbatu, nie wiesz jakich ani po co..."
@@ -170,7 +152,7 @@
 		"testMessage": "Postanowiliście przyjżeć się zwłokom i pokojowi... (Investigation + Intelligence lub Medicine + Wits)",
 		"shortCircut": false,
 		"replyPrefix": "PrzeSzukujesz pokój...",
-		"optionArray": [
+		"globaltestoptionSet": [
 			{
 				"minResult": 1,
 				"resultMessage": "Pokój rzadko odwiedzany, i raczej jest w tym jeszcze zanim zasiedlił się w nim Sabbat"

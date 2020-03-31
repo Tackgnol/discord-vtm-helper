@@ -8,9 +8,9 @@ const MultiMessageHandler = require('./DefinedMultiMessageHandler');
 const NarrationHandler = require('./NarrationHandler');
 const NPCHandler = require('./NPCHandler');
 
-const channelToSession = require('../Resources/channelToSession.json');
+const channelToSession = require('../../Resources/channelToSession.json');
 const setting = require('../../config/settings');
-const sessionData = setting.eventSource === 'offline' ? require('../Resources/events/') : {};
+const sessionData = setting.eventSource === 'offline' ? require('../../Resources/events/') : {};
 
 const fetchData = async (channelId, query = null, variables = null) => {
 	if (setting.eventSource === 'online') {
@@ -78,7 +78,7 @@ const globalHandler = async (channel, query, message) => {
 		handler = new MultiMessageHandler(eventData, message, query);
 		break;
 	case subPrefixes.narration:
-		eventData = fetchEventInfo(await fetchData(channel.id, isOnline ? GET_CHANNELS : null), channel.id)
+		eventData = fetchEventInfo(await fetchData(channel.id, isOnline ? GET_CHANNELS : null), channel.id);
 		handler = new NarrationHandler(eventData, message, query, channel);
 		break;
 	case subPrefixes.npcs:

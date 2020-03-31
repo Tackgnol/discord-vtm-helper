@@ -25,7 +25,7 @@
 		"playSound": "playSound",
 		"stop": "stop"
 	},
-	"eventSource": "online",
+	"eventSource": "offline",
 	"colors": {
 		"richEmbeddedMain": "#8a0303",
 		"richEmbeddedDetails":"#590101"

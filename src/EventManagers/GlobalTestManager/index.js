@@ -1,5 +1,6 @@
 const { isEmpty, isNil, isNaN, sortBy, join } = require('lodash');
 const { RichEmbed } = require('discord.js');
+const reactionNumbers = require('../../Common/reactionNumbers');
 const settings = require('../../../config/settings');
 
 class GlobalTestManager {
@@ -10,6 +11,7 @@ class GlobalTestManager {
 
 	performTest(testText, replyPrefix, versionOptions, shortCircut, value) {
 		const messageChanel = this.channel;
+		let reply;
 		let richEmbed;
 		if (messageChanel.type === 'text') {
 			if (value === 0 || isNil(value)) {
@@ -17,10 +19,38 @@ class GlobalTestManager {
 					.setTitle(settings.Lines.globalTestHeader)
 					.setDescription(testText)
 					.setColor(settings.colors.richEmbeddedMain)
-				messageChanel.send(richEmbed);
+				messageChanel.send(richEmbed).then(
+					async message => {
+						await message.react(reactionNumbers[0]);
+						await message.react(reactionNumbers[1]);
+						await message.react(reactionNumbers[2]);
+						await message.react(reactionNumbers[3]);
+						await message.react(reactionNumbers[4]);
+						await message.react(reactionNumbers[5]);
+						await message.react(reactionNumbers[6]);
+						await message.react(reactionNumbers[7]);
+						await message.react(reactionNumbers[8]);
+						await message.react(reactionNumbers[9]);
+						const filter = (reaction, user) => {
+							if (user.id !== message.author.id) {
+								const reactValue = reactionNumbers.indexOf(reaction.emoji.name);
+								if (shortCircut) {
+									reply = this.shortCircutedTest(versionOptions, +reactValue);
+								} else {
+									reply = this.fullTest(versionOptions, +reactValue);
+								}
+								richEmbed = new RichEmbed()
+									.setTitle(settings.Lines.globalTestReply)
+									.addField(replyPrefix, reply)
+									.setColor(settings.colors.richEmbeddedMain)
+								this.message.author.send(richEmbed);
+							}
+						}
+						message.awaitReactions(filter);
+					}
+				);
 				return;
 			}
-			let reply;
 			if (shortCircut) {
 				reply = this.shortCircutedTest(versionOptions, +value);
 			} else {

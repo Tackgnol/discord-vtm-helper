@@ -14,7 +14,7 @@ class StatInsightManager {
 		const messageChanel = this.channel;
 		if (messageChanel.type === 'text') {
 			if (settings.eventSource === 'offline') {
-				players = require('../../Resources/playerToStat.json');
+				players = require('../../../Resources/playerToStat.json');
 			} else {
 				const { ApolloClient } = require('apollo-boost');
 				const GET_CHANNEL_PLAYERS = require('../../GraphQL/GET_CHANNEL_PLAYERS');
