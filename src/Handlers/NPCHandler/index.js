@@ -11,7 +11,6 @@ class NPCHandler {
 	}
 
 	handle() {
-		console.log(this.sessionData);
 		if(this.eventName === settings.subPrefixes.npcsSubCommands.all) {
 			this.manager.allNPCs(this.sessionData);
 		} else {

@@ -14,6 +14,12 @@ You can 'react' using the buttons or type in `!test{your score}` to receive a me
 
 These tests can 'short circuit' meaning that it will only display the closes result or like in the above example show everything leading up to the score.
 
+![alt text](https://i.imgur.com/uZ7VTBm.png "Global test intialization")
+
+The first message is what they player sees after pressing `0`, the second after `7` 
+
+![alt text](https://i.imgur.com/7JwBO3z.png "Global test result")
+
 ### Narration Events
 A channel wide narration event displaying a pre-set message and a image stimulus: 
 

@@ -2,7 +2,7 @@
 	{
 		"name": "oldHouse",
 		"testMessage": "The corridor seems significantly longer the rooms attached to it.You can examine the walls using Intelligence + Investigation, or Wits + Academics (Architecture)",
-		"shortCircut": false,
+		"shortCircuit": false,
 		"replyPrefix": "You examine the walls",
 		"globaltestoptionSet": [
 			{
@@ -26,7 +26,7 @@
 	{
 		"name": "staffBedrooms",
 		"testMessage": "The staff bedrooms are very busy someone is continuously going in and out, searching will require a bit of finesse (DEX + Larceny)",
-		"shortCircut": true,
+		"shortCircuit": true,
 		"replyPrefix": "You try to search the rooms",
 		"globaltestoptionSet": [
 			{

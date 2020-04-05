@@ -14,7 +14,6 @@ class StatsInsightHandler {
 		const currentSession = get(this.sessionData, 'statinsightSet');
 		const displayTest = find(currentSession, c => c.name === this.eventName);
 		if (!isNil(displayTest)) {
-			console.log(displayTest);
 			const { statName, minValue, successMessage } = displayTest;
 			this.manager.checkStat(statName, minValue, successMessage);
 		}
