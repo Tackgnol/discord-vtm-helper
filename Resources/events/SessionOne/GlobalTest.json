@@ -1,173 +1,46 @@
 [
 	{
-		"name": "domStaruszki",
-		"testMessage": "Tylni korytarz wydaje się być znacznie dłuższy niż pokój do niego przylegający. Chętni mogą spróbować sprawdzić korytarz testem Intelligence + Investigation, bądź Wits + Academics (architektura)",
+		"name": "oldHouse",
+		"testMessage": "The corridor seems significantly longer the rooms attached to it.You can examine the walls using Intelligence + Investigation, or Wits + Academics (Architecture)",
 		"shortCircut": false,
-		"replyPrefix": "Przeszukujesz korytarz...",
+		"replyPrefix": "You examine the walls",
 		"globaltestoptionSet": [
 			{
+				"minResult": 0,
+				"resultMessage": "Nothing out of the ordinary according to you"
+			},
+			{
 				"minResult": 1,
-				"resultMessage": "Ściana wykonana jest z innego matriału"
+				"resultMessage": "The back wall looks like it was made from a different material"
 			},
 			{
 				"minResult": 3,
-				"resultMessage": "Budynek nie powinen mieć tam żadnej infrastuktury, być może coś jest tutaj ukryte?"
+				"resultMessage": "This is an old building it should not use that much space for piping, something must be here"
 			},
 			{
 				"minResult": 5,
-				"resultMessage": "Przeszukując dokładnie korytarz wyczuwasz że w pewnym momencie uderzając w ścianę słyszysz dźwięk charakterystyczny dla pustki za nią"
-			}
-		]
-	},
-	{
-		"name": "strachSluzby",
-		"testMessage": "Po rozmowie z całą służbą ewidetnie dom jest pełen strachu. Wykorzystując zdobyte informacje możesz jeszcze raz ich przepytać wykonując test Persuasion + Intimidate lub Charisma + Leadership",
-		"shortCircut": false,
-		"replyPrefix": "Przepytujesz ponownie służbę...",
-		"globaltestoptionSet": [
-			{
-				"minResult": 1,
-				"resultMessage": "Lokaj mówił, że nidługo nie będzie już niczyim sługą jak kiedyś wypił za dużo... (Jacek)"
-			},
-			{
-				"minResult": 4,
-				"resultMessage": "Pan z Lokajem bardzo się kłócili jakiś tydzień temu, Pan wyszedł z pomieszczenia wyłamując drzwi, z 2 dni to naprawialiśmy..."
-			},
-			{
-				"minResult": 6,
-				"resultMessage": "Każdy z nas ma obiecane że kiedyś będzie żył wiecznie... może Lokaj stwierdził że dość czekania. "
+				"resultMessage": "While knocking in the places you deducted can be hollow, you indeed confirm that this wall is very thin and something is behind it"
 			}
 		]
 	},
 	{
 		"name": "staffBedrooms",
-		"testMessage": "Z pokoi obsługi co chwila ktoś wchodzi i wychodzi nie dacie rady przeszukać tego pokoju na spokojnie (DEX + Larceny)",
+		"testMessage": "The staff bedrooms are very busy someone is continuously going in and out, searching will require a bit of finesse (DEX + Larceny)",
 		"shortCircut": true,
-		"replyPrefix": "Przeszukujesz pokoje",
-		"globaltestoptionSet": [
-			{
-				"minResult": 1,
-				"resultMessage": "Ktoś odkrył że myszkujesz koło jego łóżka (odegraj przyłapanie na kradzierzy)"
-			},
-			{
-				"minResult": 3,
-				"resultMessage": "Znajdujesz pamiętnik pokojówki, rozpisuje się w nim o Jaśku z sąsiadującej wsi. Kilka kartek jest wyrwanych, ale wydawało Ci się że ktoś Cię zauważył i nie miałeś szansy ich poszukać"
-			},
-			{
-				"minResult": 4,
-				"resultMessage": "Znajdujesz pamiętnik pokojówki, rozpisuje się w nim o Wojtku z sąsiadującej wsi. \n Szybko odrzucasz pamiętnik i wykorzystując chwilę czasu odnajdujesz kartki. \n Opisują one kłótnie Pana domu z lokajem. \n 'Chyba najwyższa pora aby po tych latach dostał co mi się należy?!',\n pokojówka w dalszej cześci próbuje wymyślić o jaki bonus chodziło Janowi..."
-			},
-			{
-				"minResult": 5,
-				"resultMessage": "Znajdujesz pamiętnik pokojówki, rozpisuje się w nim o Wojtku z sąsiadującej wsi. \n Szybko odrzucasz pamiętnik i wykorzystując chwilę czasu odnajdujesz kartki. \n Opisują one kłótnie Pana domu z lokajem. \n 'Chyba najwyższa pora aby po tych latach dostał co mi się należy?!',\n pokojówka w dalszej cześci próbuje wymyślić o jaki bonus chodziło Janowi... \n Ale, ale... Nie wierzysz własnym oczom, w otworze wydrążonym w łóżku znajdujesz telefon komórkowy! Jest zablokowany na ekranie blokady jest jakiś młody chłopak"
-			}
-		]
-	},
-	{
-		"name": "anotherWay",
-		"testMessage": "Hmmm może faktycznie da się znaleźć inne wejście... Postacie ze Steath 3+ mogą po cichu przeszukać okolice mieszkania. Pozostali wykonują test Dex+Stealth (ST3) lub Wits + Survival (ST3) i raportują wynik opowiadającemu. \n Postacie z Stealth Powyżej 3 i Ci którym udał się test mogą wykonać test Larceny + Awarness lub Wits + Academics (Architecture)",
-		"shortCircut": false,
-		"replyPrefix": "Rozglądasz się po obżerzach włości...",
+		"replyPrefix": "You try to search the rooms",
 		"globaltestoptionSet": [
 			{
 				"minResult": 0,
-				"resultMessage": "Dom jest strasznie zniszczony, w sumie z każdej strony może być wejście przy odrobienie siły."
-			},
-			{
-				"minResult": 2,
-				"resultMessage": "Wejście do krypty jest strasznie zużyte, jakby ktoś stale ją otwierał i zamykał dodatkowo zaglądając do środka widzisz dużo śladów prowadzących do jednej z komór"
-			},
-			{
-				"minResult": 4,
-				"resultMessage": "Z na prawo przykryta latami zadniednań (śmieci, stare deski, podgniłe liście) znajduje się olbżymia dziura w środku jest bardzo ciemno i nie widzisz jak daleko schodzi ale spadek jest na tyle mały że można spokojnie zejść nią w dół"
-			}
-		]
-	},
-	{
-		"name": "intoTheTraps",
-		"testMessage": "Mimo złego przeczucia postanawiacie iść dalej, nagle słyszycie głośny huk metalu... Postacie z przodu (opowiadający decyduje) muszą wykonać test Dex + Awarness",
-		"shortCircut": true,
-		"replyPrefix": "Ups...",
-		"globaltestoptionSet": [
-			{
-				"minResult": 0,
-				"resultMessage": "Wyczuwasz jak pułapka zatrzaskuje Ci się na nodze Otrzymujesz 3 punkty obrażeń, jesteś unieruchomiony oraz Twoja noga. Po uwolnieniu noga wymaga wyleczenia innaczej kulejesz (wyleczenie 2x Rouse Check)"
+				"resultMessage": "Someone spotted you searching the room (play out being spotted)"
 			},
 			{
 				"minResult": 3,
-				"resultMessage": "Zauważasz zamykającą się na Twojej nodze pułąpkę, mimo tego faktu nie uda Ci się na czas wyciągnąć nogi, łapie Cię ona w okolicy kostki, jesteś unieruchomiony!"
+				"resultMessage": "You find a maids journal, she writes a lot about 'John' from the willage near by, they are probably young lovers. A couple of pages are ripped out, however you were almost spotted and could not investigate further"
 			},
+
 			{
 				"minResult": 5,
-				"resultMessage": "Gdy stawiasz stopę widzisz pod nią pułapkę na niedźwiedzie, jest już za późno Twoja stopa ląduje w mechaniźmie, jednak uda Ci się wykonać szybki wyskok do przodu unikając szczęk,jednak zamykające się szczęki na pewno były słyszalne dla wszystkich w tunelach"
-			}
-		]
-	},
-	{
-		"name": "theGlop",
-		"testMessage": "(Gracze którzy wkroczyli...) Podłoże jest strasznie grząskie, wciąga Cię! Wciąga cholernie mocno! (Strenght + Dex)",
-		"shortCircut": true,
-		"replyPrefix": "Walczysz z wciągającym Cię błotem...",
-		"globaltestoptionSet": [
-			{
-				"minResult": 0,
-				"resultMessage": "Ciągnie Cię na samo dno, jeśli ktoś Ci nie pomoże to skończysz na dnie aż nie umrzesz z głodu..."
-			},
-			{
-				"minResult": 2,
-				"resultMessage": "Z wielkim trudem cały/a w błocie przechodzisz na drugą stronę (rzuć K10 daj znać opowiadającemu)"
-			},
-			{
-				"minResult": 4,
-				"resultMessage": "Nie z takim błotem sobie radziłeś/aś, żwawym krokiem przechodzisz na drugą stronę"
-			},
-			{
-				"minResult": 5,
-				"resultMessage": "Bezproblemowo przedzierasz się przez błoto, sumie to masz nawet sporo czasu żeby pokazać towarzyszom miejsce gdzie błoto jest tylko do pasa (nikt więcej nie musi wykonywać testu aby przejść"
-			}
-		]
-	},
-	{
-		"name": "theAltarRoom",
-		"testMessage": "Przyglądacie się pomieszczeniu, jest jak z Lovecraftowego Horroru, są to rzeczy o których nauka nie słyszała (Intelligence + Occult lub Wits + Investigation -2 (chyba że specjalizacja Paranormalna)",
-		"shortCircut": false,
-		"replyPrefix": "Pomieszczenie jest niezwykłe",
-		"globaltestoptionSet": [
-			{
-				"minResult": 1,
-				"resultMessage": "Pomieszczenie służy do rytuałów Sabbatu, nie wiesz jakich ani po co..."
-			},
-			{
-				"minResult": 2,
-				"resultMessage": "Wśród obiektów na stole rozpoznajesz kielich rytualny, to wspólnego picia krwi (Sabbat piją krew pobratymców aby 'wzmocnić więź Koterii')"
-			},
-			{
-				"minResult": 4,
-				"resultMessage": "Nie możesz być pewien czym jest wielka przymocowana do Ziemi paszcza, masz jednak podejżenia iż może być to jednak z mitycznych 'Paszczy Ziemi' o których szepczą wilkołaki (ale kto by ich słuchał...) może jest to rezultat eksperymentów Tzimisce? (poproś o handout)"
-			}
-		]
-	},
-	{
-		"name": "theRoomWhereSheDied",
-		"testMessage": "Postanowiliście przyjżeć się zwłokom i pokojowi... (Investigation + Intelligence lub Medicine + Wits)",
-		"shortCircut": false,
-		"replyPrefix": "PrzeSzukujesz pokój...",
-		"globaltestoptionSet": [
-			{
-				"minResult": 1,
-				"resultMessage": "Pokój rzadko odwiedzany, i raczej jest w tym jeszcze zanim zasiedlił się w nim Sabbat"
-			},
-			{
-				"minResult": 3,
-				"resultMessage": "Kobieta nie żyje od ponad 70 lat, z braku nawet strzępków ubrań wnioskuje że zmarła naga"
-			},
-			{
-				"minResult": 4,
-				"resultMessage": "Kobieta raczej na pewno umarła z głodu. Znajdujesz komodę w ścianie pełną sukienek oraz zdjęcie z ok 1920 roku przedstawiające niepokojąco wyglądającą rodzine"
-			},
-			{
-				"minResult": 5,
-				"resultMessage": "W komodzie znajdujesz ukryty dziennik (poproś opowiadającego o dziennik)"
+				"resultMessage": "You find a maids journal, she writes a lot about 'John' from the willage near by, they are probably young lovers. A couple of pages are ripped out. \n You quickly discard the diary and search for the missing pages \n The describe a quarrel between the master and the butler."
 			}
 		]
 	}

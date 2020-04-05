@@ -1,65 +1,46 @@
 [
 	{
-		"name": "domStaruszki",
-		"testMessage": "Tylni korytarz wydaje się być znacznie dłuższy niż pokój do niego przylegający. Chętni mogą spróbować sprawdzić korytarz testem Intelligence + Investigation, bądź Wits + Academics (architektura)",
+		"name": "oldHouse",
+		"testMessage": "The corridor seems significantly longer the rooms attached to it.You can examine the walls using Intelligence + Investigation, or Wits + Academics (Architecture)",
 		"shortCircut": false,
-		"replyPrefix": "Przeszukujesz korytarz...",
-		"optionArray": [
+		"replyPrefix": "You examine the walls",
+		"globaltestoptionSet": [
+			{
+				"minResult": 0,
+				"resultMessage": "Nothing out of the ordinary according to you"
+			},
 			{
 				"minResult": 1,
-				"resultMessage": "Ściana wykonana jest z innego matriału"
+				"resultMessage": "The back wall looks like it was made from a different material"
 			},
 			{
 				"minResult": 3,
-				"resultMessage": "Budynek nie powinen mieć tam żadnej infrastuktury, być może coś jest tutaj ukryte?"
+				"resultMessage": "This is an old building it should not use that much space for piping, something must be here"
 			},
 			{
 				"minResult": 5,
-				"resultMessage": "Przeszukując dokładnie korytarz wyczuwasz że w pewnym momencie uderzając w ścianę słyszysz dźwięk charakterystyczny dla pustki za nią"
+				"resultMessage": "While knocking in the places you deducted can be hollow, you indeed confirm that this wall is very thin and something is behind it"
 			}
 		]
 	},
 	{
-		"name": "przykladoweZwloki",
-		"testMessage": "Znajdujecie zwłoki, możecie się im przyjżeć na podstawie testu Wits + Investigation lub Intelligence + Medicine, następnie wpiszcie !vtm-gt-przykladowe-zwloki wartość wyniku",
-		"shortCircut": false,
-		"replyPrefix": "Przyglądasz się zwłokom...",
-		"optionArray": [
+		"name": "staffBedrooms",
+		"testMessage": "The staff bedrooms are very busy someone is continuously going in and out, searching will require a bit of finesse (DEX + Larceny)",
+		"shortCircut": true,
+		"replyPrefix": "You try to search the rooms",
+		"globaltestoptionSet": [
 			{
 				"minResult": 0,
-				"resultMessage": "Wygląda na samobójstwo"
+				"resultMessage": "Someone spotted you searching the room (play out being spotted)"
 			},
 			{
-				"minResult": 2,
-				"resultMessage": "Hmmm... Natomiast widzę krew pod paznokciami, osoby trzecie?"
+				"minResult": 3,
+				"resultMessage": "You find a maids journal, she writes a lot about 'John' from the willage near by, they are probably young lovers. A couple of pages are ripped out, however you were almost spotted and could not investigate further"
 			},
+
 			{
 				"minResult": 5,
-				"resultMessage": "Ofiara ma obite podbrzusze, kto bije się po brzuchu zanim się powiesi?"
-			},
-			{
-				"minResult": 7,
-				"resultMessage": "Twoje lata doświadczenia pozwalają Ci ocenić na podstawie rozbyzgu krwi że nie mogła ona pochodzić od jednej osoby"
-			}
-		]
-	},
-	{
-		"name": "strachSluzby",
-		"testMessage": "Po rozmowie z całą służbą ewidetnie dom jest pełen strachu. Wykorzystując zdobyte informacje możesz jeszcze raz ich przepytać wykonując test Persuasion + Intimidate lub Charisma + Leadership",
-		"shortCircut": false,
-		"replyPrefix": "Przepytujesz ponownie służbę...",
-		"optionArray": [
-			{
-				"minResult": 1,
-				"resultMessage": "Lokaj mówił, że nidługo nie będzie już niczyim sługą jak kiedyś wypił za dużo... (Jacek)"
-			},
-			{
-				"minResult": 4,
-				"resultMessage": "Pan z Lokajem bardzo się kłócili jakiś tydzień temu, Pan wyszedł z pomieszczenia wyłamując drzwi, z 2 dni to naprawialiśmy..."
-			},
-			{
-				"minResult": 6,
-				"resultMessage": "Każdy z nas ma obiecane że kiedyś będzie żył wiecznie... może Lokaj stwierdził że dość czekania. "
+				"resultMessage": "You find a maids journal, she writes a lot about 'John' from the willage near by, they are probably young lovers. A couple of pages are ripped out. \n You quickly discard the diary and search for the missing pages \n The describe a quarrel between the master and the butler."
 			}
 		]
 	}

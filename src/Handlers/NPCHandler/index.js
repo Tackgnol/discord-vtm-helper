@@ -1,4 +1,4 @@
-const { isNil, get, find } = require('lodash');
+
 const NPCManager = require('../../EventManagers/NPCManager');
 const settings = require('../../../config/settings');
 class NPCHandler {
@@ -11,17 +11,12 @@ class NPCHandler {
 	}
 
 	handle() {
-		const currentSession = get(this.sessionData, 'data.player');
+		console.log(this.sessionData);
 		if(this.eventName === settings.subPrefixes.npcsSubCommands.all) {
-			this.manager.allNPCs(currentSession.filteredFacts);
+			this.manager.allNPCs(this.sessionData);
 		} else {
-			this.manager.oneNPC(currentSession.filteredFacts, this.eventName);
+			this.manager.oneNPC(this.sessionData, this.eventName);
 		}
-		// const displayTest = find(currentSession, c => c.name === this.eventName);
-		// if (!isNil(displayTest)) {
-		// 	const { statName, minValue, successMessage } = displayTest;
-		// 	this.manager.checkStat(statName, minValue, successMessage);
-		// }
 	}
 }
 

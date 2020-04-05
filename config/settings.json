@@ -26,6 +26,7 @@
 		"stop": "stop"
 	},
 	"eventSource": "offline",
+	"onlineSourceUrl": "http://localhost:8000/graphql",
 	"colors": {
 		"richEmbeddedMain": "#8a0303",
 		"richEmbeddedDetails":"#590101"

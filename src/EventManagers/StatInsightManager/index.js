@@ -14,7 +14,7 @@ class StatInsightManager {
 		const messageChanel = this.channel;
 		if (messageChanel.type === 'text') {
 			if (settings.eventSource === 'offline') {
-				players = require('../../../Resources/playerToStat.json');
+				players = require('../../../Resources/players.json');
 			} else {
 				const { ApolloClient } = require('apollo-boost');
 				const GET_CHANNEL_PLAYERS = require('../../GraphQL/GET_CHANNEL_PLAYERS');
@@ -22,7 +22,7 @@ class StatInsightManager {
 				const { InMemoryCache } = require('apollo-cache-inmemory');
 				const fetch = require('node-fetch');
 				const apolloClient = new ApolloClient({
-					link: createHttpLink({ uri: 'http://localhost:8000/graphql', fetch: fetch }),
+					link: createHttpLink({ uri: settings.onlineSourceUrl, fetch: fetch }),
 					cache: new InMemoryCache(),
 				});
 				const graphQLQuery = await apolloClient.query({
@@ -36,7 +36,6 @@ class StatInsightManager {
 				channelMembers.forEach(m => {
 					const thisPlayer = find(players, p => m.user.username === p.discordUserName);
 					const statValue = thisPlayer && find(thisPlayer.statisticsSet, s => s.name === statName);
-
 					if (!isNil(statValue) && statValue.value >= minValue) {
 						const turndownService = new TurndownService();
 						const markdown = turndownService.turndown(successMessage);

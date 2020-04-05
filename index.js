@@ -2,11 +2,11 @@ const Discord = require('discord.js');
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs');
-const FreeFormMessageMultiplePlayersHandler = require('./src/Handlers/FreeFormMultiMessageHandler')
+const FreeFormMessageMultiplePlayersHandler = require('./src/Handlers/FreeFormMultiMessageHandler');
 const SoundManager = require('./src/EventManagers/SoundManager');
 
 const app = express();
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(bodyParser.raw());
 
@@ -64,7 +64,7 @@ const processChannelMessage = (content, channel, message) => {
 };
 
 const processDirectMessage = (content, channel, message) => {
-	if(content.startsWith('!')) {
+	if (content.startsWith('!')) {
 		const parsedEventMessage = parseEventMessage(message);
 		globalHandler(channel, parsedEventMessage, message);
 	} else {
@@ -73,7 +73,7 @@ const processDirectMessage = (content, channel, message) => {
 		});
 	}
 
-}
+};
 
 discordClient.once('ready', () => {
 	console.log('Ready!');
@@ -83,7 +83,7 @@ discordClient.on('message', message => {
 	const messageContent = message.content;
 	const channelId = message.channel.id;
 	const channel = discordClient.channels.get(channelId);
-	if(channel.type === 'dm') {
+	if (channel.type === 'dm') {
 		processDirectMessage(messageContent, message.author, message);
 		return;
 	}
@@ -92,69 +92,75 @@ discordClient.on('message', message => {
 
 const token = isNil(process.env.token) ? config.token : process.env.token;
 
-discordClient.login(token);
+if (!token) {
+	console.error('You need to specify a token in config/auth.json');
+} else {
+	discordClient.login(token);
+}
 
-app.post('/event', (req, res) => {
-	const channel = discordClient.channels.get(req.body.channel);
+if (settings.eventSource === 'online') {
+	app.post('/event', (req, res) => {
+		const channel = discordClient.channels.get(req.body.channel);
 
-	try {
-		processChannelMessage(req.body.content, channel);
-		res.send('Success!');
-	} catch (e) {
-		res.send(e);
-	}
-});
+		try {
+			processChannelMessage(req.body.content, channel);
+			res.send('Success!');
+		} catch (e) {
+			res.send(e);
+		}
+	});
 
-app.post('/message', (req, res) => {
-	const { message, users, channelId } = req.body;
-	const channel = discordClient.channels.get(channelId);
-	try {
-		const handler = new FreeFormMessageMultiplePlayersHandler(message, users, channel);
-		handler.handle();
-		res.send('Success!');
-	} catch (e) {
-		res.send(e);
-	}
+	app.post('/message', (req, res) => {
+		const { message, users, channelId } = req.body;
+		const channel = discordClient.channels.get(channelId);
+		try {
+			const handler = new FreeFormMessageMultiplePlayersHandler(message, users, channel);
+			handler.handle();
+			res.send('Success!');
+		} catch (e) {
+			res.send(e);
+		}
 
-});
+	});
 
-app.post('/sound', async (req, res) => {
-	const { filePath, channelId, command } = req.body;
-	let manager;
-	try {
-		let voiceChannel = find(activeVoiceChannels, vc => vc.id === channelId);
-		if (isNil(get(voiceChannel, 'connection'))) {
-			const channel = discordClient.channels.get(channelId);
-			if (channel.type === 'voice') {
-				const connection = await channel.join();
-				manager = new SoundManager(filePath, connection);
-				voiceChannel = { id: channelId, connection: connection, channel: channel, currentTrack: filePath, manager:manager };
-				activeVoiceChannels.push(voiceChannel);
+	app.post('/sound', async (req, res) => {
+		const { filePath, channelId, command } = req.body;
+		let manager;
+		try {
+			let voiceChannel = find(activeVoiceChannels, vc => vc.id === channelId);
+			if (isNil(get(voiceChannel, 'connection'))) {
+				const channel = discordClient.channels.get(channelId);
+				if (channel.type === 'voice') {
+					const connection = await channel.join();
+					manager = new SoundManager(filePath, connection);
+					voiceChannel = { id: channelId, connection: connection, channel: channel, currentTrack: filePath, manager: manager };
+					activeVoiceChannels.push(voiceChannel);
+				}
 			}
+			switch (command) {
+			case settings.soundCommands.playTrack:
+				voiceChannel.manager.playAmbiance(filePath);
+				break;
+			case settings.soundCommands.playSound:
+				voiceChannel.manager.playSound(filePath);
+				break;
+			case settings.soundCommands.stop:
+				manager = voiceChannel.manager;
+				activeVoiceChannels.splice(findIndex(activeVoiceChannels, vc => vc.id === channelId), 1);
+				manager.stop();
+				break;
+			default:
+				voiceChannel.manager.stop();
+				activeVoiceChannels.splice(findIndex(activeVoiceChannels, vc => vc.id === channelId), 1);
+			}
+			res.send('Success!');
+		} catch (e) {
+			res.send(e);
 		}
-		switch (command) {
-		case settings.soundCommands.playTrack:
-			voiceChannel.manager.playAmbiance(filePath);
-			break;
-		case settings.soundCommands.playSound:
-			voiceChannel.manager.playSound(filePath);
-			break;
-		case settings.soundCommands.stop:
-			manager = voiceChannel.manager;
-			activeVoiceChannels.splice(findIndex(activeVoiceChannels, vc => vc.id === channelId), 1);
-			manager.stop();
-			break;
-		default:
-			voiceChannel.manager.stop();
-			activeVoiceChannels.splice(findIndex(activeVoiceChannels, vc => vc.id === channelId), 1);
-		}
-		res.send('Success!');
-	} catch (e) {
-		res.send(e);
-	}
-})
-;
-app.listen(8080, () => {
-	console.log('listening now on 8080');
-});
+	})
+	;
+	app.listen(8080, () => {
+		console.log('listening now on 8080');
+	});
 
+}
