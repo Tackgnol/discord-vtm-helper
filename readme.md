@@ -60,6 +60,12 @@ The details can contains:
 1. `git clone https://github.com/Tackgnol/discord-vtm-helper.git` (or alternatively click the download zip button above)
 2. In the directory where you cloned / unzipped the repo run command `npm install`
 3. After all libraries have been installed run `npm run watch`
+4. You need to [setup your won bot](https://discordpy.readthedocs.io/en/latest/discord.html)
+5.  Paste the bot token into the `auth.json` file like so:
+`{
+	"token": "your token"
+}`
+
 
 ## Managing you games
 ### Config file
@@ -169,7 +175,8 @@ You can add more folders by adding them to `index.js` in the `/events` directory
 ## Roadmap
 ### Considered essential
 1. Making it possible to launch global events from a DM
-2. Firebase integration and allowing to add events from the the bot
+2. Allowing to add events from the the bot
+3. Firebase integration 
 ### Nice to have 
 1. Making the music player work...
 2. Electron app to simplify event creation
