@@ -1,9 +1,9 @@
-#Vampire Discord Helper
+# Vampire Discord Helper
 
-##Features
+## Features
 The current build supports
 
-###Global Tests
+### Global Tests
 A channel wide test for the players to roll and report their score to the bot to receive information
 
 ![alt text](https://i.imgur.com/7JIvf5z.png "Global test initialization")
@@ -14,13 +14,13 @@ You can 'react' using the buttons or type in `!test{your score}` to receive a me
 
 These tests can 'short circuit' meaning that it will only display the closes result or like in the above example show everything leading up to the score.
 
-###Narration Events
+### Narration Events
 A channel wide narration event displaying a pre-set message and a image stimulus: 
 
 ![alt text](https://i.imgur.com/0upM9OO.png "Narration result")
 
 
-###Stat Insights
+### Stat Insights
 A channel wide event that will prompt player with certain information with a message that their statistic allows them to be privy to.
 **This is not a test, if a player has Occult of 4 and the requirement is 4 he will just see the message.**
 The event called on the channel: 
@@ -31,7 +31,7 @@ The message the player with the stat sees:
 
 ![alt text](https://i.imgur.com/PXOplKi.png  "Stat insight result")
 
-###NPCs
+### NPCs
 The bot can store npc info to later present to the players, you can DM the bot with `!vtm-npcs-all` to see a list o NPCS available to you: 
 
 ![alt text](https://i.imgur.com/jz3IQQf.png  "All npcs")
@@ -47,16 +47,16 @@ The details can contains:
 * A set of NPC facts known to that player
 
 
-##Requirements
+## Requirements
 * NodeJS [installing node](https://nodejs.org/en/download/)
 * Basic understanding of JSON
-##Installing 
+## Installing 
 1. `git clone https://github.com/Tackgnol/discord-vtm-helper.git` (or alternatively click the download zip button above)
 2. In the directory where you cloned / unzipped the repo run command `npm install`
 3. After all libraries have been installed run `npm run watch`
 
-##Managing you games
-###Config file
+## Managing you games
+### Config file
 The app will run on the default `settings.json` however to run the bot you need an discord auth key [obtaining a discord auth key](https://www.writebots.com/discord-bot-token/)
 
 Paste the bot token into the `auth.json` file like so:
@@ -78,7 +78,7 @@ Located in the `/config` directory the `settings.json` file consists of the foll
 ## Resources
 Here all your events and players are stored: 
 
-###players.json
+### players.json
 A file containing the information of your players, the structure is a follows: 
 
     "discordUserName": "Discord display name of the player",
@@ -104,10 +104,10 @@ A file containing the information of your players, the structure is a follows:
     ]
 
 
-###Events
+### Events
 This folder stores your sessions, in the two defaults are: `Session-Dev` for development purposes, and `SessionOne` for your ready to go events. 
 
-####GlobalTest.json
+#### GlobalTest.json
 These files contain the Global Tests the strucutre is as follows: 
 
     "name": "a unique no spaces or special characters name (this is used to call your event) ex. disgustingCorpse",  
@@ -135,7 +135,7 @@ These files contain the Global Tests the strucutre is as follows:
     ]
 
 
-####StatInsights.json
+#### StatInsights.json
 These files contain your stat insights for the characters the structure is as follows:
 	
     "name": "a unique no spaces or special characters name (this is used to call your event) ex. theSmell",
@@ -144,14 +144,14 @@ These files contain your stat insights for the characters the structure is as fo
     "successMessage": "The information the player receives thanks to his stats"
 	
 
-####Narration.json
+#### Narration.json
 These files contain your narration events, a preset message and an image the strucute is a follows:
 
     "name": "a unique no spaces or special characters name (this is used to call your event) ex. theSmell",
     "narrationText": "Text to display to players",
     "image": "url to the image to be displayed to the players"
 
-###channelToSession.json
+### channelToSession.json
 The file contains a json array of discord channel ids and events for those channels: 
 
 `[{ "id": X, "session": "sessionOne" }]`
@@ -160,7 +160,7 @@ The format is `id` the id of your channel [obtaining the channel id](https://sup
 
 You can add more folders by adding them to `index.js` in the `/events` directory
 
-##Roadmap
+## Roadmap
 ### Considered essential
 1. Making it possible to launch global events from a DM
 2. Firebase integration and allowing to add events from the the bot
