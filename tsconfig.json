@@ -1,0 +1,25 @@
+{
+	"compileOnSave": true,
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"target":"es6",
+		"module": "commonjs",
+		"lib": ["es6"],
+		"outDir": "./build",
+		"rootDir": "src",
+		"strict": true,
+		"noImplicitAny": true,
+		"resolveJsonModule": true,
+		"baseUrl": "./",
+		"moduleResolution": "node",
+		"skipLibCheck": true
+	},
+	"include": [
+		"src/**/*"
+	],
+	"exclude": [
+		"node_modules",
+		"**/*.spec.ts"
+	]
+}
