@@ -20,7 +20,7 @@ export class AdminManager {
 		this.channel = channel;
 	}
 
-	async addPlayer(value = '') {
+	async addPlayer(value = '', channelId: string) {
 		const addPlayerRegex = /\[([^\]]+)\].*\[([^\]]+)\].*\[([^\]]+)\]/g;
 		const parsed = addPlayerRegex.exec(value);
 		let statArray: IStat[] = [];
@@ -51,7 +51,7 @@ export class AdminManager {
 					statArray.push({ name: statName, value: +statValue });
 				}
 			}
-			const result = await global.service.AddPlayer(name, id, statArray);
+			const result = await global.service.AddPlayer(name, id, statArray, channelId);
 			if (result) {
 				this.message && this.message.author.send('New player added successfully', playerRichEmbed(name, id, statArray));
 			} else {
@@ -60,7 +60,7 @@ export class AdminManager {
 		}
 	}
 
-	async addNPC(value = '') {
+	async addNPC(value = '', gameId: string) {
 		const addNPCRegex = /\[(\w+)\].*\[(\w+)\].*\[(.+)\]\[(\w.+)\]/g;
 		const parsed = addNPCRegex.exec(value);
 		if (!parsed || parsed.length < 5) {
@@ -76,7 +76,7 @@ export class AdminManager {
 			const callName = parsed[2];
 			const image = parsed[3];
 			const description = parsed[4];
-			const result = await global.service.AddNPC(name, callName, image, description);
+			const result = await global.service.AddNPC(name, callName, image, description, gameId);
 			if (result) {
 				this.message && this.message.author.send('Successfully added a npc:', npcRichEmbed(result, true));
 			} else {
@@ -85,7 +85,7 @@ export class AdminManager {
 		}
 	}
 
-	async addFactsToNPCs(value = '') {
+	async addFactsToNPCs(value = '', gameId: string) {
 		const addFactRegex = /\[(\w+)\]\[([\d+,]+\d+)\]\[(.+)\]/g;
 		const parsed = addFactRegex.exec(value);
 		if (!parsed || parsed.length < 4) {
@@ -100,12 +100,12 @@ export class AdminManager {
 			const playerList = parsed[2] ? parsed[2].split(',').map(p => trim(p)) : [];
 			const factList = parsed[3] ? parsed[3].split(',').map(f => trim(f)) : [];
 			for (const p of playerList) {
-				await global.service.AddFactsToNPC(p, callName, factList);
+				await global.service.AddFactsToNPC(p, callName, factList, gameId);
 			}
 		}
 	}
 
-	async addNarrationEvent(value = '') {
+	async addNarrationEvent(value = '', channelId: string, gameId: string) {
 		const addNarrationRegex = /\[(\w+)\]\[(.+)\]\[(.+)\]/g;
 		const parsed = addNarrationRegex.exec(value);
 		if (!parsed || parsed.length < 4) {
@@ -120,7 +120,7 @@ export class AdminManager {
 			const callName = parsed[1];
 			const image = parsed[2];
 			const description = parsed[3];
-			const result = await global.service.AddNarration(callName, image, description);
+			const result = await global.service.AddNarration(callName, image, description, channelId, gameId);
 			if (result) {
 				this.message &&
 					this.message.author.send('Successfully added event:', narrationRichEmbed(result.narrationText, result.image));
@@ -130,7 +130,7 @@ export class AdminManager {
 		}
 	}
 
-	async addStatInsight(value = '') {
+	async addStatInsight(value = '', channelId: string, gameId: string) {
 		const addStatInsightRegex = /\[([A-Za-z]+)\]\[([A-Za-z]+)\]\[(\d)\]\[([A-Za-z ,;'"\\s]+[.?!]?)\]/g;
 		const parsed = addStatInsightRegex.exec(value);
 		if (!parsed || parsed.length < 5) {
@@ -146,7 +146,7 @@ export class AdminManager {
 			const statName = parsed[2];
 			const statValue = +parsed[3];
 			const successMessage = parsed[4];
-			const result = await global.service.AddStatInsight(eventName, statName, statValue, successMessage);
+			const result = await global.service.AddStatInsight(eventName, statName, statValue, successMessage, channelId, gameId);
 			if (result) {
 				this.message &&
 					this.message.author.send('Successfully added event:', statInsightRichEmbed(statName, +statValue, successMessage));
@@ -156,7 +156,7 @@ export class AdminManager {
 		}
 	}
 
-	async addGlobalTest(value = '') {
+	async addGlobalTest(value = '', channelId: string, gameId: string) {
 		const addGlobalTestRegex = /\[([\w\d ]+)\]\[([aA-zZ0-9 .,?!]+)\]\[(true|false)\]\[([aA-zZ0-9 .,?!]+)\]\[(({\w+: ?\d ?, ?\w+: ?"[aA-zZ0-9 !?,.]+" ?}, )+({\w+:\d ?, ?\w+:? "[aA-zZ0-9 !?,.]+" ?}))\]/g;
 		const parsed = addGlobalTestRegex.exec(value);
 		if (!parsed || parsed.length < 6) {
@@ -185,7 +185,7 @@ export class AdminManager {
 			});
 
 			global.service
-				.AddGlobalTest(eventName, testMessage, Boolean(shortCircuit), replyPrefix, optionsArray ?? [])
+				.AddGlobalTest(eventName, testMessage, Boolean(shortCircuit), replyPrefix, optionsArray ?? [], channelId, gameId)
 				.then(() => {
 					this.message && this.message.author.send('Successfully added event:');
 				})

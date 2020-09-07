@@ -21,6 +21,7 @@ export const settings = {
 			addStatInsight: 'addStatInsight',
 			assignAdmin: 'me',
 			moveAdmin: 'moveAdmin',
+			new: 'new',
 		},
 	},
 	prefixStructure: {

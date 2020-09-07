@@ -12,13 +12,14 @@ class StatsInsightHandler {
 		private sessionData: any,
 		private query: Partial<IEvent>,
 		private channel: TextChannel,
+		private gameId: string,
 		private message?: Message
 	) {
 		this.sessionData = sessionData;
 		this.message = message;
 		this.eventName = query.eventName;
 		this.value = query.value;
-		this.manager = new StatInsightManager(channel);
+		this.manager = new StatInsightManager(channel, gameId);
 	}
 
 	handle() {

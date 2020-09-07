@@ -15,9 +15,6 @@ import {
 import { first, find, findIndex, get, uniq } from 'lodash';
 import DocumentData = firebase.firestore.DocumentData;
 
-const gameId = '216a9908-2766-42cc-be08-ea717593447a';
-const channelId = '659797692184264714';
-
 class FirebaseService {
 	private games: firestore.CollectionReference<firestore.DocumentData>;
 	private npcs: firestore.CollectionReference<firestore.DocumentData>;
@@ -27,7 +24,7 @@ class FirebaseService {
 		this.npcs = db.collection('npcs');
 	}
 
-	async GetPlayer(playerId: string): Promise<IPlayer> {
+	async GetPlayer(playerId: string, gameId: string): Promise<IPlayer> {
 		const game = await this.games.where('id', '==', gameId).get();
 		const playerData = get(game, 'docs[0]');
 
@@ -38,7 +35,7 @@ class FirebaseService {
 		return find(object.players, (p: IPlayer) => p.id === String(playerId));
 	}
 
-	async GetEvents(channelId: string): Promise<ISessionData> {
+	async GetEvents(channelId: string, gameId: string): Promise<ISessionData> {
 		const game = await this.games.where('id', '==', gameId).get();
 		const gameData = get(game, 'docs[0]');
 		if (!gameData) {
@@ -55,7 +52,7 @@ class FirebaseService {
 		return <IGame[]>games;
 	}
 
-	async AddPlayer(name: string, id: string, statArray: IStat[]): Promise<IPlayer> {
+	async AddPlayer(name: string, id: string, statArray: IStat[], gameId: string): Promise<IPlayer> {
 		const game = await this.games.where('id', '==', gameId).get();
 		const gameData = game.docs[0].data();
 		if (find(gameData.players, (p: IPlayer) => p.id === id)) {
@@ -75,7 +72,13 @@ class FirebaseService {
 			});
 	}
 
-	async AddNPC(name: string, callName: string, image: string, description: string): Promise<Omit<INPC, 'facts'>> {
+	async AddNPC(
+		name: string,
+		callName: string,
+		image: string,
+		description: string,
+		gameId: string
+	): Promise<Omit<INPC, 'facts'>> {
 		const npcs = await this.npcs.where('gameId', '==', gameId).get();
 		const npcData = npcs.docs.map(n => n.data());
 		const npcExists = findIndex(npcData, (n: DocumentData) => n.callName === callName) !== -1;
@@ -101,7 +104,7 @@ class FirebaseService {
 		}
 	}
 
-	async AddFactsToNPC(playerId: string, npc: string, facts: string[]): Promise<INPC> {
+	async AddFactsToNPC(playerId: string, npc: string, facts: string[], gameId: string): Promise<INPC> {
 		const game = await this.games.where('id', '==', gameId).get();
 		const gameData = game ? game.docs[0].data() : null;
 		let npcToUpdate: DocumentData = {};
@@ -144,7 +147,13 @@ class FirebaseService {
 			});
 	}
 
-	async AddNarration(name: string, image: string, narrationText: string): Promise<INarration> {
+	async AddNarration(
+		name: string,
+		image: string,
+		narrationText: string,
+		channelId: string,
+		gameId: string
+	): Promise<INarration> {
 		const game = await this.games.where('id', '==', gameId).get();
 		const gameData = game ? game.docs[0].data() : null;
 		if (!gameData) {
@@ -173,7 +182,14 @@ class FirebaseService {
 			});
 	}
 
-	async AddStatInsight(name: string, stat: string, value: number, message: string): Promise<IStatInsight> {
+	async AddStatInsight(
+		name: string,
+		stat: string,
+		value: number,
+		message: string,
+		channelId: string,
+		gameId: string
+	): Promise<IStatInsight> {
 		const game = await this.games.where('id', '==', gameId).get();
 		const gameData = game ? game.docs[0].data() : null;
 		if (!gameData) {
@@ -207,7 +223,9 @@ class FirebaseService {
 		message: string,
 		shortCircuit: boolean,
 		replyPrefix: string,
-		globaltestoptionSet: IVersionOption[]
+		globaltestoptionSet: IVersionOption[],
+		gameId: string,
+		channelId: string
 	): Promise<IGlobalTest> {
 		const game = await this.games.where('id', '==', gameId).get();
 		const gameData = game ? game.docs[0].data() : null;

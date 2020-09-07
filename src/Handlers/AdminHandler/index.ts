@@ -12,6 +12,7 @@ class AdminHandler {
 		private sessionData: any,
 		private query: Partial<IEvent>,
 		private channel: TextChannel,
+		private gameId: string,
 		private message?: Message
 	) {
 		this.sessionData = sessionData;
@@ -19,6 +20,7 @@ class AdminHandler {
 		this.eventName = query.eventName;
 		this.value = query.value;
 		this.manager = new AdminManager(channel, message);
+		this.gameId = gameId;
 	}
 
 	handle() {
@@ -34,24 +36,24 @@ class AdminHandler {
 		} = settings.subPrefixes.adminSubCommands;
 		switch (this.eventName) {
 			case addPlayer:
-				this.manager.addPlayer(this.value);
+				this.manager.addPlayer(this.value, this.channel.id);
 				break;
 			case addNPC:
-				this.manager.addNPC(this.value);
+				this.manager.addNPC(this.value, this.gameId);
 				break;
 			case addFact:
-				this.manager.addFactsToNPCs(this.value);
+				this.manager.addFactsToNPCs(this.value, this.gameId);
 				break;
 			case removePlayer:
 				throw Error('Unimplemented');
 			case addGlobalTest:
-				this.manager.addGlobalTest(this.value);
+				this.manager.addGlobalTest(this.value, this.channel.id, this.gameId);
 				break;
 			case addStatInsight:
-				this.manager.addStatInsight(this.value);
+				this.manager.addStatInsight(this.value, this.channel.id, this.gameId);
 				break;
 			case addNarration:
-				this.manager.addNarrationEvent(this.value);
+				this.manager.addNarrationEvent(this.value, this.channel.id, this.gameId);
 				break;
 			case assignAdmin:
 				this.manager.assignAdminToChannel();

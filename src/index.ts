@@ -8,7 +8,7 @@ import { Auth } from './config/auth';
 import initializeService from './Services';
 import { isAdminCommand, parseCommandMessage, parseEventMessage } from './Common';
 import globalHandler from './Handlers/handler';
-import { IActiveSession, ISelectedChannel, IVoiceChannel } from './Models/AppModels';
+import { IActiveSession, IGame, ISelectedChannel, IVoiceChannel } from './Models/AppModels';
 import { IEvent } from './Models/GameData';
 import { IService } from './Services/IService';
 
@@ -33,39 +33,41 @@ const getSelectedChannel = (adminId: string) => {
 	return find(selectedChannels, (c: ISelectedChannel) => c.adminId === adminId);
 };
 
-const handleEvent = (parsedEventMessage: Partial<IEvent>, channel: TextChannel, message?: Message) => {
+const handleEvent = (parsedEventMessage: Partial<IEvent>, channel: TextChannel, gameId: string, message?: Message) => {
 	const sessionIndex = findIndex(activeSessions, (s: IActiveSession) => s.channelId === channel.id);
 	if (sessionIndex === -1) {
 		activeSessions.push({
 			channelId: channel.id,
 			prevCommand: parsedEventMessage,
+			gameId: gameId,
 		});
 	} else {
 		activeSessions[sessionIndex] = {
 			channelId: channel.id,
 			prevCommand: parsedEventMessage,
+			gameId: gameId,
 		};
 	}
 
-	globalHandler(channel, parsedEventMessage, message);
+	globalHandler(channel, parsedEventMessage, gameId, message);
 };
 
-const processChannelMessage = (content: string, channel: TextChannel, message?: Message) => {
+const processChannelMessage = (content: string, channel: TextChannel, gameId: string, message?: Message) => {
 	if (content.startsWith('!')) {
 		const parsedEventMessage = parseEventMessage(content);
 		if (!isNil(parsedEventMessage)) {
-			handleEvent(parsedEventMessage, channel, message);
+			handleEvent(parsedEventMessage, channel, gameId, message);
 			return;
 		}
 		const activeSession = find(activeSessions, s => s.channelId === channel.id);
 		const parsedCommandMessage = parseCommandMessage(content, activeSession);
 		if (!isNil(parsedCommandMessage)) {
-			globalHandler(channel, parsedCommandMessage, message);
+			globalHandler(channel, parsedCommandMessage, gameId, message);
 		}
 	}
 };
 
-const processDirectMessage = async (content: string, channel: TextChannel, message: Message) => {
+const processDirectMessage = async (content: string, channel: TextChannel, gameId: string, message: Message) => {
 	let messageChannel: Channel;
 	const selectedChannel = getSelectedChannel(message.author.id);
 	if (message.author.bot) {
@@ -80,7 +82,7 @@ const processDirectMessage = async (content: string, channel: TextChannel, messa
 			} else if (games.length > 1) {
 				messageChannel = discordClient.channels.find(c => c.id === (selectedChannel.id ?? '') && c.type === 'text');
 				if (messageChannel) {
-					globalHandler(<TextChannel>messageChannel, parsedEventMessage, message);
+					globalHandler(<TextChannel>messageChannel, parsedEventMessage, gameId, message);
 				} else {
 					message.author.send(settings.lines.multipleChannels);
 				}
@@ -90,7 +92,7 @@ const processDirectMessage = async (content: string, channel: TextChannel, messa
 					if (myGame.channels.length > 1) {
 						messageChannel = discordClient.channels.find(c => c.id === (selectedChannel.id ?? '') && c.type === 'text');
 						if (messageChannel) {
-							globalHandler(<TextChannel>messageChannel, parsedEventMessage, message);
+							globalHandler(<TextChannel>messageChannel, parsedEventMessage, gameId, message);
 						} else {
 							message.author.send(settings.lines.multipleChannels);
 						}
@@ -98,12 +100,12 @@ const processDirectMessage = async (content: string, channel: TextChannel, messa
 						messageChannel = discordClient.channels.find(
 							c => c.id === (getSelectedChannel(message.author.id)?.id ?? '') && c.type === 'text'
 						);
-						globalHandler(<TextChannel>messageChannel, parsedEventMessage, message);
+						globalHandler(<TextChannel>messageChannel, parsedEventMessage, gameId, message);
 					}
 				}
 			}
 		} else {
-			globalHandler(channel, parsedEventMessage, message);
+			globalHandler(channel, parsedEventMessage, gameId, message);
 		}
 	} else {
 		channel
@@ -127,11 +129,20 @@ discordClient.on('message', async message => {
 	const messageContent = message.content;
 	const channelId = message.channel.id;
 	const channel = discordClient.channels.get(channelId);
-	if (channel?.type === 'dm') {
-		await processDirectMessage(messageContent, <TextChannel>message.channel, message);
-		return;
+	const games = await global.service.GetUserChannels(message.author.id);
+	let currentGame: IGame | undefined;
+	if (games.length === 1) {
+		currentGame = games[0];
+	} else {
+		currentGame = games.find(g => g.current);
 	}
-	processChannelMessage(messageContent, <TextChannel>channel, message);
+	if (currentGame) {
+		if (channel?.type === 'dm') {
+			await processDirectMessage(messageContent, <TextChannel>message.channel, currentGame.id, message);
+			return;
+		}
+		processChannelMessage(messageContent, <TextChannel>channel, currentGame.id, message);
+	}
 });
 
 const token = isNil(process.env.token) ? Auth.token : process.env.token;
@@ -145,9 +156,10 @@ if (!token) {
 if (settings.eventSource === 'online') {
 	app.post('/event', (req, res) => {
 		const channel = discordClient.channels.get(req.body.channel);
+		const gameId = req.body.gameId;
 
 		try {
-			processChannelMessage(req.body.content, <TextChannel>channel);
+			processChannelMessage(req.body.content, <TextChannel>channel, gameId);
 			res.send('Success!');
 		} catch (e) {
 			res.send(e);

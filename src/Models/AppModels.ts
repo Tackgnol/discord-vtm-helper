@@ -2,6 +2,7 @@ import { IEvent, IGlobalTest, IMultiPlayerMessage, INarration, IPlayer, IStatIns
 
 export interface IActiveSession {
 	channelId: string;
+	gameId: string;
 	prevCommand: Partial<IEvent>;
 }
 
@@ -27,4 +28,5 @@ export interface IGame {
 	adminId: string;
 	players: IPlayer[];
 	channels: ISessionData[];
+	current?: boolean;
 }
