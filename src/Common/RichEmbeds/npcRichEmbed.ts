@@ -1,12 +1,13 @@
-import { RichEmbed } from 'discord.js';
-import TurndownService from 'turndown';
+import { MessageEmbed } from 'discord.js';
+
 import { settings } from '../../config/settings';
 import { INPC } from '../../Models/GameData';
+import TurndownService from 'turndown';
 
-export const npcRichEmbed = (npc: Partial<INPC>, adminInfo = false) => {
+export const npcRichEmbed = (npc: Partial<INPC>, added = false, adminInfo = false) => {
 	const turndownService = new TurndownService();
-	const richEmbed = new RichEmbed()
-		.setTitle(npc.name)
+	const richEmbed = new MessageEmbed()
+		.setTitle(added ? `Successfully added a npc:${npc.name}` : npc.name)
 		.setColor(settings.colors.richEmbeddedDetails)
 		.setThumbnail(npc.image ?? '')
 		.setDescription(turndownService.turndown(npc.description));

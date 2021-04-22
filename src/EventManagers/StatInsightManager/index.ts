@@ -1,23 +1,28 @@
 import { find, isEmpty, isNil } from 'lodash';
-import { statInsightRichEmbed } from '../../Common/RichEmbeds';
-import { Message, TextChannel } from 'discord.js';
+import { statInsightRichEmbed } from '../../Common';
+import { Collection, GuildMember } from 'discord.js';
+import { IMessageList, ReplyType } from '../../Models/AppModels';
 
 class StatInsightManager {
-	constructor(private channel: TextChannel, private gameId: string) {
-		this.channel = channel;
-		this.gameId = gameId;
-	}
-
-	async checkStat(statName: string, minValue: number, successMessage: string) {
-		const channelMembers = this.channel.members;
+	async checkStat(
+		statName: string,
+		minValue: number,
+		successMessage: string,
+		gameId: string,
+		channelMembers: Collection<string, GuildMember>
+	) {
+		const messageList: IMessageList[] = [];
 		if (!isEmpty(channelMembers)) {
 			for (const [snowflake, member] of channelMembers) {
-				const thisPlayer = await global.service.GetPlayer(snowflake, this.gameId);
+				const thisPlayer = await global.service.GetPlayer(snowflake, gameId);
 				const statValue = thisPlayer && find(thisPlayer.statisticsSet, s => s.name === statName);
 				if (!isNil(statValue) && statValue.value >= minValue) {
-					member.send(statInsightRichEmbed(statName, minValue, successMessage));
+					messageList.push({ recipient: member, message: statInsightRichEmbed(statName, minValue, successMessage) });
 				}
 			}
+			return { type: ReplyType.Multi, value: messageList };
+		} else {
+			throw new EvalError('Channel has no members!');
 		}
 	}
 }

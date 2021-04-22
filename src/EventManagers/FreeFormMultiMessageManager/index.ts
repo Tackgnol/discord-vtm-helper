@@ -1,5 +1,5 @@
 import { isEmpty, isNil } from 'lodash';
-import { Message, RichEmbed, TextChannel, User } from 'discord.js';
+import { Message, MessageEmbed, TextChannel, User } from 'discord.js';
 import { settings } from '../../config/settings';
 
 export class FreeFormMultiMessageManager {
@@ -15,7 +15,7 @@ export class FreeFormMultiMessageManager {
 				userList.forEach(u => {
 					const foundUser = channelMembers.find(val => val.user.username === u.username);
 					if (!isNil(foundUser)) {
-						const richEmbed = new RichEmbed()
+						const richEmbed = new MessageEmbed()
 							.setColor(settings.colors.richEmbeddedMain)
 							.setTitle(settings.lines.userMessageHeader)
 							.setDescription(reply.content)

@@ -12,10 +12,11 @@ import {
 	IStatInsight,
 	IVersionOption,
 } from '../../Models/GameData';
-import { first, find, findIndex, get, uniq } from 'lodash';
+import { find, findIndex, first, get, uniq } from 'lodash';
+import { IService } from '../IService';
 import DocumentData = firebase.firestore.DocumentData;
 
-class FirebaseService {
+class FirebaseService implements IService {
 	private games: firestore.CollectionReference<firestore.DocumentData>;
 	private npcs: firestore.CollectionReference<firestore.DocumentData>;
 	constructor() {
@@ -132,8 +133,7 @@ class FirebaseService {
 			npcToUpdate = players[playerIndex].npcSet[knownNPCPosition];
 		}
 		const knownFacts = npcToUpdate.facts ?? [];
-		const newFactSet = uniq([...knownFacts, ...facts]);
-		players[playerIndex].npcSet[knownNPCPosition].facts = newFactSet;
+		players[playerIndex].npcSet[knownNPCPosition].facts = uniq([...knownFacts, ...facts]);
 		gameData.players = players;
 		return this.games
 			.doc(game.docs[0].id)
@@ -167,8 +167,7 @@ class FirebaseService {
 		const channel = gameData.channels[channelIndex];
 		const narrationEvents = channel.narrationeventSet ? channel.narrationeventSet : {};
 		const newNarrationEvent = { name, image, narrationText };
-		const newEvents = [...narrationEvents, newNarrationEvent];
-		channel.narrationeventSet = newEvents;
+		channel.narrationeventSet = [...narrationEvents, newNarrationEvent];
 		gameData.channels[channelIndex] = channel;
 		return this.games
 			.doc(game.docs[0].id)
@@ -203,8 +202,7 @@ class FirebaseService {
 		const channel = gameData.channels[channelIndex];
 		const statInsightEvents = channel.statinsightSet ? channel.statinsightSet : {};
 		const newInsightEvent = { name, statName: stat, minValue: value, successMessage: message };
-		const newEvents = [...statInsightEvents, newInsightEvent];
-		channel.statinsightSet = newEvents;
+		channel.statinsightSet = [...statInsightEvents, newInsightEvent];
 		gameData.channels[channelIndex] = channel;
 		return this.games
 			.doc(game.docs[0].id)
@@ -241,8 +239,7 @@ class FirebaseService {
 		const channel = gameData.channels[channelIndex];
 		const globaltestEvents = channel.globaltestSet ? channel.globaltestSet : {};
 		const newGlobalTestEvent: IGlobalTest = { name, testMessage: message, shortCircuit, replyPrefix, globaltestoptionSet };
-		const newEvents = [...globaltestEvents, newGlobalTestEvent];
-		channel.globaltestSet = newEvents;
+		channel.globaltestSet = [...globaltestEvents, newGlobalTestEvent];
 		gameData.channels[channelIndex] = channel;
 		return this.games
 			.doc(game.docs[0].id)
@@ -257,6 +254,13 @@ class FirebaseService {
 	}
 
 	async AssignGameAdmin(playerId: string, channelId: string, gameId: string): Promise<ISessionData> {
+		const newChannel: ISessionData = {
+			channelId: channelId,
+			statInsightSet: [],
+			narrationSet: [],
+			multiMessageSet: [],
+			globaltestSet: [],
+		};
 		const game = await this.games.where('id', '==', gameId).get();
 		const gameData = first(game.docs)?.data() as IGame;
 		const isChannelRegistered = gameData.channels.find(c => c.channelId === channelId) != null;
@@ -264,18 +268,11 @@ class FirebaseService {
 			if (gameData.adminId !== playerId) {
 				throw new Error('This channel already has an admin');
 			} else {
-				return new Promise<ISessionData>((resolve, reject) => {
-					resolve(gameData.channels.find(c => c.channelId === channelId));
+				return new Promise<ISessionData>(resolve => {
+					resolve(gameData.channels.find(c => c.channelId === channelId) ?? newChannel);
 				});
 			}
 		} else {
-			const newChannel: ISessionData = {
-				channelId: channelId,
-				statInsightSet: [],
-				narrationSet: [],
-				multiMessageSet: [],
-				globaltestSet: [],
-			};
 			gameData.channels.push(newChannel);
 			return this.games
 				.doc(game.docs[0].id)

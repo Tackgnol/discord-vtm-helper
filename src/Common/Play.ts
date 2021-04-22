@@ -1,11 +1,11 @@
 import { VoiceConnection } from 'discord.js';
 
 const Play = (connection: VoiceConnection, url: string) => {
-	return connection.playFile(url);
+	return connection.play(url);
 };
 
 const Stop = (connection: VoiceConnection) => {
-	connection.player.dispatcher.end();
+	connection.dispatcher.destroy();
 };
 
 export { Play, Stop };
