@@ -1,38 +1,28 @@
-import { Message, RichEmbed, TextChannel } from 'discord.js';
+import { Collection, GuildMember, MessageEmbed, User } from 'discord.js';
 import { settings } from '../../config/settings';
 import { isEmpty, isNil } from 'lodash';
-import { IMultiUserMessage } from '../../Models/GameData';
+import { IMessageList, IReply, ReplyType } from '../../Models/AppModels';
 
 class MultiMessageManager {
-	constructor(private channel: TextChannel, private message?: Message) {
-		this.message = message;
-		this.channel = channel;
-	}
-
-	messageUsers(messageObject: IMultiUserMessage[]) {
-		if (isEmpty(messageObject)) {
-			return;
+	messageUsers(users: User[], channelMembers: Collection<string, GuildMember>, value: string): IReply {
+		if (isEmpty(users)) {
+			throw new EvalError('Channel is empty!');
 		}
-
-		if (this.channel) {
-			messageObject.forEach(m => {
-				const channelMembers = this.channel.members;
-				const userList = m.userList;
-				if (!isEmpty(userList)) {
-					userList.forEach(u => {
-						const foundUser = channelMembers.find(val => val.user.username === u.username);
-						if (!isNil(foundUser)) {
-							const richEmbed = new RichEmbed()
-								.setColor(settings.colors.richEmbeddedMain)
-								.setTitle(settings.lines.userMessageHeader)
-								.setDescription(m.value)
-								.setColor(settings.colors.richEmbeddedMain);
-							foundUser.send(richEmbed);
-						}
-					});
+		const messages: IMessageList[] = [];
+		if (!isEmpty(users)) {
+			users.forEach(u => {
+				const foundUser = channelMembers.find(val => val.user.username === u.username);
+				if (!isNil(foundUser)) {
+					const richEmbed = new MessageEmbed()
+						.setColor(settings.colors.richEmbeddedMain)
+						.setTitle(settings.lines.userMessageHeader)
+						.setDescription(value)
+						.setColor(settings.colors.richEmbeddedMain);
 				}
+				messages.push({ message: value, recipient: u });
 			});
 		}
+		return { type: ReplyType.Multi, value: messages };
 	}
 }
 
