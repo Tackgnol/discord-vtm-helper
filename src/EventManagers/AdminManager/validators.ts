@@ -3,7 +3,7 @@ const imageRegex = /(https?:\/\/.*\.(?:png|jpg|jpeg))/i;
 const validateAddPlayer = (input: RegExpExecArray) => {
 	const errorArray = [];
 	if (!(typeof input[1] === 'string')) {
-		errorArray.push('Discord name not specified');
+		errorArray.push('DiscordClient name not specified');
 	}
 	if (!(typeof input[2] === 'string')) {
 		errorArray.push('DiscordId not specified');
