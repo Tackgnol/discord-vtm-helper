@@ -29,7 +29,7 @@ export class AdminManager {
 		let result: MessageEmbed | string | null;
 		switch (eventName) {
 			case addPlayer:
-				result = await this.addPlayer(value, channelId);
+				result = await this.addPlayer(value, gameId);
 				break;
 			case addNPC:
 				result = await this.addNPC(value, gameId);
