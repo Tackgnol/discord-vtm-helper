@@ -3,9 +3,9 @@ import { settings } from './config/settings';
 import { Auth } from './config/auth';
 import initializeService from './Services';
 import { IService } from './Services/IService';
-import {DiscordClient} from "./DiscordClient";
+import { DiscordClient } from './DiscordClient';
 import { isNil } from 'lodash';
-import {WebClient} from "./WebClient";
+import { WebClient } from './WebClient';
 
 declare global {
 	namespace NodeJS {
@@ -37,7 +37,7 @@ if (!token) {
 	discord.login(token);
 }
 
-if(settings.eventSource === 'online') {
+if (settings.allowWebRequests) {
 	webClient.listen();
 }
 
@@ -83,4 +83,3 @@ if(settings.eventSource === 'online') {
 // 		res.send(e);
 // 	}
 // });
-

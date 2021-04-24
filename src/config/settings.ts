@@ -38,6 +38,7 @@ export const settings = {
 		playSound: 'playSound',
 		stop: 'stop',
 	},
+	allowWebRequests: true,
 	eventSource: 'firestore',
 	onlineSourceUrl: 'http://localhost:8000/graphql',
 	colors: {
