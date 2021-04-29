@@ -2,6 +2,7 @@ import { find, isEmpty, isNil } from 'lodash';
 import { statInsightRichEmbed } from '../../Common';
 import { Collection, GuildMember } from 'discord.js';
 import { IMessageList, ReplyType } from '../../Models/AppModels';
+import { InvalidInputError } from '../../Common/Errors/InvalidInputError';
 
 class StatInsightManager {
 	async checkStat(
@@ -22,7 +23,7 @@ class StatInsightManager {
 			}
 			return { type: ReplyType.Multi, value: messageList };
 		} else {
-			throw new EvalError('Channel has no members!');
+			throw new InvalidInputError('Channel has no members!');
 		}
 	}
 }

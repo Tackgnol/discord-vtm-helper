@@ -1,5 +1,6 @@
 import { find, get, isNil } from 'lodash';
 import { IEvent, INarration } from '../../Models/GameData';
+import { InvalidInputError } from '../../Common/Errors/InvalidInputError';
 
 const getNarration = (sessionData: any, query: Partial<IEvent>): INarration => {
 	const currentSession = get(sessionData, 'narrationeventSet');
@@ -7,7 +8,7 @@ const getNarration = (sessionData: any, query: Partial<IEvent>): INarration => {
 	if (!isNil(narrationPiece)) {
 		return narrationPiece;
 	} else {
-		throw new EvalError('Test not found!');
+		throw new InvalidInputError('Narration not found!');
 	}
 };
 

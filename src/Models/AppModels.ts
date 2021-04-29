@@ -1,5 +1,5 @@
 import { IEvent, IGlobalTest, IMultiPlayerMessage, INarration, IPlayer, IStatInsight } from './GameData';
-import { GuildMember, MessageAttachment, MessageEmbed, User } from 'discord.js';
+import { GuildMember, Message, MessageAttachment, MessageEmbed, TextChannel, User } from 'discord.js';
 
 export interface IActiveSession {
 	channelId: string;
@@ -49,4 +49,10 @@ export enum ReplyType {
 	Channel,
 	Multi,
 	ReactionOneTen,
+	NoReply,
+}
+
+export interface IReplyChannels {
+	message?: Message;
+	channel?: TextChannel;
 }

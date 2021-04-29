@@ -2,7 +2,6 @@ import { Collection, GuildMember } from 'discord.js';
 import { IEvent } from '../Models/GameData';
 
 import { settings } from '../config/settings';
-
 import getGlobalTest from './GlobalTestGetter';
 
 import getStatInsight from './StatInsightHandler';
@@ -16,6 +15,7 @@ import StatInsightManager from '../EventManagers/StatInsightManager';
 import { AdminManager } from '../EventManagers';
 import MultiMessageManager from '../EventManagers/MultiMessageManager';
 import { IReply } from '../Models/AppModels';
+import { InvalidInputError } from '../Common/Errors/InvalidInputError';
 
 class Handler {
 	private globalTestManager: GlobalTestManager;
@@ -69,9 +69,9 @@ class Handler {
 					const { npcSet } = await global.service.GetPlayer(messageAuthor, gameId);
 					return this.npcManager.handle(query.eventName ?? '', npcSet);
 				}
-				throw new EvalError('No Author supplied!');
+				throw new InvalidInputError('Message author not found');
 			default:
-				throw new EvalError('Unknown command!');
+				throw new InvalidInputError('Unknown command');
 		}
 	}
 }

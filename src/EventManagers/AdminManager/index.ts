@@ -10,7 +10,7 @@ import {
 } from './validators';
 import { trim } from 'lodash';
 import { IStat } from '../../Models/GameData';
-import { errorName } from '../../Common/Errors';
+import { errorName, InvalidInputError } from '../../Common/Errors';
 import { IReply, ReplyType } from '../../Models/AppModels';
 import { MessageEmbed } from 'discord.js';
 
@@ -52,10 +52,10 @@ export class AdminManager {
 				result = await this.assignAdminToChannel(authorId, channelId);
 				break;
 			default:
-				throw new EvalError('Unknown admin command!');
+				throw new InvalidInputError('Invalid admin command!');
 		}
 		if (!result) {
-			throw EvalError('No reply available');
+			throw new InvalidInputError('No reply available');
 		}
 		return { type: ReplyType.Personal, value: result };
 	}

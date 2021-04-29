@@ -1,5 +1,6 @@
 import { find, get, isNil } from 'lodash';
 import { IEvent, IStatInsight } from '../../Models/GameData';
+import { InvalidInputError } from '../../Common/Errors/InvalidInputError';
 
 const getStatInsight = (sessionData: any, query: Partial<IEvent>): IStatInsight => {
 	const currentSession = get(sessionData, 'statinsightSet');
@@ -7,7 +8,7 @@ const getStatInsight = (sessionData: any, query: Partial<IEvent>): IStatInsight 
 	if (!isNil(displayTest)) {
 		return displayTest;
 	} else {
-		throw new EvalError('Test not found!');
+		throw new InvalidInputError('Test not found!');
 	}
 };
 

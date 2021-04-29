@@ -1,23 +1,24 @@
-import {Client, Message, TextChannel} from "discord.js";
-import {isAdminCommand, parseCommandMessage, parseEventMessage} from "../Common";
-import {find, findIndex, isArray, isNil} from "lodash";
-import {isNPCCommand} from "../Common/isNPCCommand";
-import {settings} from "../config/settings";
-import {getSelectedChannel} from "./utils";
-import Handler from "../Handlers/handler";
-import {IEvent} from "../Models/GameData";
-import {IActiveSession, IGame, IReply, ReplyType} from "../Models/AppModels";
-import {addReactionNumbers} from "../Common/addReactionNumbers";
+import { Client, Message, TextChannel } from 'discord.js';
+import { isAdminCommand, parseCommandMessage, parseEventMessage } from '../Common';
+import { find, findIndex, isArray, isNil } from 'lodash';
+import { isNPCCommand } from '../Common/isNPCCommand';
+import { settings } from '../config/settings';
+import { canReplyTo, getSelectedChannel, sendWrapper } from './utils';
+import Handler from '../Handlers/handler';
+import { IEvent } from '../Models/GameData';
+import { IActiveSession, IGame, IReply, IReplyChannels, ReplyType } from '../Models/AppModels';
+import { addReactionNumbers } from '../Common/addReactionNumbers';
+import { InvalidInputError } from '../Common/Errors/InvalidInputError';
 
 export class DiscordClient {
 	private handler: Handler;
-	private readonly activeSessions: IActiveSession[]
+	private readonly activeSessions: IActiveSession[];
 	constructor(private discord: Client) {
 		this.handler = new Handler();
-		this.activeSessions = []
+		this.activeSessions = [];
 	}
 
-	async processMessage(message:Message) {
+	async processMessage(message: Message) {
 		const messageContent = message.content;
 		const channelId = message.channel.id;
 		const channel = await this.discord.channels.fetch(channelId);
@@ -28,12 +29,16 @@ export class DiscordClient {
 		} else {
 			currentGame = games.find(g => g.current);
 		}
-		if (currentGame) {
+		if (currentGame && canReplyTo(channel)) {
 			if (channel?.type === 'dm') {
-				await this.processDirectMessage(messageContent, <TextChannel>message.channel, currentGame.id, message);
-				return;
+				sendWrapper(this.processDirectMessage(messageContent, currentGame.id, message), this.send, {
+					message,
+				});
+			} else {
+				sendWrapper(this.processChannelMessage(messageContent, <TextChannel>channel, currentGame.id, message), this.send, {
+					message,
+				});
 			}
-			this.processChannelMessage(messageContent, <TextChannel>channel, currentGame.id, message);
 		}
 	}
 
@@ -45,18 +50,23 @@ export class DiscordClient {
 		if (content.startsWith('!')) {
 			const parsedEventMessage = parseEventMessage(content);
 			if (!isNil(parsedEventMessage)) {
-				this.handleEvent(parsedEventMessage, channel, gameId, message);
-				return;
+				return sendWrapper(this.handleEvent(parsedEventMessage, channel, gameId, message), this.send, { channel });
 			}
 			const activeSession = find(this.activeSessions, s => s.channelId === channel.id);
 			const parsedCommandMessage = parseCommandMessage(content, activeSession);
 			if (!isNil(parsedCommandMessage)) {
-				this.handler.handle(channel.id, parsedEventMessage, gameId, message?.author.id ?? '', channel.members);
+				return sendWrapper(
+					this.handler.handle(channel.id, parsedEventMessage, gameId, message?.author.id ?? '', channel.members),
+					this.send,
+					{ channel }
+				);
 			}
+			throw new InvalidInputError('Invalid bot command');
 		}
-	};
+		throw new InvalidInputError('All bot commands must start with "!"');
+	}
 
-	private handleEvent (parsedEventMessage: Partial<IEvent>, channel: TextChannel, gameId: string, message?: Message) {
+	private handleEvent(parsedEventMessage: Partial<IEvent>, channel: TextChannel, gameId: string, message?: Message) {
 		const sessionIndex = findIndex(this.activeSessions, (s: IActiveSession) => s.channelId === channel.id);
 		if (sessionIndex === -1) {
 			this.activeSessions.push({
@@ -72,60 +82,60 @@ export class DiscordClient {
 			};
 		}
 
-		this.handler
-			.handle(channel.id, parsedEventMessage, gameId, message?.author.id ?? '0', channel.members)
-			.then(r => {
-				this.send(r, channel, message);
-			})
-			.catch(e => {
-				console.log(e);
-			});
-	};
+		return sendWrapper(
+			this.handler.handle(channel.id, parsedEventMessage, gameId, message?.author.id ?? '0', channel.members),
+			this.send,
+			{ channel, message }
+		);
+	}
 
-
-	private async processDirectMessage (content: string, channel: TextChannel, gameId: string, message: Message) {
+	private async processDirectMessage(content: string, gameId: string, message: Message) {
 		if (message.author.bot) {
-			return;
+			return new Promise<IReply>(resolve => {
+				resolve({ value: '', type: ReplyType.NoReply });
+			});
 		}
 		if (content.startsWith('!')) {
 			const parsedEventMessage = parseEventMessage(message.content);
 			if (isAdminCommand(content) || isNPCCommand(content)) {
 				const activeSession = await getSelectedChannel(message.author.id);
 				if (!activeSession) {
-					message.author.send(settings.lines.noChannels);
+					throw new InvalidInputError(settings.lines.noChannels);
 				}
 
 				const messageChannel = await this.discord.channels.fetch(activeSession.channelId);
 
 				if (messageChannel.isText()) {
-					this.handler
-						.handle(activeSession.channelId, parsedEventMessage, gameId, message.author.id, (<TextChannel>messageChannel).members)
-						.then(r => {
-							this.send(r, messageChannel as TextChannel, message);
-						});
+					return sendWrapper(
+						this.handler.handle(
+							activeSession.channelId,
+							parsedEventMessage,
+							gameId,
+							message.author.id,
+							(<TextChannel>messageChannel).members
+						),
+						this.send,
+						{ message, channel: <TextChannel>messageChannel }
+					);
 				}
+				throw new InvalidInputError('Cannot reply to this channel!');
 			}
+			throw new InvalidInputError('Unknown command!');
 		} else {
-			channel
-				.send(
-					'I am sorry master, you cannot speak to me directly...yet... but I am at your command, start with !vtm- then your command type and command'
-				)
-				.catch(() => {
-					console.log('DM error, carry on nothing to se here..');
-				});
+			throw new InvalidInputError('All bot messages must begin with a "!"');
 		}
-	};
+	}
 
-	private send(reply: IReply, channel?: TextChannel, message?: Message) {
+	private send(reply: IReply, replyTo: IReplyChannels) {
 		switch (reply.type) {
 			case ReplyType.Channel:
-				channel?.send(reply.value);
+				replyTo.channel?.send(reply.value);
 				break;
 			case ReplyType.Personal:
-				message?.author.send(reply.value);
+				replyTo.message?.author.send(reply.value);
 				break;
 			case ReplyType.ReactionOneTen:
-				channel?.send(reply.value).then(m => {
+				replyTo.channel?.send(reply.value).then(m => {
 					addReactionNumbers(m);
 				});
 				break;
@@ -135,11 +145,13 @@ export class DiscordClient {
 						v.recipient.send(v.message);
 					});
 				} else {
-					throw new EvalError('Expected an Array received object');
+					throw new InvalidInputError('Invalid test definition!');
 				}
 				break;
+			case ReplyType.NoReply:
+				return;
 			default:
-				throw new Error('Invalid message type');
+				throw new InvalidInputError('Invalid message type');
 		}
-	};
+	}
 }
