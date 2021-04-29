@@ -1,7 +1,9 @@
 export class InvalidInputError extends Error {
-	constructor(args? : string){
+	botMessage: string;
+	constructor(botMessage: string, args?: string) {
 		super(args);
-		this.name = "Invalid user input"
+		this.name = 'Invalid user input';
+		this.botMessage = botMessage;
 	}
 }
 

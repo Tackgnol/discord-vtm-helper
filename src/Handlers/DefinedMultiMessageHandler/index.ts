@@ -1,5 +1,6 @@
 import { find, get, isNil } from 'lodash';
 import { IEvent, IMultiUserMessage } from '../../Models/GameData';
+import { InvalidInputError } from '../../Common/Errors/InvalidInputError';
 
 export const getMultiMessage = (sessionData: any, query: Partial<IEvent>): IMultiUserMessage => {
 	const currentSession = get(sessionData, 'multiMessage');
@@ -8,6 +9,6 @@ export const getMultiMessage = (sessionData: any, query: Partial<IEvent>): IMult
 		const { messageObject } = displayTest;
 		return messageObject;
 	} else {
-		throw new EvalError('Test not found!');
+		throw new InvalidInputError('Test not found!');
 	}
 };

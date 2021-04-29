@@ -1,6 +1,7 @@
 import TurndownService from 'turndown';
 import { MessageEmbed } from 'discord.js';
 import { settings } from '../../config/settings';
+import { InvalidInputError } from '../Errors/InvalidInputError';
 
 export const globalTestRichEmbedInit = (testText: string = '', added = false) => {
 	const turndownService = new TurndownService();
@@ -16,7 +17,7 @@ export const globalTestRichEmbedResult = (replyPrefix: string, reply: string | n
 	const markdownPrefix = turndownService.turndown(replyPrefix);
 	const markdownReply = turndownService.turndown(reply);
 	if (!reply) {
-		throw EvalError('No Reply provided');
+		throw new InvalidInputError('No message available!');
 	}
 	return new MessageEmbed()
 		.setTitle(settings.lines.globalTestReply)

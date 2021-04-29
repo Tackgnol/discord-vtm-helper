@@ -3,6 +3,7 @@ import { settings } from '../../config/settings';
 import { npcListRichEmbed, npcRichEmbed } from '../../Common';
 import { IFactSet } from '../../Models/GameData';
 import { IReply, ReplyType } from '../../Models/AppModels';
+import { InvalidInputError } from '../../Common/Errors/InvalidInputError';
 
 class NPCManager {
 	handle(eventType: string, factSet: IFactSet[]): IReply {
@@ -30,7 +31,7 @@ class NPCManager {
 		if (npc) {
 			return { type: ReplyType.Personal, value: npcRichEmbed(npc) };
 		} else {
-			throw new EvalError('NPC not found!');
+			throw new InvalidInputError('NPC not found!');
 		}
 	}
 }
