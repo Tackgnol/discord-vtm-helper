@@ -4,7 +4,7 @@ import { IEvent } from '../Models/GameData';
 import { settings } from '../config/settings';
 import getGlobalTest from './GlobalTestGetter/globalTestGetter';
 
-import getStatInsight from './StatInsightHandler';
+import getStatInsight from './StatInsightHandler/statInsightGetter';
 import { getMultiMessage } from './DefinedMultiMessageHandler';
 
 import getNarration from './NarrationGetter/narrationGetter';
