@@ -2,12 +2,12 @@ import { Collection, GuildMember } from 'discord.js';
 import { IEvent } from '../Models/GameData';
 
 import { settings } from '../config/settings';
-import getGlobalTest from './GlobalTestGetter';
+import getGlobalTest from './GlobalTestGetter/globalTestGetter';
 
 import getStatInsight from './StatInsightHandler';
 import { getMultiMessage } from './DefinedMultiMessageHandler';
 
-import getNarration from './NarrationGetter';
+import getNarration from './NarrationGetter/narrationGetter';
 import { GlobalTestManager } from '../EventManagers';
 import NarrationManager from '../EventManagers/NarrationManager';
 import NPCManager from '../EventManagers/NPCManager/NPCManager';

@@ -6,6 +6,7 @@ import { IService } from './Services/IService';
 import { DiscordClient } from './DiscordClient';
 import { isNil } from 'lodash';
 import { WebClient } from './WebClient';
+import 'chai/register-expect';
 
 declare global {
 	namespace NodeJS {
