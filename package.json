@@ -21,7 +21,8 @@
   },
   "scripts": {
     "start": "tsc &&  node build/index.js",
-    "start:watch": "nodemon"
+    "start:watch": "nodemon",
+		"test": "mocha"
   },
   "devDependencies": {
     "@types/chai": "^4.2.17",
