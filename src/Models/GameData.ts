@@ -1,5 +1,3 @@
-import { User } from 'discord.js';
-
 export interface IEvent {
 	eventName: string;
 	prefix: string;
@@ -26,13 +24,8 @@ export interface IVersionOption {
 }
 
 export interface IMultiUserMessage {
-	userList: User[];
+	userList: string[];
 	value: string;
-}
-
-export interface IFactSet {
-	npc: INPC;
-	facts: string[];
 }
 
 export interface INarration {
@@ -57,14 +50,15 @@ export interface IStatInsight {
 }
 
 export interface IMultiPlayerMessage {
-	userList: User[];
+	name: string;
+	userList: string[];
 	message: string;
 }
 
 export interface IPlayer {
 	id: string;
 	discordUserName: string;
-	npcSet: IFactSet[];
+	npcSet: INPC[];
 	statisticsSet: IStat[];
 }
 

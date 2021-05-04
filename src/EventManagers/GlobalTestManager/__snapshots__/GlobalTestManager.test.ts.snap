@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventManagers >> GlobalTestManager >> GlobalTestManager can perform a full test 1`] = `
+Object {
+  "type": 0,
+  "value": Object {
+    "author": null,
+    "color": 9044739,
+    "description": null,
+    "fields": Array [
+      Object {
+        "inline": false,
+        "name": "testPrefix",
+        "value": "result for 1 result for 2",
+      },
+    ],
+    "footer": null,
+    "image": null,
+    "thumbnail": null,
+    "timestamp": null,
+    "title": "Trust thine instincts, however deceitful they may be",
+    "type": "rich",
+    "url": null,
+  },
+}
+`;
+
+exports[`EventManagers >> GlobalTestManager >> GlobalTestManager can perform a short circuit test 1`] = `
+Object {
+  "type": 0,
+  "value": Object {
+    "author": null,
+    "color": 9044739,
+    "description": null,
+    "fields": Array [
+      Object {
+        "inline": false,
+        "name": "testPrefix",
+        "value": "result for 2",
+      },
+    ],
+    "footer": null,
+    "image": null,
+    "thumbnail": null,
+    "timestamp": null,
+    "title": "Trust thine instincts, however deceitful they may be",
+    "type": "rich",
+    "url": null,
+  },
+}
+`;
+
+exports[`EventManagers >> GlobalTestManager >> GlobalTestManager returns a proper value on to low of a score 1`] = `
+Object {
+  "type": 0,
+  "value": Object {
+    "author": null,
+    "color": 9044739,
+    "description": null,
+    "fields": Array [
+      Object {
+        "inline": false,
+        "name": "testPrefix",
+        "value": "You can't seem to figure it out...",
+      },
+    ],
+    "footer": null,
+    "image": null,
+    "thumbnail": null,
+    "timestamp": null,
+    "title": "Trust thine instincts, however deceitful they may be",
+    "type": "rich",
+    "url": null,
+  },
+}
+`;

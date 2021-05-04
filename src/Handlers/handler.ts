@@ -2,14 +2,14 @@ import { Collection, GuildMember } from 'discord.js';
 import { IEvent } from '../Models/GameData';
 
 import { settings } from '../config/settings';
-import getGlobalTest from './GlobalTestGetter';
+import getGlobalTest from './GlobalTestGetter/globalTestGetter';
 
-import getStatInsight from './StatInsightHandler';
+import getStatInsight from './StatInsightHandler/statInsightGetter';
 import { getMultiMessage } from './DefinedMultiMessageHandler';
 
-import getNarration from './NarrationGetter';
+import getNarration from './NarrationGetter/narrationGetter';
 import { GlobalTestManager } from '../EventManagers';
-import NarrationManager from '../EventManagers/NarrationManager';
+import NarrationManager from '../EventManagers/NarrationManager/NarrationManager';
 import NPCManager from '../EventManagers/NPCManager/NPCManager';
 import StatInsightManager from '../EventManagers/StatInsightManager';
 import { AdminManager } from '../EventManagers';
@@ -67,7 +67,7 @@ class Handler {
 			case subPrefixes.npcs:
 				if (messageAuthor) {
 					const { npcSet } = await global.service.GetPlayer(messageAuthor, gameId);
-					return this.npcManager.handle(query.eventName ?? '', npcSet);
+					return this.npcManager.displayNPCInfo(query.eventName ?? '', npcSet);
 				}
 				throw new InvalidInputError('Message author not found');
 			default:

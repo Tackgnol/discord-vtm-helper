@@ -167,7 +167,7 @@ class FirebaseService implements IService {
 		const channel = gameData.channels[channelIndex];
 		const narrationEvents = channel.narrationeventSet ? channel.narrationeventSet : {};
 		const newNarrationEvent = { name, image, narrationText };
-		channel.narrationeventSet = [...narrationEvents, newNarrationEvent];
+		channel.narrationSet = [...narrationEvents, newNarrationEvent];
 		gameData.channels[channelIndex] = channel;
 		return this.games
 			.doc(game.docs[0].id)

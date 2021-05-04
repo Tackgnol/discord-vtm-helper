@@ -1,46 +1,24 @@
 import NPCManager from './NPCManager';
+import { playerMock } from '../../Mocks/SessionDataMocks/PlayerMock';
+import { allNPCs, existingNPC, nonExistentNPC } from '../../Mocks/QueryMocks/npcQuery';
 import { expect } from 'chai';
 
-describe('Managers > NPCManager test', () => {
-	const npcData = [
-		{
-			npc: {
-				name: 'test',
-				description: 'this is a description',
-				image: 'image',
-				facts: ['fact1', 'fact2'],
-				callName: 'test',
-			},
-			facts: ['fact1'],
-		},
-		{
-			npc: {
-				name: 'testy',
-				description: 'this is a description for the second',
-				image: '',
-				facts: ['fact3', 'fact4'],
-				callName: 'testy',
-			},
-			facts: ['fact4'],
-		},
-	];
-	const npcManager = new NPCManager();
-	it('returns a requested npc', () => {
-		const result = npcManager.oneNPC(npcData, 'testy');
-		expect(result).to.deep.eq({
-			npc: {
-				name: 'testy',
-				description: 'this is a description for the second',
-				image: '',
-				facts: ['fact3', 'fact4'],
-				callName: 'testy',
-			},
-			facts: ['fact4'],
-		});
+describe('EventManagers >> NPCManager >> NPCManager', () => {
+	const manager = new NPCManager();
+
+	it('displays all npcs for the game', () => {
+		const result = manager.displayNPCInfo(allNPCs.eventName ?? 'all', playerMock.npcSet);
+		expect(result).toMatchSnapshot();
 	});
 
-	it('returns all npc on asking', () => {
-		const result = npcManager.allNPCs(npcData);
-		expect(result).to.deep.eq(npcData);
+	it('displays a requested npc if one exists', () => {
+		const result = manager.displayNPCInfo(existingNPC.eventName ?? 'all', playerMock.npcSet);
+		expect(result).toMatchSnapshot();
+	});
+
+	it('throws an error when requesting a non-existent npc', () => {
+		expect(() => {
+			manager.displayNPCInfo(nonExistentNPC.eventName ?? 'all', playerMock.npcSet);
+		}).to.throw;
 	});
 });

@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventManagers >> NPCManager >> NPCManager displays a requested npc if one exists 1`] = `
+Object {
+  "type": 0,
+  "value": Object {
+    "author": null,
+    "color": 5832961,
+    "description": "this is a test",
+    "fields": Array [
+      Object {
+        "inline": false,
+        "name": "Facts:",
+        "value": "- fact1
+- fact2",
+      },
+    ],
+    "footer": null,
+    "image": null,
+    "thumbnail": Object {
+      "url": "placeholder",
+    },
+    "timestamp": null,
+    "title": "Test",
+    "type": "rich",
+    "url": null,
+  },
+}
+`;
+
+exports[`EventManagers >> NPCManager >> NPCManager displays all npcs for the game 1`] = `
+Object {
+  "type": 0,
+  "value": Object {
+    "author": null,
+    "color": 9044739,
+    "description": "- Test call upon !vtm-npcs-testWithFacts
+- Test call upon !vtm-npcs-testWithout",
+    "fields": Array [],
+    "footer": null,
+    "image": null,
+    "thumbnail": null,
+    "timestamp": null,
+    "title": "Speak of which thou desire knowledge",
+    "type": "rich",
+    "url": null,
+  },
+}
+`;

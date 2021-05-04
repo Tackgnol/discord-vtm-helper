@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventManagers >> NarrationManager >> NarrationManager generates a proper narration 1`] = `
+Object {
+  "type": 1,
+  "value": Object {
+    "author": null,
+    "color": 9044739,
+    "description": "this is a narration text",
+    "fields": Array [],
+    "footer": null,
+    "image": Object {
+      "url": "urlToImage",
+    },
+    "thumbnail": null,
+    "timestamp": null,
+    "title": "Silence, as I show what thy must see!",
+    "type": "rich",
+    "url": null,
+  },
+}
+`;
