@@ -1,4 +1,3 @@
-import { isEmpty } from 'lodash';
 import InvalidInputError from './Errors/InvalidInputError';
 import { settings } from '../config/settings';
 import { IEvent } from '../Models/GameData';
@@ -13,10 +12,13 @@ export const parseEventMessage = (message: string): Partial<IEvent> => {
 	if (!prefix || !type || !eventName) {
 		throw new InvalidInputError('prefix, type or event name missing');
 	}
-	return {
+	const parsed: Partial<IEvent> = {
 		prefix,
 		type,
 		eventName,
-		value,
 	};
+	if (value) {
+		parsed.value = value;
+	}
+	return parsed;
 };

@@ -4,32 +4,37 @@ export const statInsightLower: Partial<IEvent> = {
 	eventName: 'test',
 	type: 'si',
 	value: '1',
-	prefix: 'vtm',
+	prefix: '!vtm',
 };
 
 export const statInsightEqual: Partial<IEvent> = {
 	eventName: 'test',
 	type: 'si',
 	value: '2',
-	prefix: 'vtm',
+	prefix: '!vtm',
 };
 
 export const statInsightHigher: Partial<IEvent> = {
 	eventName: 'test',
 	type: 'si',
 	value: '3',
-	prefix: 'vtm',
+	prefix: '!vtm',
 };
 
 export const nonExistentStatInsight: Partial<IEvent> = {
 	eventName: 'nonExistent',
 	type: 'si',
 	value: '3',
-	prefix: 'vtm',
+	prefix: '!vtm',
 };
 
 export const statInsightNoValue: Partial<IEvent> = {
 	eventName: 'test',
 	type: 'si',
-	prefix: 'vtm',
+	prefix: '!vtm',
+};
+
+export const channelStatInsight = {
+	message: `${statInsightNoValue.prefix}-${statInsightNoValue.type}-${statInsightNoValue.eventName}`,
+	result: statInsightNoValue,
 };

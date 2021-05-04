@@ -11,3 +11,8 @@ export const nonExistentMultiMessage: Partial<IEvent> = {
 	type: 'mm',
 	prefix: '!vtm',
 };
+
+export const channelMultiMessage = {
+	message: `${multiMessageQuery.prefix}-${multiMessageQuery.type}-${multiMessageQuery.eventName}`,
+	result: { ...multiMessageQuery },
+};

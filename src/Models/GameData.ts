@@ -28,11 +28,6 @@ export interface IMultiUserMessage {
 	value: string;
 }
 
-export interface IFactSet {
-	npc: INPC;
-	facts: string[];
-}
-
 export interface INarration {
 	name: string;
 	narrationText: string;
@@ -63,7 +58,7 @@ export interface IMultiPlayerMessage {
 export interface IPlayer {
 	id: string;
 	discordUserName: string;
-	npcSet: IFactSet[];
+	npcSet: INPC[];
 	statisticsSet: IStat[];
 }
 
