@@ -1,5 +1,5 @@
 import { IEvent, IGlobalTest, IMultiPlayerMessage, INarration, IPlayer, IStatInsight } from './GameData';
-import { GuildMember, Message, MessageAttachment, MessageEmbed, TextChannel, User } from 'discord.js';
+import { Message, MessageAttachment, MessageEmbed, TextChannel } from 'discord.js';
 
 export interface IActiveSession {
 	channelId: string;
@@ -35,7 +35,7 @@ export interface IGame {
 }
 
 export interface IMessageList {
-	recipient: GuildMember | User;
+	recipient: string;
 	message: MessageEmbed | string;
 }
 

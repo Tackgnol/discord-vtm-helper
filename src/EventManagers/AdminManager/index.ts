@@ -13,8 +13,12 @@ import { IStat } from '../../Models/GameData';
 import { errorName, InvalidInputError } from '../../Common/Errors';
 import { IReply, ReplyType } from '../../Models/AppModels';
 import { MessageEmbed } from 'discord.js';
+import { IService } from '../../Services/IService';
 
 export class AdminManager {
+	constructor(private service: IService) {
+		this.service = service;
+	}
 	async fireEvent(eventName: string, value: string, gameId: string, channelId: string, authorId: string): Promise<IReply> {
 		const {
 			addPlayer,
@@ -90,7 +94,7 @@ export class AdminManager {
 					statArray.push({ name: statName, value: +statValue });
 				}
 			}
-			const result = await global.service.AddPlayer(name, id, statArray, channelId);
+			const result = await this.service.AddPlayer(name, id, statArray, channelId);
 			if (result) {
 				return playerRichEmbed(name, id, statArray);
 			} else {
@@ -113,7 +117,7 @@ export class AdminManager {
 			const callName = parsed[2];
 			const image = parsed[3];
 			const description = parsed[4];
-			const result = await global.service.AddNPC(name, callName, image, description, gameId);
+			const result = await this.service.AddNPC(name, callName, image, description, gameId);
 			if (result) {
 				return npcRichEmbed(result, true, true);
 			} else {
@@ -137,7 +141,7 @@ export class AdminManager {
 			const playerList = parsed[2] ? parsed[2].split(',').map(p => trim(p)) : [];
 			const factList = parsed[3] ? parsed[3].split(',').map(f => trim(f)) : [];
 			for (const p of playerList) {
-				const result = await global.service.AddFactsToNPC(p, callName, factList, gameId);
+				const result = await this.service.AddFactsToNPC(p, callName, factList, gameId);
 				results.push(result);
 			}
 			return results.toString();
@@ -157,7 +161,7 @@ export class AdminManager {
 			const callName = parsed[1];
 			const image = parsed[2];
 			const description = parsed[3];
-			const result = await global.service.AddNarration(callName, image, description, channelId, gameId);
+			const result = await this.service.AddNarration(callName, image, description, channelId, gameId);
 			if (result) {
 				return narrationRichEmbed(result.narrationText, result.image, true);
 			} else {
@@ -180,7 +184,7 @@ export class AdminManager {
 			const statName = parsed[2];
 			const statValue = +parsed[3];
 			const successMessage = parsed[4];
-			const result = await global.service.AddStatInsight(eventName, statName, statValue, successMessage, channelId, gameId);
+			const result = await this.service.AddStatInsight(eventName, statName, statValue, successMessage, channelId, gameId);
 			if (result) {
 				return statInsightRichEmbed(statName, +statValue, successMessage, true);
 			} else {
@@ -214,7 +218,7 @@ export class AdminManager {
 				};
 			});
 
-			return global.service
+			return this.service
 				.AddGlobalTest(eventName, testMessage, Boolean(shortCircuit), replyPrefix, optionsArray ?? [], channelId, gameId)
 				.then(() => {
 					return globalTestRichEmbedInit(testMessage, true);
@@ -230,7 +234,7 @@ export class AdminManager {
 	}
 
 	private async assignAdminToChannel(authorId: string, channelId: string) {
-		return global.service
+		return this.service
 			.AssignGameAdmin(authorId, channelId, '216a9908-2766-42cc-be08-ea717593447a')
 			.then(() => {
 				return `Congrats you are now an admin of ${channelId}!`;

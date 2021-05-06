@@ -15,12 +15,12 @@ declare global {
 		}
 	}
 }
+const serviceType = settings.eventSource;
+const service = initializeService(serviceType);
 
 const discord = new Discord.Client();
-const serviceType = settings.eventSource;
-const discordClient = new DiscordClient(discord);
+const discordClient = new DiscordClient(discord, service);
 const webClient = new WebClient(discordClient);
-global.service = initializeService(serviceType);
 
 discord.once('ready', () => {
 	console.log('Ready!');
