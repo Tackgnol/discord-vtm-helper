@@ -11,12 +11,12 @@ import getNarration from './NarrationGetter/narrationGetter';
 import { GlobalTestManager } from '../EventManagers';
 import NarrationManager from '../EventManagers/NarrationManager/NarrationManager';
 import NPCManager from '../EventManagers/NPCManager/NPCManager';
-import StatInsightManager from '../EventManagers/StatInsightManager';
 import { AdminManager } from '../EventManagers';
-import MultiMessageManager from '../EventManagers/MultiMessageManager';
+import MultiMessageManager from '../EventManagers/MultiMessageManager/MultiMessageManager';
 import { IReply } from '../Models/AppModels';
 import { InvalidInputError } from '../Common/Errors/InvalidInputError';
 import { IService } from '../Services/IService';
+import StatInsightManager from '../EventManagers/StatInsightManager/StatInsightManager';
 
 class Handler {
 	private globalTestManager: GlobalTestManager;

@@ -1,4 +1,4 @@
 node_modules/
-src/config/auth.ts
+src/config/access.ts
 *.js
 build

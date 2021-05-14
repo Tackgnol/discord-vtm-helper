@@ -5,7 +5,7 @@ import { testNPCWithFacts, testNPCWithoutFacts } from '../SessionDataMocks/NPCMo
 import { globalTestWithShortCircuitMock } from '../SessionDataMocks/GlobalTestMocks';
 import { basicNarration } from '../SessionDataMocks/NarrationMocks';
 import { playerMock } from '../SessionDataMocks/PlayerMock';
-import { statInsightMock } from '../SessionDataMocks/StatInsightMocks';
+import { statInsightMockLow } from '../SessionDataMocks/StatInsightMocks';
 import { activeSessionMock } from '../SessionDataMocks/ActiveSessionMock';
 import { gameMock } from '../GameMock';
 
@@ -64,7 +64,7 @@ export class BackendServiceMock implements IService {
 		if (!(name || stat || value || message || channelId || gameId)) {
 			return Promise.reject('Insufficient data passed');
 		}
-		return Promise.resolve(statInsightMock);
+		return Promise.resolve(statInsightMockLow);
 	}
 
 	AssignGameAdmin(playerId: string, channelId: string, gameId: string): Promise<ISessionData> {

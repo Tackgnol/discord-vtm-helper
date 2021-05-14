@@ -1,8 +1,15 @@
 import { IStatInsight } from '../../Models/GameData';
 
-export const statInsightMock: IStatInsight = {
-	statName: 'testStat',
+export const statInsightMockLow: IStatInsight = {
+	statName: 'test',
 	successMessage: 'winner is you!',
-	minValue: 2,
+	minValue: 1,
+	name: 'test',
+};
+
+export const statInsightMockHigh: IStatInsight = {
+	statName: 'test',
+	successMessage: 'winner is you!',
+	minValue: 5,
 	name: 'test',
 };
