@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventManagers >> FreeFormMultiMessageManager >> FreeFormMultiMessageManager returns a proper message list 1`] = `
+Object {
+  "type": 2,
+  "value": Array [
+    Object {
+      "message": Object {
+        "author": null,
+        "color": 9044739,
+        "description": "test",
+        "fields": Array [],
+        "footer": null,
+        "image": null,
+        "thumbnail": null,
+        "timestamp": null,
+        "title": "Whispers in the dark... be it friend or foe or thyself?",
+        "type": "rich",
+        "url": null,
+      },
+      "recipient": "2",
+    },
+    Object {
+      "message": Object {
+        "author": null,
+        "color": 9044739,
+        "description": "test",
+        "fields": Array [],
+        "footer": null,
+        "image": null,
+        "thumbnail": null,
+        "timestamp": null,
+        "title": "Whispers in the dark... be it friend or foe or thyself?",
+        "type": "rich",
+        "url": null,
+      },
+      "recipient": "3",
+    },
+  ],
+}
+`;
