@@ -47,6 +47,36 @@ export class DiscordClient {
 		return await this.discord.channels.fetch(channelId);
 	}
 
+	send(reply: IReply, replyTo: IReplyChannels) {
+		switch (reply.type) {
+			case ReplyType.Channel:
+				replyTo.channel?.send(reply.value);
+				break;
+			case ReplyType.Personal:
+				replyTo.message?.author.send(reply.value);
+				break;
+			case ReplyType.ReactionOneTen:
+				replyTo.channel?.send(reply.value).then(m => {
+					addReactionNumbers(m);
+				});
+				break;
+			case ReplyType.Multi:
+				if (isArray(reply.value)) {
+					reply.value.forEach(v => {
+						const user = replyTo.channel?.members.get(v.recipient);
+						user && user.send(v.message);
+					});
+				} else {
+					throw new InvalidInputError('Invalid test definition!');
+				}
+				break;
+			case ReplyType.NoReply:
+				return;
+			default:
+				throw new InvalidInputError('Invalid message type');
+		}
+	}
+
 	processChannelMessage(content: string, channel: TextChannel, gameId: string, message?: Message) {
 		if (content.startsWith('!')) {
 			const parsedEventMessage = parseEventMessage(content);
@@ -127,35 +157,6 @@ export class DiscordClient {
 		}
 	}
 
-	private send(reply: IReply, replyTo: IReplyChannels) {
-		switch (reply.type) {
-			case ReplyType.Channel:
-				replyTo.channel?.send(reply.value);
-				break;
-			case ReplyType.Personal:
-				replyTo.message?.author.send(reply.value);
-				break;
-			case ReplyType.ReactionOneTen:
-				replyTo.channel?.send(reply.value).then(m => {
-					addReactionNumbers(m);
-				});
-				break;
-			case ReplyType.Multi:
-				if (isArray(reply.value)) {
-					reply.value.forEach(v => {
-						const user = replyTo.channel?.members.get(v.recipient);
-						user && user.send(v.message);
-					});
-				} else {
-					throw new InvalidInputError('Invalid test definition!');
-				}
-				break;
-			case ReplyType.NoReply:
-				return;
-			default:
-				throw new InvalidInputError('Invalid message type');
-		}
-	}
 	private getSelectedChannel = async (adminId: string): Promise<ISessionData> => {
 		const games = await this.service.GetUserChannels(adminId);
 		const currentGame = games.find(g => g.current);

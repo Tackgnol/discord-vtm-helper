@@ -1,5 +1,5 @@
-export * from './AdminManager';
-export * from './FreeFormMultiMessageManager';
+export * from './AdminManager/AdminManager';
+export * from './FreeFormMultiMessageManager/FreeFormMultiMessageManager';
 export * from './GlobalTestManager/GlobalTestManager';
 export * from './MultiMessageManager/MultiMessageManager';
 export * from './NarrationManager/NarrationManager';
