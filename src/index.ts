@@ -1,6 +1,6 @@
 import Discord from 'discord.js';
 import { settings } from './config/settings';
-import { Auth } from './config/auth';
+import { Auth } from './config/access';
 import initializeService from './Services';
 import { IService } from './Services/IService';
 import { DiscordClient } from './DiscordClient';
@@ -15,12 +15,12 @@ declare global {
 		}
 	}
 }
+const serviceType = settings.eventSource;
+const service = initializeService(serviceType);
 
 const discord = new Discord.Client();
-const serviceType = settings.eventSource;
-const discordClient = new DiscordClient(discord);
+const discordClient = new DiscordClient(discord, service);
 const webClient = new WebClient(discordClient);
-global.service = initializeService(serviceType);
 
 discord.once('ready', () => {
 	console.log('Ready!');

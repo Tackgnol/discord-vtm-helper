@@ -1,7 +1,7 @@
 import { FirebaseError } from '../../Common/Errors';
 import { IGame, ISessionData } from '../../Models/AppModels';
 import firebase, { firestore } from 'firebase';
-import { Auth } from '../../config/auth';
+import { Auth } from '../../config/access';
 import {
 	IGlobalTest,
 	INarration,

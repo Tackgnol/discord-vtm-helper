@@ -3,18 +3,19 @@ import { isAdminCommand, parseCommandMessage, parseEventMessage } from '../Commo
 import { find, findIndex, isArray, isNil } from 'lodash';
 import { isNPCCommand } from '../Common/isNPCCommand';
 import { settings } from '../config/settings';
-import { canReplyTo, getSelectedChannel, sendWrapper } from './utils';
+import { canReplyTo, sendWrapper } from './utils';
 import Handler from '../Handlers/handler';
 import { IEvent } from '../Models/GameData';
-import { IActiveSession, IGame, IReply, IReplyChannels, ReplyType } from '../Models/AppModels';
+import { IActiveSession, IGame, IReply, IReplyChannels, ISessionData, ReplyType } from '../Models/AppModels';
 import { addReactionNumbers } from '../Common/addReactionNumbers';
 import { InvalidInputError } from '../Common/Errors/InvalidInputError';
+import { IService } from '../Services/IService';
 
 export class DiscordClient {
 	private handler: Handler;
 	private readonly activeSessions: IActiveSession[];
-	constructor(private discord: Client) {
-		this.handler = new Handler();
+	constructor(private discord: Client, private service: IService) {
+		this.handler = new Handler(service);
 		this.activeSessions = [];
 	}
 
@@ -22,7 +23,7 @@ export class DiscordClient {
 		const messageContent = message.content;
 		const channelId = message.channel.id;
 		const channel = await this.discord.channels.fetch(channelId);
-		const games = await global.service.GetUserChannels(message.author.id);
+		const games = await this.service.GetUserChannels(message.author.id);
 		let currentGame: IGame | undefined;
 		if (games.length === 1) {
 			currentGame = games[0];
@@ -44,6 +45,36 @@ export class DiscordClient {
 
 	async fetchChannel(channelId: string) {
 		return await this.discord.channels.fetch(channelId);
+	}
+
+	send(reply: IReply, replyTo: IReplyChannels) {
+		switch (reply.type) {
+			case ReplyType.Channel:
+				replyTo.channel?.send(reply.value);
+				break;
+			case ReplyType.Personal:
+				replyTo.message?.author.send(reply.value);
+				break;
+			case ReplyType.ReactionOneTen:
+				replyTo.channel?.send(reply.value).then(m => {
+					addReactionNumbers(m);
+				});
+				break;
+			case ReplyType.Multi:
+				if (isArray(reply.value)) {
+					reply.value.forEach(v => {
+						const user = replyTo.channel?.members.get(v.recipient);
+						user && user.send(v.message);
+					});
+				} else {
+					throw new InvalidInputError('Invalid test definition!');
+				}
+				break;
+			case ReplyType.NoReply:
+				return;
+			default:
+				throw new InvalidInputError('Invalid message type');
+		}
 	}
 
 	processChannelMessage(content: string, channel: TextChannel, gameId: string, message?: Message) {
@@ -98,7 +129,7 @@ export class DiscordClient {
 		if (content.startsWith('!')) {
 			const parsedEventMessage = parseEventMessage(message.content);
 			if (isAdminCommand(content) || isNPCCommand(content)) {
-				const activeSession = await getSelectedChannel(message.author.id);
+				const activeSession = await this.getSelectedChannel(message.author.id);
 				if (!activeSession) {
 					throw new InvalidInputError(settings.lines.noChannels);
 				}
@@ -126,32 +157,16 @@ export class DiscordClient {
 		}
 	}
 
-	private send(reply: IReply, replyTo: IReplyChannels) {
-		switch (reply.type) {
-			case ReplyType.Channel:
-				replyTo.channel?.send(reply.value);
-				break;
-			case ReplyType.Personal:
-				replyTo.message?.author.send(reply.value);
-				break;
-			case ReplyType.ReactionOneTen:
-				replyTo.channel?.send(reply.value).then(m => {
-					addReactionNumbers(m);
-				});
-				break;
-			case ReplyType.Multi:
-				if (isArray(reply.value)) {
-					reply.value.forEach(v => {
-						v.recipient.send(v.message);
-					});
-				} else {
-					throw new InvalidInputError('Invalid test definition!');
-				}
-				break;
-			case ReplyType.NoReply:
-				return;
-			default:
-				throw new InvalidInputError('Invalid message type');
+	private getSelectedChannel = async (adminId: string): Promise<ISessionData> => {
+		const games = await this.service.GetUserChannels(adminId);
+		const currentGame = games.find(g => g.current);
+		if (!currentGame) {
+			throw new InvalidInputError('No active channels found');
 		}
-	}
+		const activeChannel = currentGame.channels.find(c => c.channelId === currentGame.activeChannel);
+		if (!activeChannel) {
+			throw new InvalidInputError('No active channels found');
+		}
+		return activeChannel;
+	};
 }

@@ -1,0 +1,167 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventManagers >>  AdminManager >> AdminManager Successfully adds  a Narration on proper input 1`] = `
+Object {
+  "type": 0,
+  "value": Object {
+    "author": null,
+    "color": 9044739,
+    "description": "this is a narration text",
+    "fields": Array [],
+    "footer": null,
+    "image": Object {
+      "url": "urlToImage",
+    },
+    "thumbnail": null,
+    "timestamp": null,
+    "title": "Successfully added event: Silence, as I show what thy must see!",
+    "type": "rich",
+    "url": null,
+  },
+}
+`;
+
+exports[`EventManagers >>  AdminManager >> AdminManager Successfully adds a new global test on a proper input 1`] = `
+Object {
+  "type": 0,
+  "value": Object {
+    "author": null,
+    "color": 9044739,
+    "description": "this is a new test",
+    "fields": Array [],
+    "footer": null,
+    "image": null,
+    "thumbnail": null,
+    "timestamp": null,
+    "title": "Successfully added event",
+    "type": "rich",
+    "url": null,
+  },
+}
+`;
+
+exports[`EventManagers >>  AdminManager >> AdminManager Successfully adds a npc with a proper query 1`] = `Promise {}`;
+
+exports[`EventManagers >>  AdminManager >> AdminManager Successfully adds a stat insight on a proper input 1`] = `
+Object {
+  "type": 0,
+  "value": Object {
+    "author": null,
+    "color": 9044739,
+    "description": "This feels funny but you dont know what causes this yet",
+    "fields": Array [
+      Object {
+        "inline": false,
+        "name": "Occult",
+        "value": "4",
+      },
+    ],
+    "footer": null,
+    "image": null,
+    "thumbnail": null,
+    "timestamp": null,
+    "title": "Successfully added event",
+    "type": "rich",
+    "url": null,
+  },
+}
+`;
+
+exports[`EventManagers >>  AdminManager >> AdminManager assigns the admin to a channel 1`] = `
+Object {
+  "type": 0,
+  "value": "Congrats you are now an admin of 0!",
+}
+`;
+
+exports[`EventManagers >>  AdminManager >> AdminManager should add a Fact on a proper input 1`] = `
+Object {
+  "type": 0,
+  "value": "[object Object]",
+}
+`;
+
+exports[`EventManagers >>  AdminManager >> AdminManager successfully adds a player with a object stat 1`] = `
+Object {
+  "type": 0,
+  "value": Object {
+    "author": null,
+    "color": 9044739,
+    "description": "DiscordId: 409408071601881089",
+    "fields": Array [
+      Object {
+        "inline": false,
+        "name": "Occult",
+        "value": "1",
+      },
+      Object {
+        "inline": false,
+        "name": "Investigation",
+        "value": "2",
+      },
+      Object {
+        "inline": false,
+        "name": "Brawl",
+        "value": "3",
+      },
+    ],
+    "footer": null,
+    "image": null,
+    "thumbnail": null,
+    "timestamp": null,
+    "title": "Dudette",
+    "type": "rich",
+    "url": null,
+  },
+}
+`;
+
+exports[`EventManagers >>  AdminManager >> AdminManager successfully adds a player with a serial stat 1`] = `
+Object {
+  "type": 0,
+  "value": Object {
+    "author": null,
+    "color": 9044739,
+    "description": "DiscordId: 409408071601881089",
+    "fields": Array [
+      Object {
+        "inline": false,
+        "name": "Strength",
+        "value": "1",
+      },
+      Object {
+        "inline": false,
+        "name": "Dexterity",
+        "value": "2",
+      },
+      Object {
+        "inline": false,
+        "name": "Stamina",
+        "value": "3",
+      },
+      Object {
+        "inline": false,
+        "name": "Charisma",
+        "value": "4",
+      },
+      Object {
+        "inline": false,
+        "name": "Manipulation",
+        "value": "5",
+      },
+      Object {
+        "inline": false,
+        "name": "Composure",
+        "value": "6",
+      },
+    ],
+    "footer": null,
+    "image": null,
+    "thumbnail": null,
+    "timestamp": null,
+    "title": "Dudette",
+    "type": "rich",
+    "url": null,
+  },
+}
+`;

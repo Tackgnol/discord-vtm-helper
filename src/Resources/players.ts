@@ -1,4 +1,6 @@
-export const players = [
+import { IPlayer } from '../Models/GameData';
+
+export const players: IPlayer[] = [
 	{
 		id: '216275124318371840',
 		discordUserName: 'Tackgnol',
@@ -114,24 +116,18 @@ export const players = [
 		],
 		npcSet: [
 			{
-				npc: {
-					name: 'Angel',
-					description: 'The sheriff of city of Lodz',
-					image: 'https://i.imgur.com/NTLX3Zf.png',
-					callName: 'angel',
-					facts: [],
-				},
-				facts: ['Fact 1', 'Fact 2'],
+				name: 'Angel',
+				description: 'The sheriff of city of Lodz',
+				image: 'https://i.imgur.com/NTLX3Zf.png',
+				callName: 'angel',
+				facts: [' '],
 			},
 			{
-				npc: {
-					name: 'Mike',
-					description: 'The rugged Anarch',
-					image: 'https://i.imgur.com/Lny33VY.png',
-					callName: 'mike',
-					facts: [],
-				},
-				facts: ['Fact 1', 'Fact 2'],
+				name: 'Mike',
+				description: 'The rugged Anarch',
+				image: 'https://i.imgur.com/Lny33VY.png',
+				callName: 'mike',
+				facts: [],
 			},
 		],
 	},

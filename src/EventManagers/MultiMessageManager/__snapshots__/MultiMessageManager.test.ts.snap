@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventManagers >> MultiMessageManager >> MultiMessageManager Returns a message set for users 1`] = `
+Object {
+  "type": 2,
+  "value": Array [
+    Object {
+      "message": Object {
+        "author": null,
+        "color": 9044739,
+        "description": "you've got mail",
+        "fields": Array [],
+        "footer": null,
+        "image": null,
+        "thumbnail": null,
+        "timestamp": null,
+        "title": "Whispers in the dark... be it friend or foe or thyself?",
+        "type": "rich",
+        "url": null,
+      },
+      "recipient": "0",
+    },
+  ],
+}
+`;

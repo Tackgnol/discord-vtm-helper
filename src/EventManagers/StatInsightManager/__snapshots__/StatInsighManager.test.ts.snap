@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EventManagers >> StatInsightManager >> StatInsightManager Returns an array of passing players if there are passing players 1`] = `
+Object {
+  "type": 2,
+  "value": Array [
+    Object {
+      "message": Object {
+        "author": null,
+        "color": 9044739,
+        "description": "winner is you!",
+        "fields": Array [
+          Object {
+            "inline": false,
+            "name": "test",
+            "value": "1",
+          },
+        ],
+        "footer": null,
+        "image": null,
+        "thumbnail": null,
+        "timestamp": null,
+        "title": "All your hard work has payed of... Use your insight",
+        "type": "rich",
+        "url": null,
+      },
+      "recipient": "0",
+    },
+  ],
+}
+`;
+
+exports[`EventManagers >> StatInsightManager >> StatInsightManager Returns an empty array if no players are passing 1`] = `
+Object {
+  "type": 2,
+  "value": Array [],
+}
+`;
