@@ -10,4 +10,5 @@ export const Auth = {
 		appId: '',
 		measurementId: '',
 	},
+	appId: '',
 };

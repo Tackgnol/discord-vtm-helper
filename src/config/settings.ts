@@ -1,4 +1,8 @@
 export const settings = {
+	urls: {
+		baseDiscordUrl: 'https://discord.com/api/v8/applications',
+		onlineSourceUrl: 'http://localhost:8000/graphql',
+	},
 	prefix: '!vtm',
 	subPrefixes: {
 		admin: 'a',
@@ -40,7 +44,6 @@ export const settings = {
 	},
 	allowWebRequests: true,
 	eventSource: 'firestore',
-	onlineSourceUrl: 'http://localhost:8000/graphql',
 	colors: {
 		richEmbeddedMain: '#8a0303',
 		richEmbeddedDetails: '#590101',

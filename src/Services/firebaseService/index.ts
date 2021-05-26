@@ -1,6 +1,6 @@
 import { FirebaseError } from '../../Common/Errors';
 import { IGame, ISessionData } from '../../Models/AppModels';
-import firebase, { firestore } from 'firebase';
+import firebase from 'firebase';
 import { Auth } from '../../config/access';
 import {
 	IGlobalTest,
@@ -15,6 +15,7 @@ import {
 import { find, findIndex, first, get, uniq } from 'lodash';
 import { IService } from '../IService';
 import DocumentData = firebase.firestore.DocumentData;
+import firestore = firebase.firestore;
 
 class FirebaseService implements IService {
 	private games: firestore.CollectionReference<firestore.DocumentData>;
@@ -67,7 +68,7 @@ class FirebaseService implements IService {
 			.then(() => {
 				return newGamePlayers[newGamePlayers.length - 1];
 			})
-			.catch(e => {
+			.catch((e: string) => {
 				console.log(e);
 				throw new FirebaseError(e);
 			});

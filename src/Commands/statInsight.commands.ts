@@ -1,14 +1,14 @@
 import { BaseCommand } from '../Models/CommandModels';
 import { optionalParamsDefault } from './utils';
 
-export const narrationCommand: BaseCommand = {
-	name: 'narration',
-	description: 'Display a narration to a channel',
+export const statInsightCommand: BaseCommand = {
+	name: 'stat-insight',
+	description: 'Start a stat insight event for the players',
 	default_permission: true,
 	options: [
 		{
 			name: 'title',
-			description: 'name of the narration',
+			description: 'Name of the test',
 			type: 3,
 			...optionalParamsDefault,
 		},

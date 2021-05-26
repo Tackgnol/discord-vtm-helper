@@ -4,7 +4,6 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import fetch from 'node-fetch';
 import { settings } from '../../config/settings';
 import GET_CHANNELS from '../../GraphQL/Queries/GET_CHANNELS';
-import GET_NPCS from '../../GraphQL/Queries/GET_NPCS';
 import { find, get } from 'lodash';
 import { IGame, ISessionData } from '../../Models/AppModels';
 import GET_PLAYER from '../../GraphQL/Queries/GET_PLAYER';
@@ -21,7 +20,7 @@ class GraphqlService implements IService {
 	private apolloClient: ApolloClient<NormalizedCacheObject>;
 	constructor() {
 		this.apolloClient = new ApolloClient({
-			link: createHttpLink({ uri: settings.onlineSourceUrl, fetch: fetch }),
+			link: createHttpLink({ uri: settings.urls.onlineSourceUrl, fetch: fetch }),
 			cache: new InMemoryCache(),
 		});
 	}
@@ -35,7 +34,7 @@ class GraphqlService implements IService {
 			.then(r => {
 				return r.data;
 			})
-			.catch(e => {
+			.catch(() => {
 				throw new GraphQLError(`GraphQL player query failed for player: ${playerId}`);
 			});
 	}
