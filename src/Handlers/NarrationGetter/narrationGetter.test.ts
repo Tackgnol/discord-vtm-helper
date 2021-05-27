@@ -1,11 +1,11 @@
-import { ISessionData } from '../../Models/AppModels';
+import { SessionData } from '../../Models/AppModels';
 import { basicNarration } from '../../Mocks/SessionDataMocks/NarrationMocks';
 import getNarration from './narrationGetter';
 import { existingNarrationQuery, nonExistentNarrationQuery } from '../../Mocks/QueryMocks/narrationQuerries';
 import { expect } from 'chai';
 
 describe('Handlers >> NarrationGetter >> narrationGetter', () => {
-	const testData: ISessionData = {
+	const testData: SessionData = {
 		channelId: 'test',
 		narrationSet: [basicNarration],
 	};

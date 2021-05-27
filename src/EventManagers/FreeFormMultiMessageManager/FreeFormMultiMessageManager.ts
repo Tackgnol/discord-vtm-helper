@@ -1,16 +1,16 @@
 import { isEmpty, isNil, intersection } from 'lodash';
 import { MessageEmbed } from 'discord.js';
 import { settings } from '../../config/settings';
-import { IMessageList, IReply, ReplyType } from '../../Models/AppModels';
+import { MessageList, Reply, ReplyType } from '../../Models/AppModels';
 import { InvalidInputError } from '../../Common/Errors';
 
 export class FreeFormMultiMessageManager {
-	messageUsers(reply: string, userList: string[], channelMembers: string[]): IReply {
+	messageUsers(reply: string, userList: string[], channelMembers: string[]): Reply {
 		const users = intersection(userList, channelMembers);
 		if (isEmpty(users)) {
 			throw new InvalidInputError('No users to send to');
 		}
-		const messageLists: IMessageList[] = [];
+		const messageLists: MessageList[] = [];
 		users.forEach(u => {
 			const foundUser = channelMembers.find(val => val === u);
 			if (!isNil(foundUser)) {

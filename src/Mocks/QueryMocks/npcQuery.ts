@@ -1,18 +1,18 @@
-import { IEvent } from '../../Models/GameData';
+import { Event } from '../../Models/GameData';
 
-export const allNPCs: Partial<IEvent> = {
+export const allNPCs: Partial<Event> = {
 	eventName: 'all',
 	type: 'npcs',
 	prefix: '!vtm',
 };
 
-export const existingNPC: Partial<IEvent> = {
+export const existingNPC: Partial<Event> = {
 	eventName: 'testWithFacts',
 	type: 'npcs',
 	prefix: '!vtm',
 };
 
-export const nonExistentNPC: Partial<IEvent> = {
+export const nonExistentNPC: Partial<Event> = {
 	eventName: 'nonExistent',
 	type: 'npcs',
 	prefix: '!vtm',

@@ -30,6 +30,8 @@ discord.on('message', async message => {
 	discordClient.processMessage(message);
 });
 
+discord.on('messageReactionAdd', (reaction, user) => {});
+
 const token = isNil(process.env.token) ? Auth.token : process.env.token;
 
 if (!token) {

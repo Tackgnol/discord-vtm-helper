@@ -1,6 +1,6 @@
-import { INPC } from '../../Models/GameData';
+import { NPC } from '../../Models/GameData';
 
-export const testNPCWithFacts: INPC = {
+export const testNPCWithFacts: NPC = {
 	callName: 'testWithFacts',
 	description: 'this is a test',
 	image: 'placeholder',
@@ -8,7 +8,7 @@ export const testNPCWithFacts: INPC = {
 	facts: ['fact1', 'fact2'],
 };
 
-export const testNPCWithoutFacts: INPC = {
+export const testNPCWithoutFacts: NPC = {
 	callName: 'testWithout',
 	description: 'this is a test',
 	image: 'placeholder',

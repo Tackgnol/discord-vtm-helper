@@ -1,4 +1,4 @@
-import { ISessionData } from '../../Models/AppModels';
+import { SessionData } from '../../Models/AppModels';
 import { globalTestWithoutShortCircuitMock } from '../../Mocks/SessionDataMocks/GlobalTestMocks';
 import getGlobalTest from './globalTestGetter';
 import {
@@ -10,7 +10,7 @@ import {
 import { expect } from 'chai';
 
 describe('Handlers >> GlobalTestGetter >> getGlobalTest', () => {
-	const testData: ISessionData = {
+	const testData: SessionData = {
 		channelId: 'test',
 		globaltestSet: [globalTestWithoutShortCircuitMock, globalTestWithoutShortCircuitMock],
 	};

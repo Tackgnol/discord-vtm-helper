@@ -1,9 +1,9 @@
 import { find, isNil } from 'lodash';
-import { IEvent, IGlobalTest } from '../../Models/GameData';
-import { ISessionData } from '../../Models/AppModels';
+import { Event, GlobalTest } from '../../Models/GameData';
+import { SessionData } from '../../Models/AppModels';
 import { InvalidInputError } from '../../Common/Errors/InvalidInputError';
 
-const getGlobalTest = (sessionData: ISessionData, query: Partial<IEvent>): IGlobalTest => {
+const getGlobalTest = (sessionData: SessionData, query: Partial<Event>): GlobalTest => {
 	const currentSession = sessionData.globaltestSet;
 	const displayTest = find(currentSession, c => c.name === query.eventName);
 	if (!isNil(displayTest)) {

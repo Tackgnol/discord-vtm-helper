@@ -1,15 +1,15 @@
 import { MessageEmbed } from 'discord.js';
 import { settings } from '../../config/settings';
 import { isEmpty, isNil } from 'lodash';
-import { IMessageList, IReply, ReplyType } from '../../Models/AppModels';
+import { MessageList, Reply, ReplyType } from '../../Models/AppModels';
 import { InvalidInputError } from '../../Common/Errors/InvalidInputError';
 
 class MultiMessageManager {
-	messageUsers(users: string[], channelMembers: string[], value: string): IReply {
+	messageUsers(users: string[], channelMembers: string[], value: string): Reply {
 		if (isEmpty(users)) {
 			throw new InvalidInputError('This channel has no users!');
 		}
-		const messages: IMessageList[] = [];
+		const messages: MessageList[] = [];
 		if (!isEmpty(users)) {
 			users.forEach(u => {
 				const foundUser = channelMembers.find(val => val === u);

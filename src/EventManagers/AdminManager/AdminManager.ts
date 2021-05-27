@@ -9,9 +9,9 @@ import {
 	validateAddStatInsight,
 } from './validators';
 import { trim } from 'lodash';
-import { IStat } from '../../Models/GameData';
+import { Stat } from '../../Models/GameData';
 import { errorName, InvalidInputError } from '../../Common/Errors';
-import { IReply, ReplyType } from '../../Models/AppModels';
+import { Reply, ReplyType } from '../../Models/AppModels';
 import { MessageEmbed } from 'discord.js';
 import { IService } from '../../Services/IService';
 
@@ -19,7 +19,7 @@ export class AdminManager {
 	constructor(private service: IService) {
 		this.service = service;
 	}
-	async fireEvent(eventName: string, value: string, gameId: string, channelId: string, authorId: string): Promise<IReply> {
+	async fireEvent(eventName: string, value: string, gameId: string, channelId: string, authorId: string): Promise<Reply> {
 		const {
 			addPlayer,
 			addNPC,
@@ -67,7 +67,7 @@ export class AdminManager {
 	private async addPlayer(value = '', channelId: string) {
 		const addPlayerRegex = /\[([^\]]+)\].*\[([^\]]+)\].*\[([^\]]+)\]/g;
 		const parsed = addPlayerRegex.exec(value);
-		let statArray: IStat[] = [];
+		let statArray: Stat[] = [];
 		if (!parsed || parsed.length < 4) {
 			throw new InvalidInputError('Invalid input, was expecting [player discord name][player discord id][statistics input]');
 		} else {

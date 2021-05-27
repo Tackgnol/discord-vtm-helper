@@ -1,12 +1,12 @@
-import { IEvent } from '../../Models/GameData';
+import { Event } from '../../Models/GameData';
 
-export const existingNarrationQuery: Partial<IEvent> = {
+export const existingNarrationQuery: Partial<Event> = {
 	eventName: 'test',
 	type: 'n',
 	prefix: '!vtm',
 };
 
-export const nonExistentNarrationQuery: Partial<IEvent> = {
+export const nonExistentNarrationQuery: Partial<Event> = {
 	eventName: 'nonExistent',
 	type: 'n',
 	prefix: '!vtm',

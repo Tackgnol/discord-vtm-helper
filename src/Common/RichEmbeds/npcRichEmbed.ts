@@ -1,10 +1,10 @@
 import { MessageEmbed } from 'discord.js';
 
 import { settings } from '../../config/settings';
-import { INPC } from '../../Models/GameData';
+import { NPC } from '../../Models/GameData';
 import TurndownService from 'turndown';
 
-export const npcRichEmbed = (npc: Partial<INPC>, added = false, adminInfo = false) => {
+export const npcRichEmbed = (npc: Partial<NPC>, added = false, adminInfo = false) => {
 	const turndownService = new TurndownService();
 	const richEmbed = new MessageEmbed()
 		.setTitle(added ? `Successfully added a npc:${npc.name}` : npc.name)

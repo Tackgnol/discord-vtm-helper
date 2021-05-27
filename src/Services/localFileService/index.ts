@@ -1,23 +1,23 @@
 import { find, isNil } from 'lodash';
 import { players } from '../../Resources/players';
 import { sessionData } from '../../Resources/events/';
-import { IGame, ISessionData } from '../../Models/AppModels';
+import { Game, SessionData } from '../../Models/AppModels';
 import { IService } from '../IService';
-import { IGlobalTest, INarration, INPC, IPlayer, IStat, IStatInsight, IVersionOption } from '../../Models/GameData';
+import { GlobalTest, Narration, NPC, Player, Stat, StatInsight, VersionOption } from '../../Models/GameData';
 
 class LocalFileService implements IService {
-	GetPlayer(playerId: string): Promise<IPlayer> {
+	GetPlayer(playerId: string): Promise<Player> {
 		const playerData = find(players, p => p.id === playerId);
 		if (!isNil(playerData)) {
-			return new Promise<IPlayer>((resolve, reject) => {
+			return new Promise<Player>((resolve, reject) => {
 				resolve(playerData);
 			});
 		}
 		throw new Error('Unable to find player');
 	}
 
-	GetEvents(channelId: string): Promise<ISessionData> {
-		return new Promise<ISessionData>((resolve, reject) => {
+	GetEvents(channelId: string): Promise<SessionData> {
+		return new Promise<SessionData>((resolve, reject) => {
 			if (!sessionData) {
 				reject('No data!');
 			} else {
@@ -29,7 +29,7 @@ class LocalFileService implements IService {
 		});
 	}
 
-	AddFactsToNPC(playerId: string, npc: string, facts: string[]): Promise<INPC> {
+	AddFactsToNPC(playerId: string, npc: string, facts: string[]): Promise<NPC> {
 		throw new Error('Not available in local mode');
 	}
 
@@ -38,32 +38,32 @@ class LocalFileService implements IService {
 		message: string,
 		shortCircuit: boolean,
 		replyPrefix: string,
-		globaltestoptionSet: IVersionOption[]
-	): Promise<IGlobalTest> {
+		globaltestoptionSet: VersionOption[]
+	): Promise<GlobalTest> {
 		throw new Error('Not available in local mode');
 	}
 
-	AddNPC(name: string, callName: string, image: string, description: string): Promise<Omit<INPC, 'facts'>> {
+	AddNPC(name: string, callName: string, image: string, description: string): Promise<Omit<NPC, 'facts'>> {
 		throw new Error('Not available in local mode');
 	}
 
-	AddNarration(name: string, image: string, narrationText: string): Promise<INarration> {
+	AddNarration(name: string, image: string, narrationText: string): Promise<Narration> {
 		throw new Error('Not available in local mode');
 	}
 
-	AddPlayer(name: string, id: string, statArray: IStat[]): Promise<IPlayer> {
+	AddPlayer(name: string, id: string, statArray: Stat[]): Promise<Player> {
 		throw new Error('Not available in local mode');
 	}
 
-	AddStatInsight(name: string, stat: string, value: number, message: string): Promise<IStatInsight> {
+	AddStatInsight(name: string, stat: string, value: number, message: string): Promise<StatInsight> {
 		throw new Error('Not available in local mode');
 	}
 
-	GetUserChannels(userId: string): Promise<IGame[]> {
+	GetUserChannels(userId: string): Promise<Game[]> {
 		throw new Error('Not available in local mode');
 	}
 
-	AssignGameAdmin(playerId: string, channelId: string, gameId: string): Promise<ISessionData> {
+	AssignGameAdmin(playerId: string, channelId: string, gameId: string): Promise<SessionData> {
 		throw new Error('Not available in local mode');
 	}
 }

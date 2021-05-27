@@ -1,12 +1,12 @@
-import { IEvent } from '../../Models/GameData';
+import { Event } from '../../Models/GameData';
 
-export const multiMessageQuery: Partial<IEvent> = {
+export const multiMessageQuery: Partial<Event> = {
 	eventName: 'test',
 	type: 'mm',
 	prefix: '!vtm',
 };
 
-export const nonExistentMultiMessage: Partial<IEvent> = {
+export const nonExistentMultiMessage: Partial<Event> = {
 	eventName: 'nonExistent',
 	type: 'mm',
 	prefix: '!vtm',

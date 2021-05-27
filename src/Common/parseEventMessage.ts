@@ -1,8 +1,8 @@
 import InvalidInputError from './Errors/InvalidInputError';
 import { settings } from '../config/settings';
-import { IEvent } from '../Models/GameData';
+import { Event } from '../Models/GameData';
 
-export const parseEventMessage = (message: string): Partial<IEvent> => {
+export const parseEventMessage = (message: string): Partial<Event> => {
 	const expr = /(!vtm)-([a-z]+)-([a-zA-Z]+) ?(.+)?/;
 	const parsedMessage = expr.exec(message);
 	const prefix = parsedMessage?.[settings.prefixStructure.vtm];
@@ -12,7 +12,7 @@ export const parseEventMessage = (message: string): Partial<IEvent> => {
 	if (!prefix || !type || !eventName) {
 		throw new InvalidInputError('prefix, type or event name missing');
 	}
-	const parsed: Partial<IEvent> = {
+	const parsed: Partial<Event> = {
 		prefix,
 		type,
 		eventName,

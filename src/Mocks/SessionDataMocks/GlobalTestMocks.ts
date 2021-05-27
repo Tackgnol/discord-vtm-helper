@@ -1,6 +1,6 @@
-import { IGlobalTest } from '../../Models/GameData';
+import { GlobalTest } from '../../Models/GameData';
 
-export const globalTestWithoutShortCircuitMock: IGlobalTest = {
+export const globalTestWithoutShortCircuitMock: GlobalTest = {
 	testMessage: 'test',
 	shortCircuit: false,
 	globaltestoptionSet: [
@@ -10,7 +10,7 @@ export const globalTestWithoutShortCircuitMock: IGlobalTest = {
 	name: 'test',
 	replyPrefix: 'testPrefix',
 };
-export const globalTestWithShortCircuitMock: IGlobalTest = {
+export const globalTestWithShortCircuitMock: GlobalTest = {
 	testMessage: 'shortCircuitTest',
 	shortCircuit: true,
 	globaltestoptionSet: [

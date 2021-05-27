@@ -8,6 +8,7 @@ export const settings = {
 		statInsight: 'si',
 		narration: 'n',
 		npcs: 'npcs',
+		result: 'r',
 		npcsSubCommands: {
 			all: 'all',
 		},

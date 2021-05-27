@@ -1,5 +1,5 @@
 import { Collection, GuildMember } from 'discord.js';
-import { IEvent } from '../Models/GameData';
+import { Event } from '../Models/GameData';
 
 import { settings } from '../config/settings';
 import getGlobalTest from './GlobalTestGetter/globalTestGetter';
@@ -13,7 +13,7 @@ import NarrationManager from '../EventManagers/NarrationManager/NarrationManager
 import NPCManager from '../EventManagers/NPCManager/NPCManager';
 import { AdminManager } from '../EventManagers';
 import MultiMessageManager from '../EventManagers/MultiMessageManager/MultiMessageManager';
-import { IReply } from '../Models/AppModels';
+import { Reply } from '../Models/AppModels';
 import { InvalidInputError } from '../Common/Errors/InvalidInputError';
 import { IService } from '../Services/IService';
 import StatInsightManager from '../EventManagers/StatInsightManager/StatInsightManager';
@@ -37,21 +37,28 @@ class Handler {
 
 	async handle(
 		channelId: string,
-		query: Partial<IEvent>,
+		query: Partial<Event>,
 		gameId: string,
 		messageAuthor: string,
 		channelMembers: Collection<string, GuildMember>,
 		receivedValue?: number
-	): Promise<IReply> {
+	): Promise<Reply> {
 		let eventData;
 		const queryType = query.type;
 		const { subPrefixes } = settings;
 		const memberList = channelMembers.map(m => m.id);
 		switch (queryType) {
 			case subPrefixes.globalTest:
+			case subPrefixes.result:
 				eventData = await this.service.GetEvents(channelId, gameId);
 				const { testMessage, shortCircuit, replyPrefix, globaltestoptionSet } = getGlobalTest(eventData, query);
-				return this.globalTestManager.performTest(testMessage, replyPrefix, globaltestoptionSet, shortCircuit, receivedValue);
+				if (queryType === subPrefixes.globalTest) {
+					return this.globalTestManager.performTest(testMessage, replyPrefix, globaltestoptionSet, shortCircuit);
+				}
+				if (queryType === subPrefixes.result) {
+					return this.globalTestManager.performTest(testMessage, replyPrefix, globaltestoptionSet, shortCircuit, receivedValue);
+				}
+				break;
 			case subPrefixes.statInsight:
 				eventData = await this.service.GetEvents(channelId, gameId);
 				const { statName, successMessage, minValue } = getStatInsight(eventData, query);

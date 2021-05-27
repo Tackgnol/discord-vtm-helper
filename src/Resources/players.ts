@@ -1,6 +1,6 @@
-import { IPlayer } from '../Models/GameData';
+import { Player } from '../Models/GameData';
 
-export const players: IPlayer[] = [
+export const players: Player[] = [
 	{
 		id: '216275124318371840',
 		discordUserName: 'Tackgnol',

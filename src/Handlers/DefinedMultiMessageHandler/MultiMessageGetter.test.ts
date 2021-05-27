@@ -1,11 +1,11 @@
-import { ISessionData } from '../../Models/AppModels';
+import { SessionData } from '../../Models/AppModels';
 import { multiMessageMock } from '../../Mocks/SessionDataMocks/MultiMessageMock';
 import { getMultiMessage } from './MultiMessageGetter';
 import { multiMessageQuery, nonExistentMultiMessage } from '../../Mocks/QueryMocks/muiltiMessageQueries';
 import { expect } from 'chai';
 
 describe('Handlers >> DefinedMultiMessageHandler >> getMultiMessage', () => {
-	const testData: ISessionData = {
+	const testData: SessionData = {
 		channelId: '0',
 		multiMessageSet: [multiMessageMock],
 	};

@@ -1,25 +1,25 @@
-import { IEvent } from '../../Models/GameData';
+import { Event } from '../../Models/GameData';
 
-export const existingGTQueryWithoutValue: Partial<IEvent> = {
+export const existingGTQueryWithoutValue: Partial<Event> = {
 	eventName: 'test',
 	type: 'gt',
 	prefix: '!vtm',
 };
 
-export const existingGTQueryWithValue: Partial<IEvent> = {
+export const existingGTQueryWithValue: Partial<Event> = {
 	eventName: 'test',
 	value: '5',
 	type: 'gt',
 	prefix: '!vtm',
 };
 
-export const nonExistingGTQueryWithoutValue: Partial<IEvent> = {
+export const nonExistingGTQueryWithoutValue: Partial<Event> = {
 	eventName: 'nonExistent',
 	type: 'gt',
 	prefix: '!vtm',
 };
 
-export const nonExistingGTQueryWithValue: Partial<IEvent> = {
+export const nonExistingGTQueryWithValue: Partial<Event> = {
 	eventName: 'nonExistent',
 	value: '5',
 	type: 'gt',

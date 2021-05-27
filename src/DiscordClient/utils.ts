@@ -1,13 +1,14 @@
-import { IReply, IReplyChannels } from '../Models/AppModels';
+import { GameQuery, Reply, ReplyChannels } from '../Models/AppModels';
 import { Channel } from 'discord.js';
 
 export function sendWrapper(
-	action: Promise<IReply | void>,
-	sendCallback: (reply: IReply, replyTo: IReplyChannels) => void,
-	replyTo?: IReplyChannels
+	action: Promise<Reply | void>,
+	sendCallback: (reply: Reply, replyTo: ReplyChannels) => void,
+	replyTo?: ReplyChannels,
+	gameInfo?: GameQuery
 ) {
 	if (replyTo?.channel === undefined && replyTo?.message === undefined) {
-		throw new Error('Unable to reply no recepients available');
+		throw new Error('Unable to reply no recipients available');
 	}
 	return action
 		.then(result => {

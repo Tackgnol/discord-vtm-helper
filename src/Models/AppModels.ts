@@ -1,47 +1,47 @@
-import { IEvent, IGlobalTest, IMultiPlayerMessage, INarration, IPlayer, IStatInsight } from './GameData';
+import { Event, GlobalTest, MultiPlayerMessage, Narration, Player, StatInsight } from './GameData';
 import { Message, MessageAttachment, MessageEmbed, TextChannel } from 'discord.js';
 
-export interface IActiveSession {
+export interface ActiveSession {
 	channelId: string;
 	gameId: string;
-	prevCommand: Partial<IEvent>;
+	prevCommand: Partial<Event>;
 }
 
-export interface ISelectedChannel {
+export interface SelectedChannel {
 	id: string;
 	adminId: string;
 	activeChannel: string;
 }
 
-export interface IVoiceChannel {
+export interface VoiceChannel {
 	id: string;
 }
 
-export interface ISessionData {
+export interface SessionData {
 	channelId: string;
-	globaltestSet?: IGlobalTest[];
-	narrationSet?: INarration[];
-	statInsightSet?: IStatInsight[];
-	multiMessageSet?: IMultiPlayerMessage[];
+	globaltestSet?: GlobalTest[];
+	narrationSet?: Narration[];
+	statInsightSet?: StatInsight[];
+	multiMessageSet?: MultiPlayerMessage[];
 }
 
-export interface IGame {
+export interface Game {
 	id: string;
 	adminId: string;
-	players: IPlayer[];
-	channels: ISessionData[];
+	players: Player[];
+	channels: SessionData[];
 	current?: boolean;
 	activeChannel: string;
 }
 
-export interface IMessageList {
+export interface MessageList {
 	recipient: string;
 	message: MessageEmbed | string;
 }
 
-export interface IReply {
+export interface Reply {
 	type: ReplyType;
-	value: MessageEmbed | IMessageList[] | MessageAttachment | string;
+	value: MessageEmbed | MessageList[] | MessageAttachment | string;
 }
 
 export enum ReplyType {
@@ -52,7 +52,14 @@ export enum ReplyType {
 	NoReply,
 }
 
-export interface IReplyChannels {
+export interface ReplyChannels {
 	message?: Message;
 	channel?: TextChannel;
+}
+
+export interface GameQuery {
+	gameId: string;
+	channelId: string;
+	eventType: string;
+	eventName: string;
 }
