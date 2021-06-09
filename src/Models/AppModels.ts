@@ -1,4 +1,4 @@
-import { IEvent, IGlobalTest, IMultiPlayerMessage, INarration, IPlayer, IStatInsight } from './GameData';
+import { IEvent, GlobalTest, IMultiPlayerMessage, Narration, Player, StatInsight } from './GameData';
 import { Message, MessageAttachment, MessageEmbed, TextChannel } from 'discord.js';
 
 export interface IActiveSession {
@@ -17,19 +17,19 @@ export interface IVoiceChannel {
 	id: string;
 }
 
-export interface ISessionData {
+export interface SessionData {
 	channelId: string;
-	globaltestSet?: IGlobalTest[];
-	narrationSet?: INarration[];
-	statInsightSet?: IStatInsight[];
+	globaltestSet?: GlobalTest[];
+	narrationSet?: Narration[];
+	statInsightSet?: StatInsight[];
 	multiMessageSet?: IMultiPlayerMessage[];
 }
 
-export interface IGame {
+export interface Game {
 	id: string;
 	adminId: string;
-	players: IPlayer[];
-	channels: ISessionData[];
+	players: Player[];
+	channels: SessionData[];
 	current?: boolean;
 	activeChannel: string;
 }

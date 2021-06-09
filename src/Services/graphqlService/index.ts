@@ -4,11 +4,10 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import fetch from 'node-fetch';
 import { settings } from '../../config/settings';
 import GET_CHANNELS from '../../GraphQL/Queries/GET_CHANNELS';
-import GET_NPCS from '../../GraphQL/Queries/GET_NPCS';
 import { find, get } from 'lodash';
-import { IGame, ISessionData } from '../../Models/AppModels';
+import { Game, SessionData } from '../../Models/AppModels';
 import GET_PLAYER from '../../GraphQL/Queries/GET_PLAYER';
-import { IGlobalTest, INarration, INPC, IPlayer, IStat, IStatInsight, IVersionOption } from '../../Models/GameData';
+import { GlobalTest, Narration, NPC, Option, Player, Stat, StatInsight } from '../../Models/GameData';
 import { GraphQLError } from '../../Common/Errors/GraphQLError';
 import { IService } from '../IService';
 import ADD_GLOBAL_TEST from '../../GraphQL/Mutations/ADD_GLOBAL_TEST';
@@ -26,8 +25,8 @@ class GraphqlService implements IService {
 		});
 	}
 
-	async GetPlayer(playerId: string): Promise<IPlayer> {
-		const graphQLQuery = this.apolloClient.query<IPlayer>({
+	async GetPlayer(playerId: string): Promise<Player> {
+		const graphQLQuery = this.apolloClient.query<Player>({
 			query: GET_PLAYER,
 			variables: { playerId: playerId },
 		});
@@ -40,14 +39,14 @@ class GraphqlService implements IService {
 			});
 	}
 
-	async GetEvents(channelId: string): Promise<ISessionData> {
-		const graphQLQuery = await this.apolloClient.query<ISessionData>({
+	async GetEvents(channelId: string): Promise<SessionData> {
+		const graphQLQuery = await this.apolloClient.query<SessionData>({
 			query: GET_CHANNELS,
 		});
 		return find(get(graphQLQuery, 'data.allChannels'), ed => ed.discordId === channelId);
 	}
 
-	AddFactsToNPC(playerId: string, npc: string, facts: string[]): Promise<INPC> {
+	AddFactsToNPC(playerId: string, npc: string, facts: string[]): Promise<NPC> {
 		throw new GraphQLError(`Not supported in graphql`);
 	}
 
@@ -56,10 +55,10 @@ class GraphqlService implements IService {
 		testMessage: string,
 		shortCircuit: boolean,
 		replyPrefix: string,
-		optionList: IVersionOption[]
-	): Promise<IGlobalTest> {
+		optionList: Option[]
+	): Promise<GlobalTest> {
 		return this.apolloClient
-			.mutate<IGlobalTest>({
+			.mutate<GlobalTest>({
 				mutation: ADD_GLOBAL_TEST,
 				variables: { inputTest: { name, testMessage, shortCircuit, replyPrefix, optionList } },
 			})
@@ -75,9 +74,9 @@ class GraphqlService implements IService {
 			});
 	}
 
-	AddNPC(name: string, callName: string, image: string, description: string): Promise<Omit<INPC, 'facts'>> {
+	AddNPC(name: string, callName: string, image: string, description: string): Promise<Omit<NPC, 'facts'>> {
 		return this.apolloClient
-			.mutate<INPC>({
+			.mutate<NPC>({
 				mutation: ADD_NPC,
 				variables: { inputNPC: { name, description, image } },
 			})
@@ -93,9 +92,9 @@ class GraphqlService implements IService {
 			});
 	}
 
-	AddNarration(name: string, image: string, narrationText: string): Promise<INarration> {
+	AddNarration(name: string, image: string, narrationText: string): Promise<Narration> {
 		return this.apolloClient
-			.mutate<INarration>({
+			.mutate<Narration>({
 				mutation: ADD_NARRATION,
 				variables: { inputNarration: { name, narrationText, image } },
 			})
@@ -111,9 +110,9 @@ class GraphqlService implements IService {
 			});
 	}
 
-	AddPlayer(name: string, id: string, statArray: IStat[]): Promise<IPlayer> {
+	AddPlayer(name: string, id: string, statArray: Stat[]): Promise<Player> {
 		return this.apolloClient
-			.mutate<IPlayer>({
+			.mutate<Player>({
 				mutation: ADD_PLAYER,
 				variables: { name, discordId: id, stats: statArray },
 			})
@@ -129,9 +128,9 @@ class GraphqlService implements IService {
 			});
 	}
 
-	AddStatInsight(name: string, stat: string, value: number, message: string): Promise<IStatInsight> {
+	AddStatInsight(name: string, stat: string, value: number, message: string): Promise<StatInsight> {
 		return this.apolloClient
-			.mutate<IStatInsight>({
+			.mutate<StatInsight>({
 				mutation: ADD_STAT_INSIGHT,
 				variables: { name, statName: stat, minValue: value, successMessage: message },
 			})
@@ -147,11 +146,11 @@ class GraphqlService implements IService {
 			});
 	}
 
-	GetUserChannels(userId: string): Promise<IGame[]> {
+	GetUserChannels(userId: string): Promise<Game[]> {
 		return Promise.resolve([]);
 	}
 
-	AssignGameAdmin(playerId: string, channelId: string, gameId: string): Promise<ISessionData> {
+	AssignGameAdmin(playerId: string, channelId: string, gameId: string): Promise<SessionData> {
 		throw new GraphQLError('Unimplemented');
 	}
 }

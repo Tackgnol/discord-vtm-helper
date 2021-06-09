@@ -1,4 +1,4 @@
-import { ISessionData } from '../../Models/AppModels';
+import { SessionData } from '../../Models/AppModels';
 import { globalTestWithoutShortCircuitMock } from '../../Mocks/SessionDataMocks/GlobalTestMocks';
 import getGlobalTest from './globalTestGetter';
 import {
@@ -8,9 +8,10 @@ import {
 	nonExistingGTQueryWithValue,
 } from '../../Mocks/QueryMocks/globalTestQueries';
 import { expect } from 'chai';
+import { InvalidInputError } from '../../Common/Errors';
 
 describe('Handlers >> GlobalTestGetter >> getGlobalTest', () => {
-	const testData: ISessionData = {
+	const testData: SessionData = {
 		channelId: 'test',
 		globaltestSet: [globalTestWithoutShortCircuitMock, globalTestWithoutShortCircuitMock],
 	};
@@ -27,12 +28,12 @@ describe('Handlers >> GlobalTestGetter >> getGlobalTest', () => {
 	it('throws an error if a test does not exist and value is supplied', () => {
 		expect(() => {
 			getGlobalTest(testData, nonExistingGTQueryWithValue);
-		}).to.throw;
+		}).to.throw(InvalidInputError);
 	});
 
 	it('throws an error if a test does not exist and no value is supplied', () => {
 		expect(() => {
 			getGlobalTest(testData, nonExistingGTQueryWithoutValue);
-		}).to.throw;
+		}).to.throw(InvalidInputError);
 	});
 });

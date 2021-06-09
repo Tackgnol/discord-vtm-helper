@@ -2,7 +2,7 @@ import { isEmpty, isNaN, isNil, join, sortBy } from 'lodash';
 import { globalTestRichEmbedInit, reactionNumbers } from '../../Common';
 import { globalTestRichEmbedResult } from '../../Common';
 import { Message, MessageOptions, MessageEmbed, StringResolvable } from 'discord.js';
-import { IVersionOption } from '../../Models/GameData';
+import { Option } from '../../Models/GameData';
 import { InvalidInputError } from '../../Common/Errors';
 import { IReply, ReplyType } from '../../Models/AppModels';
 
@@ -10,7 +10,7 @@ export class GlobalTestManager {
 	performTest(
 		testText: string,
 		replyPrefix: string,
-		versionOptions: IVersionOption[],
+		versionOptions: Option[],
 		shortCircuit: boolean,
 		value?: string | number
 	): IReply {
@@ -23,7 +23,7 @@ export class GlobalTestManager {
 			throw new InvalidInputError('No responses available for this test');
 		}
 
-		if (isNaN(value)) {
+		if (isNaN(+value)) {
 			throw new InvalidInputError('Given value is invalid');
 		}
 		if (shortCircuit) {
@@ -34,7 +34,7 @@ export class GlobalTestManager {
 		return { type: ReplyType.Personal, value: globalTestRichEmbedResult(replyPrefix, reply) };
 	}
 
-	shortCircuitedTest(versionOptions: IVersionOption[], value: number): string | null {
+	shortCircuitedTest(versionOptions: Option[], value: number): string | null {
 		const sortedOptions = sortBy(versionOptions, v => -v.minResult);
 		for (let i = 0; i <= sortedOptions.length; i++) {
 			const currentOption = sortedOptions[i];
@@ -46,7 +46,7 @@ export class GlobalTestManager {
 		return null;
 	}
 
-	fullTest(versionOptions: IVersionOption[], value: number): string {
+	fullTest(versionOptions: Option[], value: number): string {
 		const sortedOptions = sortBy(versionOptions, v => v.minResult);
 		const messageArray: string[] = [];
 		sortedOptions.forEach(o => {
@@ -64,7 +64,7 @@ export class GlobalTestManager {
 		shortCircuit: boolean,
 		message: Message,
 		replyPrefix: string,
-		versionOptions: IVersionOption[],
+		versionOptions: Option[],
 		sendfn: (content?: StringResolvable, options?: (MessageOptions & { split: false }) | MessageEmbed) => Promise<Message>
 	) => {
 		const filter = (reaction: { emoji: { name: string } }, user: { id: string }) => {

@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Services >> Mappers >> sessionMapper properly maps a valid session 1`] = `
+Object {
+  "channelId": "0",
+  "globaltestSet": Array [
+    Object {
+      "globaltestoptionSet": Array [
+        Object {
+          "minResult": 1,
+          "resultMessage": "result for 1",
+        },
+        Object {
+          "minResult": 5,
+          "resultMessage": "result for 5",
+        },
+      ],
+      "name": "test",
+      "replyPrefix": "testPrefix",
+      "shortCircuit": false,
+      "testMessage": "test",
+    },
+    Object {
+      "globaltestoptionSet": Array [
+        Object {
+          "minResult": 1,
+          "resultMessage": "result for 1",
+        },
+        Object {
+          "minResult": 5,
+          "resultMessage": "result for 5",
+        },
+      ],
+      "name": "scTest",
+      "replyPrefix": "testPrefix",
+      "shortCircuit": true,
+      "testMessage": "shortCircuitTest",
+    },
+  ],
+  "multiMessageSet": Array [
+    Object {
+      "message": "you've got mail",
+      "name": "test",
+      "userList": Array [
+        "0",
+      ],
+    },
+  ],
+  "narrationSet": Array [
+    Object {
+      "image": "urlToImage",
+      "name": "test",
+      "narrationText": "this is a narration text",
+    },
+  ],
+  "statInsightSet": Array [
+    Object {
+      "minValue": 5,
+      "name": "test",
+      "statName": "test",
+      "successMessage": "winner is you!",
+    },
+    Object {
+      "minValue": 1,
+      "name": "test",
+      "statName": "test",
+      "successMessage": "winner is you!",
+    },
+  ],
+}
+`;

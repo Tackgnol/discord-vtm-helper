@@ -1,11 +1,12 @@
-import { ISessionData } from '../../Models/AppModels';
+import { SessionData } from '../../Models/AppModels';
 import { multiMessageMock } from '../../Mocks/SessionDataMocks/MultiMessageMock';
 import { getMultiMessage } from './MultiMessageGetter';
 import { multiMessageQuery, nonExistentMultiMessage } from '../../Mocks/QueryMocks/muiltiMessageQueries';
 import { expect } from 'chai';
+import { InvalidInputError } from '../../Common/Errors';
 
 describe('Handlers >> DefinedMultiMessageHandler >> getMultiMessage', () => {
-	const testData: ISessionData = {
+	const testData: SessionData = {
 		channelId: '0',
 		multiMessageSet: [multiMessageMock],
 	};
@@ -17,6 +18,6 @@ describe('Handlers >> DefinedMultiMessageHandler >> getMultiMessage', () => {
 	it('throws an error on non existent name', () => {
 		expect(() => {
 			getMultiMessage(testData, nonExistentMultiMessage);
-		}).to.throw;
+		}).to.throw(InvalidInputError);
 	});
 });

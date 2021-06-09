@@ -1,9 +1,9 @@
 import { find, get, isNil } from 'lodash';
-import { IEvent, INarration } from '../../Models/GameData';
+import { IEvent, Narration } from '../../Models/GameData';
 import { InvalidInputError } from '../../Common/Errors/InvalidInputError';
-import { ISessionData } from '../../Models/AppModels';
+import { SessionData } from '../../Models/AppModels';
 
-const getNarration = (sessionData: ISessionData, query: Partial<IEvent>): INarration => {
+const getNarration = (sessionData: SessionData, query: Partial<IEvent>): Narration => {
 	const currentSession = get(sessionData, 'narrationSet');
 	const narrationPiece = find(currentSession, c => c.name === query.eventName);
 	if (!isNil(narrationPiece)) {

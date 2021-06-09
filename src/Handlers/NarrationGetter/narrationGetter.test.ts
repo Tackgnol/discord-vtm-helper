@@ -1,11 +1,12 @@
-import { ISessionData } from '../../Models/AppModels';
+import { SessionData } from '../../Models/AppModels';
 import { basicNarration } from '../../Mocks/SessionDataMocks/NarrationMocks';
 import getNarration from './narrationGetter';
 import { existingNarrationQuery, nonExistentNarrationQuery } from '../../Mocks/QueryMocks/narrationQuerries';
 import { expect } from 'chai';
+import { InvalidInputError } from '../../Common/Errors';
 
 describe('Handlers >> NarrationGetter >> narrationGetter', () => {
-	const testData: ISessionData = {
+	const testData: SessionData = {
 		channelId: 'test',
 		narrationSet: [basicNarration],
 	};
@@ -17,6 +18,6 @@ describe('Handlers >> NarrationGetter >> narrationGetter', () => {
 	it('throws an error if a non existing name is given', () => {
 		expect(() => {
 			getNarration(testData, nonExistentNarrationQuery);
-		}).to.throw;
+		}).to.throw(InvalidInputError);
 	});
 });

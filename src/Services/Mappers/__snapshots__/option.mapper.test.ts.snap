@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Services >> Mappers >> optionMapper properly maps a valid optionSet 1`] = `
+Object {
+  "minResult": 1,
+  "resultMessage": "result for 1",
+}
+`;

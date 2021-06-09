@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Services >> Mappers >> multiMessageMapper properly maps a valid multi message 1`] = `
+Object {
+  "message": "you've got mail",
+  "name": "test",
+  "userList": Array [
+    "0",
+  ],
+}
+`;

@@ -31,8 +31,12 @@ import {
 } from '../../Mocks/QueryMocks/adminQueries';
 import chai, { expect } from 'chai';
 import { jestSnapshotPlugin } from 'mocha-chai-jest-snapshot';
+import { InvalidInputError } from '../../Common/Errors/InvalidInputError';
+import chaiAsPromised from 'chai-as-promised';
 
 chai.use(jestSnapshotPlugin());
+
+chai.use(chaiAsPromised);
 
 describe('EventManagers >>  AdminManager >> AdminManager', () => {
 	const service = new BackendServiceMock();
@@ -51,25 +55,19 @@ describe('EventManagers >>  AdminManager >> AdminManager', () => {
 		expect(result).toMatchSnapshot();
 	});
 
-	it('throws an error while missing stats', () => {
+	it('throws an error while missing stats', async () => {
 		const { value, eventName } = failedAddPlayerMissingQuery;
-		expect(() => {
-			manager.fireEvent(eventName ?? '', value ?? '', 'x', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', 'x', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('throws an error on invalid value', () => {
 		const { value, eventName } = failedAddPlayerQuery;
-		expect(() => {
-			manager.fireEvent(eventName ?? '', value ?? '', 'x', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', 'x', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('throws an error only name is given', () => {
 		const { value, eventName } = faileAddPlayerNameOnlyQuery;
-		expect(() => {
-			manager.fireEvent(eventName ?? '', value ?? '', 'x', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', 'x', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('Successfully adds a npc with a proper query', () => {
@@ -81,30 +79,22 @@ describe('EventManagers >>  AdminManager >> AdminManager', () => {
 
 	it('Fails to add a npc with a wrong query', () => {
 		const { value, eventName } = failedAddNPC;
-		expect(() => {
-			manager.fireEvent(eventName ?? '', value ?? '', 'x', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', 'x', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('Fails to add a npc with a missing description', () => {
 		const { value, eventName } = failedAddNPCMissingDescription;
-		expect(() => {
-			manager.fireEvent(eventName ?? '', value ?? '', 'x', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', 'x', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('Fails to add a npc with a missing description and image', () => {
 		const { value, eventName } = failedAddNPCMissingDescriptionAndImage;
-		expect(() => {
-			manager.fireEvent(eventName ?? '', value ?? '', 'x', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', 'x', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('Fails to add a npc with a wrong query', () => {
 		const { value, eventName } = failedAddNPCNameOnly;
-		expect(() => {
-			manager.fireEvent(eventName ?? '', value ?? '', 'x', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', 'x', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('should add a Fact on a proper input', async () => {
@@ -116,23 +106,17 @@ describe('EventManagers >>  AdminManager >> AdminManager', () => {
 
 	it('should fail to add a Fact on a invalid input', async () => {
 		const { value, eventName } = failedAddFact;
-		expect(() => {
-			manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('should fail to add a Fact on a missing fact list', async () => {
 		const { value, eventName } = failedAddFactMissingFact;
-		expect(() => {
-			manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('should fail to add a Fact on name only', async () => {
 		const { value, eventName } = failedAddFactNameOnly;
-		expect(() => {
-			manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('Successfully adds a new global test on a proper input', async () => {
@@ -144,30 +128,22 @@ describe('EventManagers >>  AdminManager >> AdminManager', () => {
 
 	it('Fails to add a new global test on a invalid input', async () => {
 		const { value, eventName } = failedAddGlobalTest;
-		expect(async () => {
-			await manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('Fails to add a new global test on a invalid input - missing options', async () => {
 		const { value, eventName } = failedAddGlobalTestMissingOptions;
-		expect(async () => {
-			await manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('Fails to add a new global test on a invalid input - missing options and prefix', async () => {
 		const { value, eventName } = failedAddGlobalTestMissingOptionsAndPrefix;
-		expect(async () => {
-			await manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('Fails to add a new global test on a invalid input - name only', async () => {
 		const { value, eventName } = failedAddGlobalTestNameOnly;
-		expect(async () => {
-			await manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('Successfully adds a stat insight on a proper input', async () => {
@@ -179,23 +155,17 @@ describe('EventManagers >>  AdminManager >> AdminManager', () => {
 
 	it('Fails to add a new stat insight on a invalid input - missing message', async () => {
 		const { value, eventName } = failedAddStatInsightMissingMessage;
-		expect(async () => {
-			await manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('Fails to add a new stat insight on a invalid input - missing message and stats', async () => {
 		const { value, eventName } = failedAddStatInsightMissingStat;
-		expect(async () => {
-			await manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('Fails to add a new stat insight on a invalid input - name only', async () => {
 		const { value, eventName } = failedAddStatInsightNameOnly;
-		expect(async () => {
-			await manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('Successfully adds  a Narration on proper input', async () => {
@@ -207,16 +177,12 @@ describe('EventManagers >>  AdminManager >> AdminManager', () => {
 
 	it('Fails to add a new Narration on a invalid input - missing message', async () => {
 		const { value, eventName } = failedAddNarrationMissingMessage;
-		expect(async () => {
-			await manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('Fails to add a new Narration on a invalid input - name only', async () => {
 		const { value, eventName } = failedAddNarrationNameOnly;
-		expect(async () => {
-			await manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0');
-		}).to.throw;
+		expect(manager.fireEvent(eventName ?? '', value ?? '', '0', '0', '0')).to.be.rejectedWith(InvalidInputError);
 	});
 
 	it('assigns the admin to a channel', async () => {

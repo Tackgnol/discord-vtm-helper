@@ -1,6 +1,6 @@
-import { IPlayer } from '../Models/GameData';
+import { Player } from '../Models/GameData';
 
-export const players: IPlayer[] = [
+export const players: Player[] = [
 	{
 		id: '216275124318371840',
 		discordUserName: 'Tackgnol',
@@ -121,6 +121,7 @@ export const players: IPlayer[] = [
 				image: 'https://i.imgur.com/NTLX3Zf.png',
 				callName: 'angel',
 				facts: [' '],
+				gameId: 'x',
 			},
 			{
 				name: 'Mike',
@@ -128,6 +129,7 @@ export const players: IPlayer[] = [
 				image: 'https://i.imgur.com/Lny33VY.png',
 				callName: 'mike',
 				facts: [],
+				gameId: 'x',
 			},
 		],
 	},

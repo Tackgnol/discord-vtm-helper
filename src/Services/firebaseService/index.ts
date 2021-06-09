@@ -1,19 +1,12 @@
 import { FirebaseError } from '../../Common/Errors';
-import { IGame, ISessionData } from '../../Models/AppModels';
+import { Game, SessionData } from '../../Models/AppModels';
 import firebase, { firestore } from 'firebase';
 import { Auth } from '../../config/access';
-import {
-	IGlobalTest,
-	INarration,
-	INPC,
-	IPlayer,
-	IPlayerNPCKnowledge,
-	IStat,
-	IStatInsight,
-	IVersionOption,
-} from '../../Models/GameData';
-import { find, findIndex, first, get, uniq } from 'lodash';
+import { GlobalTest, Narration, NPC, Option, Player, Stat, StatInsight } from '../../Models/GameData';
+import { find, findIndex, uniq } from 'lodash';
 import { IService } from '../IService';
+import { gameMapper } from '../Mappers/game.mapper';
+import { npcMapper } from '../Mappers/npc.mapper';
 import DocumentData = firebase.firestore.DocumentData;
 
 class FirebaseService implements IService {
@@ -25,45 +18,62 @@ class FirebaseService implements IService {
 		this.npcs = db.collection('npcs');
 	}
 
-	async GetPlayer(playerId: string, gameId: string): Promise<IPlayer> {
+	async GetPlayer(playerId: string, gameId: string): Promise<Player> {
 		const game = await this.games.where('id', '==', gameId).get();
-		const playerData = get(game, 'docs[0]');
+		const playerData = this.firstOrUndefined(game.docs);
 
 		if (!playerData) {
 			throw new FirebaseError('Player data unavailable');
 		}
-		const object = playerData.data();
-		return find(object.players, (p: IPlayer) => p.id === String(playerId));
+		const mappedGame = gameMapper(playerData.data());
+		const player = find(mappedGame.players, (p: Player) => p.id === String(playerId));
+		if (!player) {
+			throw new FirebaseError('Player not found!');
+		}
+		return player;
 	}
 
-	async GetEvents(channelId: string, gameId: string): Promise<ISessionData> {
+	async GetEvents(channelId: string, gameId: string): Promise<SessionData> {
 		const game = await this.games.where('id', '==', gameId).get();
-		const gameData = get(game, 'docs[0]');
+		const gameData = this.firstOrUndefined(game.docs);
 		if (!gameData) {
 			throw new FirebaseError('Could not fetch gamedata');
 		}
-		const object = gameData.data();
-		return find(object.channels, (c: ISessionData) => c.channelId === String(channelId));
+		const mappedGame = gameMapper(gameData.data());
+
+		const gameSession = find(mappedGame.channels, (c: SessionData) => c.channelId === String(channelId));
+		if (!gameSession) {
+			throw new FirebaseError('Game session data not found');
+		}
+		return gameSession;
 	}
 
-	async GetUserChannels(userId: string): Promise<IGame[]> {
+	async GetUserChannels(userId: string): Promise<Game[]> {
 		const gamesQuery = await this.games.where('adminId', '==', userId).get();
-		const games = gamesQuery.docs.map(g => g.data());
-
-		return <IGame[]>games;
+		return gamesQuery.docs.map(g => gameMapper(g.data()));
 	}
 
-	async AddPlayer(name: string, id: string, statArray: IStat[], gameId: string): Promise<IPlayer> {
+	async AddPlayer(name: string, id: string, statArray: Stat[], gameId: string): Promise<Player> {
 		const game = await this.games.where('id', '==', gameId).get();
-		const gameData = game.docs[0].data();
-		if (find(gameData.players, (p: IPlayer) => p.id === id)) {
+		const gameData = this.firstOrUndefined(game.docs);
+		if (!gameData) {
+			throw new FirebaseError('Could not fetch gamedata');
+		}
+		const mappedGame = gameMapper(gameData.data());
+		if (find(mappedGame.players, (p: Player) => p.id === id)) {
 			throw new Error('This player already exists');
 		}
-		const newGamePlayers = [...gameData.players, { discordUserName: name, id: id, statisticsSet: statArray }];
-		gameData.players = newGamePlayers;
+		const newPlayer: Player = {
+			discordUserName: name,
+			id,
+			npcSet: [],
+			statisticsSet: statArray,
+		};
+		const newGamePlayers = [...mappedGame.players, newPlayer];
+		mappedGame.players = newGamePlayers;
 		return this.games
 			.doc(game.docs[0].id)
-			.set(gameData)
+			.set(mappedGame)
 			.then(() => {
 				return newGamePlayers[newGamePlayers.length - 1];
 			})
@@ -79,19 +89,20 @@ class FirebaseService implements IService {
 		image: string,
 		description: string,
 		gameId: string
-	): Promise<Omit<INPC, 'facts'>> {
+	): Promise<Omit<NPC, 'facts'>> {
 		const npcs = await this.npcs.where('gameId', '==', gameId).get();
-		const npcData = npcs.docs.map(n => n.data());
+		const npcData = npcs.docs.map(n => npcMapper(n.data()));
 		const npcExists = findIndex(npcData, (n: DocumentData) => n.callName === callName) !== -1;
 		if (npcExists) {
 			throw new FirebaseError(`NPC of this callname allready exists! Callname was: ${callName}`);
 		} else {
-			const npcObject = {
-				gameId: gameId,
+			const npcObject: NPC = {
 				name: name,
 				image: image,
 				description: description,
 				callName: callName,
+				gameId,
+				facts: [],
 			};
 			return this.npcs
 				.add(npcObject)
@@ -105,41 +116,48 @@ class FirebaseService implements IService {
 		}
 	}
 
-	async AddFactsToNPC(playerId: string, npc: string, facts: string[], gameId: string): Promise<INPC> {
-		const game = await this.games.where('id', '==', gameId).get();
-		const gameData = game ? game.docs[0].data() : null;
-		let npcToUpdate: DocumentData = {};
+	async AddFactsToNPC(playerId: string, npc: string, facts: string[], gameId: string): Promise<NPC> {
+		const game = await this.games.where('gameId', '==', gameId).get();
+		const npcs = await this.npcs.where('gameId', '==', gameId).get();
+		const gameData = this.firstOrUndefined(game.docs);
+		const npcData = npcs.docs.map(npcMapper);
+		let npcToUpdate: NPC;
+		if (npcData.length === 0) {
+			throw new FirebaseError('No NPCs found');
+		}
 
 		if (!gameData) {
 			throw new FirebaseError('No game data available');
 		}
 
-		const { players } = gameData;
-		const playerIndex = findIndex(players, (p: IPlayer) => p.id === playerId);
+		const mappedGame = gameMapper(gameData.data());
+
+		if (!mappedGame) {
+			throw new FirebaseError('No game data available');
+		}
+
+		const { players } = mappedGame;
+		const playerIndex = findIndex(players, (p: Player) => p.id === playerId);
 		if (playerIndex === -1) {
 			throw new FirebaseError('Player not found');
 		}
-		let knownNPCPosition = findIndex(players[playerIndex].npcSet, (n: IPlayerNPCKnowledge) => n.npc.callName === npc);
+		let knownNPCPosition = findIndex(players[playerIndex].npcSet, (n: NPC) => n.callName === npc);
 		if (knownNPCPosition === -1) {
-			const npcs = await this.npcs.where('gameId', '==', gameId).get();
-			const npcData = npcs ? npcs.docs.map(n => n.data()) : null;
-			const dbNPC = find(npcData, (n: INPC) => n.callName === npc);
+			const dbNPC = find(npcData, (n: NPC) => n.callName === npc);
 			if (dbNPC) {
-				npcToUpdate = <DocumentData>dbNPC;
-				players[playerIndex].npcs = [...players[playerIndex].npcs, npcToUpdate];
-				knownNPCPosition = findIndex(players[playerIndex].npcSet, (n: IPlayerNPCKnowledge) => n.npc.callName === npc);
+				players[playerIndex].npcSet = [...players[playerIndex].npcSet, dbNPC];
+				knownNPCPosition = findIndex(players[playerIndex].npcSet, (n: NPC) => n.callName === npc);
 			}
-		} else {
-			npcToUpdate = players[playerIndex].npcSet[knownNPCPosition];
 		}
+		npcToUpdate = players[playerIndex].npcSet[knownNPCPosition];
 		const knownFacts = npcToUpdate.facts ?? [];
 		players[playerIndex].npcSet[knownNPCPosition].facts = uniq([...knownFacts, ...facts]);
-		gameData.players = players;
+		mappedGame.players = players;
 		return this.games
-			.doc(game.docs[0].id)
-			.set(gameData)
+			.doc(gameData.id)
+			.set(mappedGame)
 			.then(() => {
-				return <INPC>npcToUpdate;
+				return npcToUpdate;
 			})
 			.catch(e => {
 				console.log(e);
@@ -153,25 +171,27 @@ class FirebaseService implements IService {
 		narrationText: string,
 		channelId: string,
 		gameId: string
-	): Promise<INarration> {
+	): Promise<Narration> {
 		const game = await this.games.where('id', '==', gameId).get();
-		const gameData = game ? game.docs[0].data() : null;
+		const gameData = this.firstOrUndefined(game.docs);
 		if (!gameData) {
 			throw new FirebaseError('Game data not found');
 		}
 
-		const channelIndex = findIndex(gameData.channels, (c: ISessionData) => c.channelId === channelId);
+		const mappedGame = gameMapper(gameData.data());
+
+		const channelIndex = findIndex(mappedGame.channels, (c: SessionData) => c.channelId === channelId);
 		if (channelIndex === -1) {
 			throw new FirebaseError('Channel not found');
 		}
-		const channel = gameData.channels[channelIndex];
-		const narrationEvents = channel.narrationeventSet ? channel.narrationeventSet : {};
+		const channel = mappedGame.channels[channelIndex];
+		const narrationEvents = channel.narrationSet ? channel.narrationSet : [];
 		const newNarrationEvent = { name, image, narrationText };
 		channel.narrationSet = [...narrationEvents, newNarrationEvent];
-		gameData.channels[channelIndex] = channel;
+		mappedGame.channels[channelIndex] = channel;
 		return this.games
-			.doc(game.docs[0].id)
-			.set(gameData)
+			.doc(gameData.id)
+			.set(mappedGame)
 			.then(() => {
 				return newNarrationEvent;
 			})
@@ -188,25 +208,27 @@ class FirebaseService implements IService {
 		message: string,
 		channelId: string,
 		gameId: string
-	): Promise<IStatInsight> {
+	): Promise<StatInsight> {
 		const game = await this.games.where('id', '==', gameId).get();
-		const gameData = game ? game.docs[0].data() : null;
+		const gameData = this.firstOrUndefined(game.docs);
 		if (!gameData) {
 			throw new FirebaseError('Game data not found');
 		}
 
-		const channelIndex = findIndex(gameData.channels, (c: Partial<ISessionData>) => c.channelId === channelId);
+		const mappedGame = gameMapper(gameData.data());
+
+		const channelIndex = findIndex(mappedGame.channels, (c: Partial<SessionData>) => c.channelId === channelId);
 		if (channelIndex === -1) {
 			throw new FirebaseError('Channel not found');
 		}
-		const channel = gameData.channels[channelIndex];
-		const statInsightEvents = channel.statinsightSet ? channel.statinsightSet : {};
+		const channel = mappedGame.channels[channelIndex];
+		const statInsightEvents = channel.statInsightSet ? channel.statInsightSet : [];
 		const newInsightEvent = { name, statName: stat, minValue: value, successMessage: message };
-		channel.statinsightSet = [...statInsightEvents, newInsightEvent];
-		gameData.channels[channelIndex] = channel;
+		channel.statInsightSet = [...statInsightEvents, newInsightEvent];
+		mappedGame.channels[channelIndex] = channel;
 		return this.games
-			.doc(game.docs[0].id)
-			.set(gameData)
+			.doc(gameData.id)
+			.set(mappedGame)
 			.then(() => {
 				return newInsightEvent;
 			})
@@ -221,31 +243,33 @@ class FirebaseService implements IService {
 		message: string,
 		shortCircuit: boolean,
 		replyPrefix: string,
-		globaltestoptionSet: IVersionOption[],
+		globaltestoptionSet: Option[],
 		gameId: string,
 		channelId: string
-	): Promise<IGlobalTest> {
+	): Promise<GlobalTest> {
 		const game = await this.games.where('id', '==', gameId).get();
-		const gameData = game ? game.docs[0].data() : null;
+		const gameData = this.firstOrUndefined(game.docs);
 		if (!gameData) {
 			throw new FirebaseError('Game data not found');
 		}
 
-		const channelIndex = findIndex(gameData.channels, (c: Partial<ISessionData>) => c.channelId === channelId);
+		const mappedGame = gameMapper(gameData.data());
+
+		const channelIndex = findIndex(mappedGame.channels, (c: Partial<SessionData>) => c.channelId === channelId);
 		if (channelIndex === -1) {
 			throw new FirebaseError('Channel not found');
 		}
 
-		const channel = gameData.channels[channelIndex];
-		const globaltestEvents = channel.globaltestSet ? channel.globaltestSet : {};
-		const newGlobalTestEvent: IGlobalTest = { name, testMessage: message, shortCircuit, replyPrefix, globaltestoptionSet };
+		const channel = mappedGame.channels[channelIndex];
+		const globaltestEvents = channel.globaltestSet ? channel.globaltestSet : [];
+		const newGlobalTestEvent: GlobalTest = { name, testMessage: message, shortCircuit, replyPrefix, globaltestoptionSet };
 		channel.globaltestSet = [...globaltestEvents, newGlobalTestEvent];
-		gameData.channels[channelIndex] = channel;
+		mappedGame.channels[channelIndex] = channel;
 		return this.games
-			.doc(game.docs[0].id)
-			.set(gameData)
+			.doc(gameData.id)
+			.set(mappedGame)
 			.then(() => {
-				return <IGlobalTest>newGlobalTestEvent;
+				return <GlobalTest>newGlobalTestEvent;
 			})
 			.catch(e => {
 				console.log(e);
@@ -253,8 +277,8 @@ class FirebaseService implements IService {
 			});
 	}
 
-	async AssignGameAdmin(playerId: string, channelId: string, gameId: string): Promise<ISessionData> {
-		const newChannel: ISessionData = {
+	async AssignGameAdmin(playerId: string, channelId: string, gameId: string): Promise<SessionData> {
+		const newChannel: SessionData = {
 			channelId: channelId,
 			statInsightSet: [],
 			narrationSet: [],
@@ -262,26 +286,35 @@ class FirebaseService implements IService {
 			globaltestSet: [],
 		};
 		const game = await this.games.where('id', '==', gameId).get();
-		const gameData = first(game.docs)?.data() as IGame;
-		const isChannelRegistered = gameData.channels.find(c => c.channelId === channelId) != null;
+		const gameData = this.firstOrUndefined(game.docs);
+		if (!gameData) {
+			throw new FirebaseError('Game data not found');
+		}
+		const mappedGame = gameMapper(gameData.docs());
+
+		const isChannelRegistered = mappedGame.channels.find(c => c.channelId === channelId) != null;
 		if (isChannelRegistered) {
-			if (gameData.adminId !== playerId) {
+			if (mappedGame.adminId !== playerId) {
 				throw new Error('This channel already has an admin');
 			} else {
-				return new Promise<ISessionData>(resolve => {
-					resolve(gameData.channels.find(c => c.channelId === channelId) ?? newChannel);
+				return new Promise<SessionData>(resolve => {
+					resolve(mappedGame.channels.find(c => c.channelId === channelId) ?? newChannel);
 				});
 			}
 		} else {
-			gameData.channels.push(newChannel);
+			mappedGame.channels.push(newChannel);
 			return this.games
 				.doc(game.docs[0].id)
-				.set(gameData)
+				.set(mappedGame)
 				.then(() => newChannel)
 				.catch(e => {
 					throw new FirebaseError(e);
 				});
 		}
+	}
+
+	private firstOrUndefined(array: DocumentData[]): DocumentData | undefined {
+		return array.length === 0 ? undefined : array[0];
 	}
 }
 

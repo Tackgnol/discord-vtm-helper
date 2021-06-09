@@ -9,7 +9,7 @@ import {
 	validateAddStatInsight,
 } from './validators';
 import { trim } from 'lodash';
-import { IStat } from '../../Models/GameData';
+import { Stat } from '../../Models/GameData';
 import { errorName, InvalidInputError } from '../../Common/Errors';
 import { IReply, ReplyType } from '../../Models/AppModels';
 import { MessageEmbed } from 'discord.js';
@@ -67,7 +67,7 @@ export class AdminManager {
 	private async addPlayer(value = '', channelId: string) {
 		const addPlayerRegex = /\[([^\]]+)\].*\[([^\]]+)\].*\[([^\]]+)\]/g;
 		const parsed = addPlayerRegex.exec(value);
-		let statArray: IStat[] = [];
+		let statArray: Stat[] = [];
 		if (!parsed || parsed.length < 4) {
 			throw new InvalidInputError('Invalid input, was expecting [player discord name][player discord id][statistics input]');
 		} else {

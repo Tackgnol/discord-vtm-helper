@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Services >> Mappers >> narrationMapper properly maps a valid narration 1`] = `
+Object {
+  "image": "urlToImage",
+  "name": "test",
+  "narrationText": "this is a narration text",
+}
+`;
