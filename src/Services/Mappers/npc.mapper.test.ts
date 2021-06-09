@@ -42,12 +42,6 @@ describe('Services >> Mappers >> npcMapper', () => {
 		}).to.throw(Error);
 	});
 
-	it('throws on undefined facts', () => {
-		expect(() => {
-			npcMapper({ ...testNPCWithFacts, facts: undefined });
-		}).to.throw(Error);
-	});
-
 	it('throws on missing gameId', () => {
 		expect(() => {
 			npcMapper({ ...testNPCWithFacts, gameId: undefined });

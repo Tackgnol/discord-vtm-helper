@@ -77,7 +77,25 @@ Object {
 exports[`EventManagers >>  AdminManager >> AdminManager should add a Fact on a proper input 1`] = `
 Object {
   "type": 0,
-  "value": "[object Object]",
+  "value": Object {
+    "author": null,
+    "color": 5832961,
+    "description": null,
+    "fields": Array [
+      Object {
+        "inline": false,
+        "name": "Player: 0",
+        "value": "fact1,fact2,test,test2",
+      },
+    ],
+    "footer": null,
+    "image": null,
+    "thumbnail": null,
+    "timestamp": null,
+    "title": "Successfully added facts to a npc",
+    "type": "rich",
+    "url": null,
+  },
 }
 `;
 
