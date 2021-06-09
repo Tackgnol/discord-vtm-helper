@@ -11,8 +11,8 @@ export const npcRichEmbed = (npc: Partial<NPC>, added = false, adminInfo = false
 		.setColor(settings.colors.richEmbeddedDetails)
 		.setThumbnail(npc.image ?? '')
 		.setDescription(turndownService.turndown(npc.description));
-	if (npc.facts) {
-		const facts = npc.facts.map(f => `- ${f}`);
+	if (npc.facts?.length !== 0) {
+		const facts = npc.facts?.map(f => `- ${f}`);
 		richEmbed.addField('Facts:', facts);
 	}
 	if (adminInfo) {

@@ -1,5 +1,5 @@
 import { NPC } from '../../Models/GameData';
-import { checkArray, checkType } from './utils';
+import { checkType } from './utils';
 
 export const npcMapper = (object: any): NPC => {
 	checkType<NPC>(object, 'callName', 'string');
@@ -7,7 +7,6 @@ export const npcMapper = (object: any): NPC => {
 	checkType<NPC>(object, 'image', 'string');
 	checkType<NPC>(object, 'description', 'string');
 	checkType<NPC>(object, 'gameId', 'string');
-	checkArray(object?.facts, 'string');
 	return {
 		name: object?.name,
 		callName: object?.callName,

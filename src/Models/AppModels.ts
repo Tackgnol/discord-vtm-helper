@@ -56,3 +56,8 @@ export interface IReplyChannels {
 	message?: Message;
 	channel?: TextChannel;
 }
+
+export interface PlayerFacts {
+	facts: string[];
+	player: string;
+}

@@ -117,10 +117,10 @@ class FirebaseService implements IService {
 	}
 
 	async AddFactsToNPC(playerId: string, npc: string, facts: string[], gameId: string): Promise<NPC> {
-		const game = await this.games.where('gameId', '==', gameId).get();
+		const game = await this.games.where('id', '==', gameId).get();
 		const npcs = await this.npcs.where('gameId', '==', gameId).get();
 		const gameData = this.firstOrUndefined(game.docs);
-		const npcData = npcs.docs.map(npcMapper);
+		const npcData = npcs.docs.map(n => npcMapper(n.data()));
 		let npcToUpdate: NPC;
 		if (npcData.length === 0) {
 			throw new FirebaseError('No NPCs found');
@@ -244,8 +244,8 @@ class FirebaseService implements IService {
 		shortCircuit: boolean,
 		replyPrefix: string,
 		globaltestoptionSet: Option[],
-		gameId: string,
-		channelId: string
+		channelId: string,
+		gameId: string
 	): Promise<GlobalTest> {
 		const game = await this.games.where('id', '==', gameId).get();
 		const gameData = this.firstOrUndefined(game.docs);

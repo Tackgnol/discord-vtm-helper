@@ -8,6 +8,7 @@ Object {
     "fact1",
     "fact2",
   ],
+  "gameId": "x",
   "image": "placeholder",
   "name": "Test",
 }
@@ -18,6 +19,7 @@ Object {
   "callName": "testWithout",
   "description": "this is a test",
   "facts": Array [],
+  "gameId": "x",
   "image": "placeholder",
   "name": "Test",
 }
