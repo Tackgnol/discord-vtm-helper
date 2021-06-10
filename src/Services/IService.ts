@@ -2,7 +2,7 @@ import { GlobalTest, Narration, NPC, Player, Stat, StatInsight, Option } from '.
 import { Game, SessionData } from '../Models/AppModels';
 
 export interface IService {
-	GetPlayer: (playerId: string, gameId: string) => Promise<Player>;
+	GetPlayer: (playerId: string, gameId: string) => Promise<Player | undefined>;
 	GetEvents: (channelId: string, gameId: string) => Promise<SessionData>;
 	GetUserChannels: (userId: string) => Promise<Game[]>;
 	AddPlayer: (name: string, id: string, statArray: Stat[], gameId: string) => Promise<Player>;

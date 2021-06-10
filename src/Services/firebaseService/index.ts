@@ -18,7 +18,7 @@ class FirebaseService implements IService {
 		this.npcs = db.collection('npcs');
 	}
 
-	async GetPlayer(playerId: string, gameId: string): Promise<Player> {
+	async GetPlayer(playerId: string, gameId: string): Promise<Player | undefined> {
 		const game = await this.games.where('id', '==', gameId).get();
 		const playerData = this.firstOrUndefined(game.docs);
 
@@ -26,11 +26,7 @@ class FirebaseService implements IService {
 			throw new FirebaseError('Player data unavailable');
 		}
 		const mappedGame = gameMapper(playerData.data());
-		const player = find(mappedGame.players, (p: Player) => p.id === String(playerId));
-		if (!player) {
-			throw new FirebaseError('Player not found!');
-		}
-		return player;
+		return find(mappedGame.players, (p: Player) => p.id === String(playerId));
 	}
 
 	async GetEvents(channelId: string, gameId: string): Promise<SessionData> {
