@@ -16,8 +16,11 @@ export function sendWrapper(
 			}
 		})
 		.catch(e => {
-			replyTo?.message?.author.send(e.botMessage ?? e.message);
-			replyTo?.channel?.send(e.botMessage ?? e.message);
+			if (replyTo.message) {
+				replyTo?.message?.author.send(e.botMessage ?? e.message);
+			} else {
+				replyTo?.channel?.send(e.botMessage ?? e.message);
+			}
 		});
 }
 
