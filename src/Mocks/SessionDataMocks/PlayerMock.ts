@@ -1,7 +1,7 @@
-import { IPlayer } from '../../Models/GameData';
+import { Player } from '../../Models/GameData';
 import { testNPCWithFacts, testNPCWithoutFacts } from './NPCMocks';
 
-export const playerMock: IPlayer = {
+export const playerMock: Player = {
 	npcSet: [testNPCWithFacts, testNPCWithoutFacts],
 	discordUserName: 'test',
 	statisticsSet: [{ name: 'test', value: 2 }],

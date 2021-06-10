@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Services >> Mappers >> npcMapper properly maps a valid npc with facts 1`] = `
+Object {
+  "callName": "testWithFacts",
+  "description": "this is a test",
+  "facts": Array [
+    "fact1",
+    "fact2",
+  ],
+  "gameId": "x",
+  "image": "placeholder",
+  "name": "Test",
+}
+`;
+
+exports[`Services >> Mappers >> npcMapper properly maps a valid npc without facts 1`] = `
+Object {
+  "callName": "testWithout",
+  "description": "this is a test",
+  "facts": Array [],
+  "gameId": "x",
+  "image": "placeholder",
+  "name": "Test",
+}
+`;

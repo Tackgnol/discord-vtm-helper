@@ -5,6 +5,7 @@ import {
 } from '../../Mocks/SessionDataMocks/GlobalTestMocks';
 import chai, { expect } from 'chai';
 import { jestSnapshotPlugin } from 'mocha-chai-jest-snapshot';
+import { InvalidInputError } from '../../Common/Errors/InvalidInputError';
 
 chai.use(jestSnapshotPlugin());
 
@@ -32,13 +33,13 @@ describe('EventManagers >> GlobalTestManager >> GlobalTestManager', () => {
 		const { testMessage, replyPrefix, globaltestoptionSet, shortCircuit } = globalTestWithoutShortCircuitMock;
 		expect(() => {
 			manager.performTest(testMessage, replyPrefix, globaltestoptionSet, shortCircuit, 'test');
-		}).to.throw;
+		}).to.throw(InvalidInputError);
 	});
 
 	it('throws an error if there no options given', () => {
 		const { testMessage, replyPrefix, shortCircuit } = globalTestWithoutShortCircuitMock;
 		expect(() => {
 			manager.performTest(testMessage, replyPrefix, [], shortCircuit, 3);
-		}).to.throw;
+		}).to.throw(InvalidInputError);
 	});
 });

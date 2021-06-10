@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Services >> Mappers >> statInsightMapper properly maps a valid statInsight 1`] = `
+Object {
+  "minValue": 5,
+  "name": "test",
+  "statName": "test",
+  "successMessage": "winner is you!",
+}
+`;

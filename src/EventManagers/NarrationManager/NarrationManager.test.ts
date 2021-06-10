@@ -1,6 +1,7 @@
 import NarrationManager from './NarrationManager';
 import { basicNarration } from '../../Mocks/SessionDataMocks/NarrationMocks';
 import { expect } from 'chai';
+import { InvalidInputError } from '../../Common/Errors/InvalidInputError';
 
 describe('EventManagers >> NarrationManager >> NarrationManager', () => {
 	const manager = new NarrationManager();
@@ -14,6 +15,6 @@ describe('EventManagers >> NarrationManager >> NarrationManager', () => {
 	it('throws an error if no text is provided', () => {
 		expect(() => {
 			manager.displayNarration('', image);
-		}).to.throw;
+		}).to.throw(InvalidInputError);
 	});
 });

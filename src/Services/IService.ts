@@ -1,14 +1,14 @@
-import { IGlobalTest, INarration, INPC, IPlayer, IStat, IStatInsight, IVersionOption } from '../Models/GameData';
-import { IGame, ISessionData } from '../Models/AppModels';
+import { GlobalTest, Narration, NPC, Player, Stat, StatInsight, Option } from '../Models/GameData';
+import { Game, SessionData } from '../Models/AppModels';
 
 export interface IService {
-	GetPlayer: (playerId: string, gameId: string) => Promise<IPlayer>;
-	GetEvents: (channelId: string, gameId: string) => Promise<ISessionData>;
-	GetUserChannels: (userId: string) => Promise<IGame[]>;
-	AddPlayer: (name: string, id: string, statArray: IStat[], gameId: string) => Promise<IPlayer>;
-	AddNPC: (name: string, callName: string, image: string, description: string, gameId: string) => Promise<Omit<INPC, 'facts'>>;
-	AddFactsToNPC: (playerId: string, npc: string, facts: string[], gameId: string) => Promise<INPC>;
-	AddNarration: (name: string, image: string, narrationText: string, channelId: string, gameId: string) => Promise<INarration>;
+	GetPlayer: (playerId: string, gameId: string) => Promise<Player | undefined>;
+	GetEvents: (channelId: string, gameId: string) => Promise<SessionData>;
+	GetUserChannels: (userId: string) => Promise<Game[]>;
+	AddPlayer: (name: string, id: string, statArray: Stat[], gameId: string) => Promise<Player>;
+	AddNPC: (name: string, callName: string, image: string, description: string, gameId: string) => Promise<Omit<NPC, 'facts'>>;
+	AddFactsToNPC: (playerId: string, npc: string, facts: string[], gameId: string) => Promise<NPC>;
+	AddNarration: (name: string, image: string, narrationText: string, channelId: string, gameId: string) => Promise<Narration>;
 	AddStatInsight: (
 		name: string,
 		stat: string,
@@ -16,15 +16,15 @@ export interface IService {
 		message: string,
 		channelId: string,
 		gameId: string
-	) => Promise<IStatInsight>;
+	) => Promise<StatInsight>;
 	AddGlobalTest: (
 		name: string,
 		message: string,
 		shortCircuit: boolean,
 		replyPrefix: string,
-		globaltestoptionSet: IVersionOption[],
+		globaltestoptionSet: Option[],
 		channelId: string,
 		gameId: string
-	) => Promise<IGlobalTest>;
-	AssignGameAdmin: (playerId: string, channelId: string, gameId: string) => Promise<ISessionData>;
+	) => Promise<GlobalTest>;
+	AssignGameAdmin: (playerId: string, channelId: string, gameId: string) => Promise<SessionData>;
 }

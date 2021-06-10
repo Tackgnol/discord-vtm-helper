@@ -1,11 +1,12 @@
 import getStatInsight from './statInsightGetter';
-import { ISessionData } from '../../Models/AppModels';
+import { SessionData } from '../../Models/AppModels';
 import { statInsightMockLow } from '../../Mocks/SessionDataMocks/StatInsightMocks';
 import { nonExistentStatInsight, statInsightLower, statInsightNoValue } from '../../Mocks/QueryMocks/statInsightQuerries';
 import { expect } from 'chai';
+import { InvalidInputError } from '../../Common/Errors';
 
 describe('Handlers >> StatInsightGetter >> statInsightGetter', () => {
-	const testData: ISessionData = {
+	const testData: SessionData = {
 		channelId: '0',
 		statInsightSet: [statInsightMockLow],
 	};
@@ -22,6 +23,6 @@ describe('Handlers >> StatInsightGetter >> statInsightGetter', () => {
 	it('throws an error if a non existent name', () => {
 		expect(() => {
 			getStatInsight(testData, nonExistentStatInsight);
-		}).to.throw;
+		}).to.throw(InvalidInputError);
 	});
 });

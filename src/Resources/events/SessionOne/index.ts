@@ -1,9 +1,9 @@
 import { GlobalTest } from './GlobalTest';
 import { StatInsights } from './StatInsights';
 import { Narration } from './Narration';
-import { ISessionData } from '../../../Models/AppModels';
+import { SessionData } from '../../../Models/AppModels';
 
-export const SessionOne: ISessionData = {
+export const SessionOne: SessionData = {
 	channelId: '701405459852165150',
 	statInsightSet: StatInsights,
 	narrationSet: Narration,

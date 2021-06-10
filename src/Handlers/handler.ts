@@ -40,18 +40,21 @@ class Handler {
 		query: Partial<IEvent>,
 		gameId: string,
 		messageAuthor: string,
-		channelMembers: Collection<string, GuildMember>,
-		receivedValue?: number
+		channelMembers: Collection<string, GuildMember>
 	): Promise<IReply> {
 		let eventData;
 		const queryType = query.type;
 		const { subPrefixes } = settings;
 		const memberList = channelMembers.map(m => m.id);
+		const { value } = query;
 		switch (queryType) {
 			case subPrefixes.globalTest:
 				eventData = await this.service.GetEvents(channelId, gameId);
 				const { testMessage, shortCircuit, replyPrefix, globaltestoptionSet } = getGlobalTest(eventData, query);
-				return this.globalTestManager.performTest(testMessage, replyPrefix, globaltestoptionSet, shortCircuit, receivedValue);
+				if (typeof value !== 'undefined') {
+					return this.globalTestManager.performTest(testMessage, replyPrefix, globaltestoptionSet, shortCircuit, value);
+				}
+				return this.globalTestManager.performTest(testMessage, replyPrefix, globaltestoptionSet, shortCircuit);
 			case subPrefixes.statInsight:
 				eventData = await this.service.GetEvents(channelId, gameId);
 				const { statName, successMessage, minValue } = getStatInsight(eventData, query);
@@ -68,8 +71,11 @@ class Handler {
 				return this.adminManager.fireEvent(query.eventName ?? '', query.value ?? '', gameId, channelId, messageAuthor);
 			case subPrefixes.npcs:
 				if (messageAuthor) {
-					const { npcSet } = await this.service.GetPlayer(messageAuthor, gameId);
-					return this.npcManager.displayNPCInfo(query.eventName ?? '', npcSet);
+					const player = await this.service.GetPlayer(messageAuthor, gameId);
+					if (!player) {
+						throw new InvalidInputError('This player has no NPCs');
+					}
+					return this.npcManager.displayNPCInfo(query.eventName ?? '', player.npcSet);
 				}
 				throw new InvalidInputError('Message author not found');
 			default:

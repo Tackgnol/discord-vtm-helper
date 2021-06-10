@@ -5,7 +5,8 @@ export interface IEvent {
 	value: string;
 }
 
-export interface INPC {
+export interface NPC {
+	gameId: string;
 	name: string;
 	description: string;
 	image: string;
@@ -13,36 +14,36 @@ export interface INPC {
 	callName: string;
 }
 
-export interface IStat {
+export interface Stat {
 	name: string;
-	value: string | number;
+	value: number;
 }
 
-export interface IVersionOption {
+export interface Option {
 	minResult: number;
 	resultMessage: string;
 }
 
-export interface IMultiUserMessage {
+export interface MultiUserMessage {
 	userList: string[];
 	value: string;
 }
 
-export interface INarration {
+export interface Narration {
 	name: string;
 	narrationText: string;
 	image?: string;
 }
 
-export interface IGlobalTest {
+export interface GlobalTest {
 	name: string;
 	testMessage: string;
 	shortCircuit: boolean;
 	replyPrefix: string;
-	globaltestoptionSet: IVersionOption[];
+	globaltestoptionSet: Option[];
 }
 
-export interface IStatInsight {
+export interface StatInsight {
 	name: string;
 	statName: string;
 	minValue: number;
@@ -55,14 +56,14 @@ export interface IMultiPlayerMessage {
 	message: string;
 }
 
-export interface IPlayer {
+export interface Player {
 	id: string;
 	discordUserName: string;
-	npcSet: INPC[];
-	statisticsSet: IStat[];
+	npcSet: NPC[];
+	statisticsSet: Stat[];
 }
 
 export interface IPlayerNPCKnowledge {
-	npc: INPC;
+	npc: NPC;
 	facts: string[];
 }

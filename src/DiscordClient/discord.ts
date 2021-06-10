@@ -6,7 +6,7 @@ import { settings } from '../config/settings';
 import { canReplyTo, sendWrapper } from './utils';
 import Handler from '../Handlers/handler';
 import { IEvent } from '../Models/GameData';
-import { IActiveSession, IGame, IReply, IReplyChannels, ISessionData, ReplyType } from '../Models/AppModels';
+import { IActiveSession, Game, IReply, IReplyChannels, SessionData, ReplyType } from '../Models/AppModels';
 import { addReactionNumbers } from '../Common/addReactionNumbers';
 import { InvalidInputError } from '../Common/Errors/InvalidInputError';
 import { IService } from '../Services/IService';
@@ -24,7 +24,7 @@ export class DiscordClient {
 		const channelId = message.channel.id;
 		const channel = await this.discord.channels.fetch(channelId);
 		const games = await this.service.GetUserChannels(message.author.id);
-		let currentGame: IGame | undefined;
+		let currentGame: Game | undefined;
 		if (games.length === 1) {
 			currentGame = games[0];
 		} else {
@@ -157,7 +157,7 @@ export class DiscordClient {
 		}
 	}
 
-	private getSelectedChannel = async (adminId: string): Promise<ISessionData> => {
+	private getSelectedChannel = async (adminId: string): Promise<SessionData> => {
 		const games = await this.service.GetUserChannels(adminId);
 		const currentGame = games.find(g => g.current);
 		if (!currentGame) {

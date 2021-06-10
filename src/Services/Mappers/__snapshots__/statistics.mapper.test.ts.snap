@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Services >> Mappers >> statisticMapper properly maps a valid stat 1`] = `
+Object {
+  "name": "test",
+  "value": 2,
+}
+`;

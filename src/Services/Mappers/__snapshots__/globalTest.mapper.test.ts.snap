@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Services >> Mappers >> globalTestMapper properly maps a global test 1`] = `
+Object {
+  "globaltestoptionSet": Array [
+    Object {
+      "minResult": 1,
+      "resultMessage": "result for 1",
+    },
+    Object {
+      "minResult": 5,
+      "resultMessage": "result for 5",
+    },
+  ],
+  "name": "scTest",
+  "replyPrefix": "testPrefix",
+  "shortCircuit": true,
+  "testMessage": "shortCircuitTest",
+}
+`;

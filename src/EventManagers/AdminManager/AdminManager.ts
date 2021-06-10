@@ -9,11 +9,12 @@ import {
 	validateAddStatInsight,
 } from './validators';
 import { trim } from 'lodash';
-import { IStat } from '../../Models/GameData';
+import { NPC, Stat } from '../../Models/GameData';
 import { errorName, InvalidInputError } from '../../Common/Errors';
-import { IReply, ReplyType } from '../../Models/AppModels';
+import { IReply, PlayerFacts, ReplyType } from '../../Models/AppModels';
 import { MessageEmbed } from 'discord.js';
 import { IService } from '../../Services/IService';
+import { factRichEmbed } from '../../Common/RichEmbeds/factRichEmbed';
 
 export class AdminManager {
 	constructor(private service: IService) {
@@ -67,7 +68,7 @@ export class AdminManager {
 	private async addPlayer(value = '', channelId: string) {
 		const addPlayerRegex = /\[([^\]]+)\].*\[([^\]]+)\].*\[([^\]]+)\]/g;
 		const parsed = addPlayerRegex.exec(value);
-		let statArray: IStat[] = [];
+		let statArray: Stat[] = [];
 		if (!parsed || parsed.length < 4) {
 			throw new InvalidInputError('Invalid input, was expecting [player discord name][player discord id][statistics input]');
 		} else {
@@ -129,7 +130,7 @@ export class AdminManager {
 	private async addFactsToNPCs(value = '', gameId: string) {
 		const addFactRegex = /\[(\w+)\]\[(\d+|\d+,+\d+?)\]\[(.+)\]/g;
 		const parsed = addFactRegex.exec(value);
-		const results = [];
+		const results: PlayerFacts[] = [];
 		if (!parsed || parsed.length < 4) {
 			throw new InvalidInputError('Invalid input was expecting [npc call name][player discord ids][fact list]');
 		} else {
@@ -142,9 +143,9 @@ export class AdminManager {
 			const factList = parsed[3] ? parsed[3].split(',').map(f => trim(f)) : [];
 			for (const p of playerList) {
 				const result = await this.service.AddFactsToNPC(p, callName, factList, gameId);
-				results.push(result);
+				results.push({ facts: result.facts, player: p });
 			}
-			return results.toString();
+			return factRichEmbed(results);
 		}
 	}
 
@@ -226,11 +227,7 @@ export class AdminManager {
 					return globalTestRichEmbedInit(testMessage, true);
 				})
 				.catch((e: Error) => {
-					if (e.name === errorName) {
-						return 'This name already exists, specify a new one';
-					} else {
-						throw new InvalidInputError('Failed to add event');
-					}
+					throw new InvalidInputError(`Failed to add event, error: ${e}`);
 				});
 		}
 	}

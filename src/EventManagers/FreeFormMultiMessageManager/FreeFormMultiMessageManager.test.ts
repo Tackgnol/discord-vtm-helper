@@ -2,6 +2,7 @@ import { FreeFormMultiMessageManager } from './FreeFormMultiMessageManager';
 import { freeFormMultiMessageErrorMock, freeFormMultiMessageMock } from '../../Mocks/SessionDataMocks/FreeFormMultiMessageMock';
 import chai, { expect } from 'chai';
 import { jestSnapshotPlugin } from 'mocha-chai-jest-snapshot';
+import { InvalidInputError } from '../../Common/Errors';
 
 chai.use(jestSnapshotPlugin());
 
@@ -18,20 +19,20 @@ describe('EventManagers >> FreeFormMultiMessageManager >> FreeFormMultiMessageMa
 		const { channelMembers, reply } = freeFormMultiMessageMock;
 		expect(() => {
 			manager.messageUsers(reply, [], channelMembers);
-		}).to.throw;
+		}).to.throw(InvalidInputError);
 	});
 
 	it('throws an error on empty channel members', () => {
 		const { reply, userList } = freeFormMultiMessageMock;
 		expect(() => {
 			manager.messageUsers(reply, userList, []);
-		}).to.throw;
+		}).to.throw(InvalidInputError);
 	});
 
 	it('throws an error if the channel list and user list do not match', () => {
 		const { channelMembers, reply, userList } = freeFormMultiMessageErrorMock;
 		expect(() => {
 			manager.messageUsers(reply, userList, channelMembers);
-		}).to.throw;
+		}).to.throw(InvalidInputError);
 	});
 });

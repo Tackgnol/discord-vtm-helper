@@ -1,9 +1,9 @@
 import { find, get, isNil } from 'lodash';
-import { IEvent, IStatInsight } from '../../Models/GameData';
+import { IEvent, StatInsight } from '../../Models/GameData';
 import { InvalidInputError } from '../../Common/Errors/InvalidInputError';
-import { ISessionData } from '../../Models/AppModels';
+import { SessionData } from '../../Models/AppModels';
 
-const getStatInsight = (sessionData: ISessionData, query: Partial<IEvent>): IStatInsight => {
+const getStatInsight = (sessionData: SessionData, query: Partial<IEvent>): StatInsight => {
 	const currentSession = get(sessionData, 'statInsightSet');
 	const displayTest = find(currentSession, c => c.name === query.eventName);
 	if (!isNil(displayTest)) {

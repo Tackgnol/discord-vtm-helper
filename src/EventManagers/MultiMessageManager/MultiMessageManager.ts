@@ -9,6 +9,9 @@ class MultiMessageManager {
 		if (isEmpty(users)) {
 			throw new InvalidInputError('This channel has no users!');
 		}
+		if (isEmpty(channelMembers)) {
+			throw new InvalidInputError('This channel has no users!');
+		}
 		const messages: IMessageList[] = [];
 		if (!isEmpty(users)) {
 			users.forEach(u => {

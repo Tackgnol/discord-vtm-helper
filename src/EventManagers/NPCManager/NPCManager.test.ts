@@ -2,6 +2,7 @@ import NPCManager from './NPCManager';
 import { playerMock } from '../../Mocks/SessionDataMocks/PlayerMock';
 import { allNPCs, existingNPC, nonExistentNPC } from '../../Mocks/QueryMocks/npcQuery';
 import { expect } from 'chai';
+import { InvalidInputError } from '../../Common/Errors/InvalidInputError';
 
 describe('EventManagers >> NPCManager >> NPCManager', () => {
 	const manager = new NPCManager();
@@ -19,6 +20,6 @@ describe('EventManagers >> NPCManager >> NPCManager', () => {
 	it('throws an error when requesting a non-existent npc', () => {
 		expect(() => {
 			manager.displayNPCInfo(nonExistentNPC.eventName ?? 'all', playerMock.npcSet);
-		}).to.throw;
+		}).to.throw(InvalidInputError);
 	});
 });

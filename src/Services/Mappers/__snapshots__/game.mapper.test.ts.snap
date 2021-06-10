@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Services >> Mappers > gameMapper maps a game on proper data input 1`] = `
+Object {
+  "activeChannel": "0",
+  "adminId": "0",
+  "channels": Array [
+    Object {
+      "channelId": "0",
+      "globaltestSet": undefined,
+      "multiMessageSet": undefined,
+      "narrationSet": undefined,
+      "statInsightSet": undefined,
+    },
+  ],
+  "current": true,
+  "id": "x",
+  "players": Array [
+    Object {
+      "discordUserName": "test",
+      "id": "0",
+      "npcSet": Array [
+        Object {
+          "callName": "testWithFacts",
+          "description": "this is a test",
+          "facts": Array [
+            "fact1",
+            "fact2",
+          ],
+          "gameId": "x",
+          "image": "placeholder",
+          "name": "Test",
+        },
+        Object {
+          "callName": "testWithout",
+          "description": "this is a test",
+          "facts": Array [],
+          "gameId": "x",
+          "image": "placeholder",
+          "name": "Test",
+        },
+      ],
+      "statisticsSet": Array [
+        Object {
+          "name": "test",
+          "value": 2,
+        },
+      ],
+    },
+  ],
+}
+`;

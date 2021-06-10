@@ -1,6 +1,6 @@
 import { IService } from '../../Services/IService';
-import { IGlobalTest, INarration, INPC, IPlayer, IStat, IStatInsight, IVersionOption } from '../../Models/GameData';
-import { IGame, ISessionData } from '../../Models/AppModels';
+import { GlobalTest, Narration, NPC, Player, Stat, StatInsight, Option } from '../../Models/GameData';
+import { Game, SessionData } from '../../Models/AppModels';
 import { testNPCWithFacts, testNPCWithoutFacts } from '../SessionDataMocks/NPCMocks';
 import { globalTestWithShortCircuitMock } from '../SessionDataMocks/GlobalTestMocks';
 import { basicNarration } from '../SessionDataMocks/NarrationMocks';
@@ -10,7 +10,7 @@ import { activeSessionMock } from '../SessionDataMocks/ActiveSessionMock';
 import { gameMock } from '../GameMock';
 
 export class BackendServiceMock implements IService {
-	AddFactsToNPC(playerId: string, npc: string, facts: string[], gameId: string): Promise<INPC> {
+	AddFactsToNPC(playerId: string, npc: string, facts: string[], gameId: string): Promise<NPC> {
 		if (!(playerId || npc || facts || gameId)) {
 			return Promise.reject('Insufficient data passed');
 		}
@@ -22,31 +22,31 @@ export class BackendServiceMock implements IService {
 		message: string,
 		shortCircuit: boolean,
 		replyPrefix: string,
-		globaltestoptionSet: IVersionOption[],
+		globaltestoptionSet: Option[],
 		channelId: string,
 		gameId: string
-	): Promise<IGlobalTest> {
+	): Promise<GlobalTest> {
 		if (!(name || message || shortCircuit || replyPrefix || globaltestoptionSet || channelId || gameId)) {
 			return Promise.reject('Insufficient data passed');
 		}
 		return Promise.resolve(globalTestWithShortCircuitMock);
 	}
 
-	AddNPC(name: string, callName: string, image: string, description: string, gameId: string): Promise<Omit<INPC, 'facts'>> {
+	AddNPC(name: string, callName: string, image: string, description: string, gameId: string): Promise<Omit<NPC, 'facts'>> {
 		if (!(name || callName || image || description || gameId)) {
 			return Promise.reject('Insufficient data passed');
 		}
 		return Promise.resolve(testNPCWithoutFacts);
 	}
 
-	AddNarration(name: string, image: string, narrationText: string, channelId: string, gameId: string): Promise<INarration> {
+	AddNarration(name: string, image: string, narrationText: string, channelId: string, gameId: string): Promise<Narration> {
 		if (!(name || image || narrationText || channelId || gameId)) {
 			return Promise.reject('Insufficient data passed');
 		}
 		return Promise.resolve(basicNarration);
 	}
 
-	AddPlayer(name: string, id: string, statArray: IStat[], gameId: string): Promise<IPlayer> {
+	AddPlayer(name: string, id: string, statArray: Stat[], gameId: string): Promise<Player> {
 		if (!(name || id || statArray || gameId)) {
 			return Promise.reject('Insufficient data passed');
 		}
@@ -60,35 +60,35 @@ export class BackendServiceMock implements IService {
 		message: string,
 		channelId: string,
 		gameId: string
-	): Promise<IStatInsight> {
+	): Promise<StatInsight> {
 		if (!(name || stat || value || message || channelId || gameId)) {
 			return Promise.reject('Insufficient data passed');
 		}
 		return Promise.resolve(statInsightMockLow);
 	}
 
-	AssignGameAdmin(playerId: string, channelId: string, gameId: string): Promise<ISessionData> {
+	AssignGameAdmin(playerId: string, channelId: string, gameId: string): Promise<SessionData> {
 		if (!(playerId || channelId || gameId)) {
 			Promise.reject('Insufficient data passed');
 		}
 		return Promise.resolve(activeSessionMock);
 	}
 
-	GetEvents(channelId: string, gameId: string): Promise<ISessionData> {
+	GetEvents(channelId: string, gameId: string): Promise<SessionData> {
 		if (!(channelId || gameId)) {
 			return Promise.reject('Insufficient data passed');
 		}
 		return Promise.resolve(activeSessionMock);
 	}
 
-	GetPlayer(playerId: string, gameId: string): Promise<IPlayer> {
+	GetPlayer(playerId: string, gameId: string): Promise<Player> {
 		if (!(playerId || gameId)) {
 			return Promise.reject('Insufficient data passed');
 		}
 		return Promise.resolve(playerMock);
 	}
 
-	GetUserChannels(userId: string): Promise<IGame[]> {
+	GetUserChannels(userId: string): Promise<Game[]> {
 		if (!userId) {
 			Promise.reject('Insufficient data passed');
 		}

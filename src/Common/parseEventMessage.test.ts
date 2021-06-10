@@ -5,6 +5,7 @@ import { channelMultiMessage } from '../Mocks/QueryMocks/muiltiMessageQueries';
 import { channelNarration } from '../Mocks/QueryMocks/narrationQuerries';
 import { channelNPC } from '../Mocks/QueryMocks/npcQuery';
 import { channelStatInsight } from '../Mocks/QueryMocks/statInsightQuerries';
+import InvalidInputError from './Errors/InvalidInputError';
 
 describe('Common >> parseEventMessage', () => {
 	it('parses a proper globalTest message', () => {
@@ -35,9 +36,10 @@ describe('Common >> parseEventMessage', () => {
 	it('throws on a not parsable message', () => {
 		expect(() => {
 			parseEventMessage('well this is unexpected');
-		}).to.throw;
+		}).to.throw(InvalidInputError);
+
 		expect(() => {
 			parseEventMessage('well-this-is-unexpected');
-		}).to.throw;
+		}).to.throw(InvalidInputError);
 	});
 });
