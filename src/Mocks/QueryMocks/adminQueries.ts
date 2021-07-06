@@ -9,6 +9,8 @@ const {
 	addStatInsight,
 	addNarration,
 	assignAdmin,
+	removePlayer,
+	addGame,
 } = settings.subPrefixes.adminSubCommands;
 
 const adminCommand: Partial<IEvent> = {
@@ -193,5 +195,15 @@ export const failedAddNarrationNameOnly: Partial<IEvent> = {
 
 export const successfulAssignAdmin: Partial<IEvent> = {
 	eventName: assignAdmin,
+	...adminCommand,
+};
+
+export const successfulRemovePlayer: Partial<IEvent> = {
+	eventName: removePlayer,
+	...adminCommand,
+};
+
+export const successfulAddGame: Partial<IEvent> = {
+	eventName: addGame,
 	...adminCommand,
 };

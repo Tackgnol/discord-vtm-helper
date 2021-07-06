@@ -6,6 +6,12 @@ import { IService } from '../IService';
 import { GlobalTest, Narration, NPC, Option, Player, Stat, StatInsight } from '../../Models/GameData';
 
 class LocalFileService implements IService {
+	RemovePlayer(playerId: string, gameId: string): Promise<string> {
+		throw new Error('Not available in local mode');
+	}
+	NewGame(admin: string, channelId: string): Promise<Game> {
+		throw new Error('Not available in local mode');
+	}
 	GetPlayer(playerId: string): Promise<Player> {
 		const playerData = find(players, p => p.id === playerId);
 		if (!isNil(playerData)) {

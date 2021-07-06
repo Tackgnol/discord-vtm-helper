@@ -15,6 +15,8 @@ import ADD_NPC from '../../GraphQL/Mutations/ADD_NPC';
 import ADD_NARRATION from '../../GraphQL/Mutations/ADD_NARRATION';
 import ADD_PLAYER from '../../GraphQL/Mutations/ADD_PLAYER';
 import ADD_STAT_INSIGHT from '../../GraphQL/Mutations/ADD_STAT_INSIGHT';
+import ADD_GAME from '../../GraphQL/Mutations/ADD_GAME';
+import REMOVE_PLAYER from '../../GraphQL/Mutations/REMOVE_PLAYER';
 
 class GraphqlService implements IService {
 	private apolloClient: ApolloClient<NormalizedCacheObject>;
@@ -23,6 +25,34 @@ class GraphqlService implements IService {
 			link: createHttpLink({ uri: settings.onlineSourceUrl, fetch: fetch }),
 			cache: new InMemoryCache(),
 		});
+	}
+
+	RemovePlayer(playerId: string, gameId: string): Promise<string> {
+		return this.apolloClient
+			.mutate<Game>({
+				mutation: REMOVE_PLAYER,
+				variables: { inputPlayerId: playerId, inputGame: gameId },
+			})
+			.then(r => {
+				return `Successfully removed player ${playerId}`;
+			})
+			.catch(e => {
+				throw new GraphQLError(e);
+			});
+	}
+	NewGame(admin: string, channelId: string): Promise<Game> {
+		return this.apolloClient
+			.mutate<Game>({
+				mutation: ADD_GAME,
+				variables: { inputAdminId: admin, inputChannelId: channelId },
+			})
+			.then(r => {
+				if (r.data) {
+					return r.data;
+				} else {
+					throw new GraphQLError(`Failed to retrieve new npc data`);
+				}
+			});
 	}
 
 	async GetPlayer(playerId: string): Promise<Player> {

@@ -7,6 +7,7 @@ import { find, findIndex, uniq } from 'lodash';
 import { IService } from '../IService';
 import { gameMapper } from '../Mappers/game.mapper';
 import { npcMapper } from '../Mappers/npc.mapper';
+import { v4 } from 'uuid';
 import DocumentData = firebase.firestore.DocumentData;
 
 class FirebaseService implements IService {
@@ -309,8 +310,58 @@ class FirebaseService implements IService {
 		}
 	}
 
+	async RemovePlayer(playerId: string, gameId: string): Promise<string> {
+		const game = await this.games.where('id', '==', gameId).get();
+		const gameData = this.firstOrUndefined(game.docs);
+		if (!gameData) {
+			throw new FirebaseError('Game data not found');
+		}
+
+		const mappedGame = gameMapper(gameData.data());
+		const playerIndex = findIndex(mappedGame.players, p => p.id === playerId);
+		if (playerIndex === -1) {
+			throw new FirebaseError('No player of this ID in game');
+		}
+		mappedGame.players = mappedGame.players.splice(playerIndex, 1);
+		return this.games
+			.doc(game.docs[0].id)
+			.set(mappedGame)
+			.then(() => `Successfully removed player ${playerId}`)
+			.catch(e => {
+				throw new FirebaseError(e);
+			});
+	}
+
 	private firstOrUndefined(array: DocumentData[]): DocumentData | undefined {
 		return array.length === 0 ? undefined : array[0];
+	}
+
+	async NewGame(admin: string, channelId: string): Promise<Game> {
+		const game: Game = {
+			adminId: admin,
+			id: v4(),
+			players: [],
+			activeChannel: channelId,
+			current: true,
+			channels: [
+				{
+					channelId,
+					statInsightSet: [],
+					narrationSet: [],
+					multiMessageSet: [],
+					globaltestSet: [],
+				},
+			],
+		};
+		return this.games
+			.add(game)
+			.then(async g => {
+				const newGame = await g.get();
+				return gameMapper(newGame.data());
+			})
+			.catch(e => {
+				throw new FirebaseError(e);
+			});
 	}
 }
 
