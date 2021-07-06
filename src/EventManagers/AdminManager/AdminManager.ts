@@ -9,12 +9,13 @@ import {
 	validateAddStatInsight,
 } from './validators';
 import { trim } from 'lodash';
-import { NPC, Stat } from '../../Models/GameData';
-import { errorName, InvalidInputError } from '../../Common/Errors';
-import { IReply, PlayerFacts, ReplyType } from '../../Models/AppModels';
+import { Stat } from '../../Models/GameData';
+import { InvalidInputError } from '../../Common/Errors';
+import { Game, IReply, PlayerFacts, ReplyType } from '../../Models/AppModels';
 import { MessageEmbed } from 'discord.js';
 import { IService } from '../../Services/IService';
 import { factRichEmbed } from '../../Common/RichEmbeds/factRichEmbed';
+import { gameRichEmbed } from '../../Common/RichEmbeds/gameRichEmbed';
 
 export class AdminManager {
 	constructor(private service: IService) {
@@ -30,6 +31,7 @@ export class AdminManager {
 			addStatInsight,
 			addNarration,
 			assignAdmin,
+			addGame,
 		} = settings.subPrefixes.adminSubCommands;
 		let result: MessageEmbed | string | null;
 		switch (eventName) {
@@ -43,7 +45,8 @@ export class AdminManager {
 				result = await this.addFactsToNPCs(value, gameId);
 				break;
 			case removePlayer:
-				throw Error('Unimplemented');
+				result = await this.removePlayer(value, gameId);
+				break;
 			case addGlobalTest:
 				result = await this.addGlobalTest(value, channelId, gameId);
 				break;
@@ -55,6 +58,9 @@ export class AdminManager {
 				break;
 			case assignAdmin:
 				result = await this.assignAdminToChannel(authorId, channelId, gameId);
+				break;
+			case addGame:
+				result = await this.addGame(value, channelId);
 				break;
 			default:
 				throw new InvalidInputError('Invalid admin command!');
@@ -241,5 +247,24 @@ export class AdminManager {
 			.catch(e => {
 				throw new InvalidInputError(`Adding admin to channel failed\n${e}`);
 			});
+	}
+
+	private async removePlayer(value = '', gameId: string) {
+		const playerRegex = /[\d+]{18}/g;
+		const valid = playerRegex.test(value);
+		if (!valid) {
+			throw new InvalidInputError(`Invalid player ID`);
+		}
+		return this.service.RemovePlayer(value, gameId);
+	}
+
+	private async addGame(admin: string, channel: string) {
+		const playerRegex = /[\d+]{18}/g;
+		const valid = playerRegex.test(admin);
+		if (!valid) {
+			throw new InvalidInputError(`Invalid admin ID`);
+		}
+		const game = await this.service.NewGame(admin, channel);
+		return gameRichEmbed(game);
 	}
 }

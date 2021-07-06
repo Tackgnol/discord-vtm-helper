@@ -67,10 +67,42 @@ Object {
 }
 `;
 
+exports[`EventManagers >>  AdminManager >> AdminManager adds a new game 1`] = `
+Object {
+  "type": 0,
+  "value": Object {
+    "author": null,
+    "color": 9044739,
+    "description": "Game active on channel: 0",
+    "fields": Array [
+      Object {
+        "inline": false,
+        "name": "adminId",
+        "value": "0",
+      },
+    ],
+    "footer": null,
+    "image": null,
+    "thumbnail": null,
+    "timestamp": null,
+    "title": "Successfully added game: x",
+    "type": "rich",
+    "url": null,
+  },
+}
+`;
+
 exports[`EventManagers >>  AdminManager >> AdminManager assigns the admin to a channel 1`] = `
 Object {
   "type": 0,
   "value": "Congrats you are now an admin of 0!",
+}
+`;
+
+exports[`EventManagers >>  AdminManager >> AdminManager removes the player from the channel 1`] = `
+Object {
+  "type": 0,
+  "value": "Successfully removed a player",
 }
 `;
 

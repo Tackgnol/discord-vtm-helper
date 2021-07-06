@@ -21,6 +21,7 @@ import {
 	failedAddStatInsightMissingStat,
 	failedAddStatInsightNameOnly,
 	successfulAddFact,
+	successfulAddGame,
 	successfulAddPlayerQueryList,
 	successfulAddPlayerQueryObject,
 	successfulAssignAdmin,
@@ -28,6 +29,7 @@ import {
 	successfullyAddGlobalTest,
 	successfullyAddNarration,
 	successfullyAddStatInsight,
+	successfulRemovePlayer,
 } from '../../Mocks/QueryMocks/adminQueries';
 import chai, { expect } from 'chai';
 import { jestSnapshotPlugin } from 'mocha-chai-jest-snapshot';
@@ -190,5 +192,17 @@ describe('EventManagers >>  AdminManager >> AdminManager', () => {
 		const result = await manager.fireEvent(eventName ?? '', '', '0', '0', '0');
 		expect(result).toMatchSnapshot();
 		expect(result.value).length.above(0);
+	});
+
+	it('removes the player from the channel', async () => {
+		const { eventName } = successfulRemovePlayer;
+		const result = await manager.fireEvent(eventName ?? '', '111111111111111111', '0', '0', '0');
+		expect(result).toMatchSnapshot();
+	});
+
+	it('adds a new game', async () => {
+		const { eventName } = successfulAddGame;
+		const result = await manager.fireEvent(eventName ?? '', '111111111111111111', '0', '0', '0');
+		expect(result).toMatchSnapshot();
 	});
 });

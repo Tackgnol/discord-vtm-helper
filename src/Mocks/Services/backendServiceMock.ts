@@ -10,6 +10,25 @@ import { activeSessionMock } from '../SessionDataMocks/ActiveSessionMock';
 import { gameMock } from '../GameMock';
 
 export class BackendServiceMock implements IService {
+	RemovePlayer(playerId: string, gameId: string): Promise<string> {
+		if (!playerId || !gameId) {
+			return Promise.reject('Missing properties!');
+		}
+		return Promise.resolve('Successfully removed a player');
+	}
+	NewGame(admin: string, channelId: string): Promise<Game> {
+		if (!admin || !channelId) {
+			return Promise.reject('Missing properties!');
+		}
+		return Promise.resolve({
+			activeChannel: '0',
+			adminId: '0',
+			channels: [],
+			current: true,
+			id: 'x',
+			players: [],
+		});
+	}
 	AddFactsToNPC(playerId: string, npc: string, facts: string[], gameId: string): Promise<NPC> {
 		if (!(playerId || npc || facts || gameId)) {
 			return Promise.reject('Insufficient data passed');

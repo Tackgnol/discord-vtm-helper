@@ -27,4 +27,6 @@ export interface IService {
 		gameId: string
 	) => Promise<GlobalTest>;
 	AssignGameAdmin: (playerId: string, channelId: string, gameId: string) => Promise<SessionData>;
+	RemovePlayer: (playerId: string, gameId: string) => Promise<string>;
+	NewGame: (admin: string, channelId: string) => Promise<Game>;
 }
