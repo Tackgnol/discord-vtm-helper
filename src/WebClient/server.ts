@@ -27,7 +27,7 @@ export class WebClient {
 		});
 
 		this.app.post('/message', async (req, res) => {
-			const { message, users, channelId } = req.body;
+			const { message, users, channelId, gameId } = req.body;
 			const channel = await this.discordClient.fetchChannel(channelId);
 			try {
 				const manager = new FreeFormMultiMessageManager();
@@ -40,7 +40,7 @@ export class WebClient {
 					users,
 					textChannel.members.map(m => m.id)
 				);
-				await this.discordClient.send(discordMessage, { channel: textChannel });
+				await this.discordClient.send(discordMessage, { channel: textChannel, gameId });
 				res.send('Success!');
 			} catch (e) {
 				res.status(400).send(e);

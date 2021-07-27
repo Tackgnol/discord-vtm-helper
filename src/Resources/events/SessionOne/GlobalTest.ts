@@ -1,4 +1,4 @@
-export const GlobalTest = [
+export const GlobalTest: any[] = [
 	{
 		name: 'oldHouse',
 		testMessage:

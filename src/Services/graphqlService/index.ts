@@ -7,7 +7,7 @@ import GET_CHANNELS from '../../GraphQL/Queries/GET_CHANNELS';
 import { find, get } from 'lodash';
 import { Game, SessionData } from '../../Models/AppModels';
 import GET_PLAYER from '../../GraphQL/Queries/GET_PLAYER';
-import { GlobalTest, Narration, NPC, Option, Player, Stat, StatInsight } from '../../Models/GameData';
+import { GlobalTest, MessageTest, Narration, NPC, Option, Player, Stat, StatInsight } from '../../Models/GameData';
 import { GraphQLError } from '../../Common/Errors/GraphQLError';
 import { IService } from '../IService';
 import ADD_GLOBAL_TEST from '../../GraphQL/Mutations/ADD_GLOBAL_TEST';
@@ -20,11 +20,16 @@ import REMOVE_PLAYER from '../../GraphQL/Mutations/REMOVE_PLAYER';
 
 class GraphqlService implements IService {
 	private apolloClient: ApolloClient<NormalizedCacheObject>;
+
 	constructor() {
 		this.apolloClient = new ApolloClient({
 			link: createHttpLink({ uri: settings.onlineSourceUrl, fetch: fetch }),
 			cache: new InMemoryCache(),
 		});
+	}
+
+	GetTestByMessageId(messageId: string): Promise<MessageTest> {
+		throw new Error('Unimplemented');
 	}
 
 	RemovePlayer(playerId: string, gameId: string): Promise<string> {
@@ -181,6 +186,10 @@ class GraphqlService implements IService {
 	}
 
 	AssignGameAdmin(playerId: string, channelId: string, gameId: string): Promise<SessionData> {
+		throw new GraphQLError('Unimplemented');
+	}
+
+	AssignActiveMessage(messageId: string, testCall: string): Promise<string> {
 		throw new GraphQLError('Unimplemented');
 	}
 }

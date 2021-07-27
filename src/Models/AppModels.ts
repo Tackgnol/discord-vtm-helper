@@ -1,5 +1,5 @@
 import { IEvent, GlobalTest, IMultiPlayerMessage, Narration, Player, StatInsight } from './GameData';
-import { Message, MessageAttachment, MessageEmbed, TextChannel } from 'discord.js';
+import { DMChannel, Message, MessageAttachment, MessageEmbed, PartialUser, TextChannel, User } from 'discord.js';
 
 export interface IActiveSession {
 	channelId: string;
@@ -40,6 +40,7 @@ export interface IMessageList {
 }
 
 export interface IReply {
+	test?: string;
 	type: ReplyType;
 	value: MessageEmbed | IMessageList[] | MessageAttachment | string;
 }
@@ -54,7 +55,9 @@ export enum ReplyType {
 
 export interface IReplyChannels {
 	message?: Message;
-	channel?: TextChannel;
+	channel?: TextChannel | DMChannel | null;
+	user?: User | PartialUser;
+	gameId: string;
 }
 
 export interface PlayerFacts {

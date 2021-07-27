@@ -6,6 +6,7 @@ import {
 import chai, { expect } from 'chai';
 import { jestSnapshotPlugin } from 'mocha-chai-jest-snapshot';
 import { InvalidInputError } from '../../Common/Errors/InvalidInputError';
+import { BackendServiceMock } from '../../Mocks/Services/backendServiceMock';
 
 chai.use(jestSnapshotPlugin());
 
