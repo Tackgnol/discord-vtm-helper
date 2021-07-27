@@ -5,8 +5,18 @@ import { Message, MessageOptions, MessageEmbed, StringResolvable } from 'discord
 import { Option } from '../../Models/GameData';
 import { InvalidInputError } from '../../Common/Errors';
 import { IReply, ReplyType } from '../../Models/AppModels';
+import { IService } from '../../Services/IService';
+import { settings } from '../../config/settings';
 
 export class GlobalTestManager {
+	constructor() {}
+	async initTest(testName: string, testText: string) {
+		return {
+			test: `${settings.prefix}-${settings.subPrefixes.globalTest}-${testName}`,
+			type: ReplyType.ReactionOneTen,
+			value: globalTestRichEmbedInit(testText),
+		};
+	}
 	performTest(
 		testText: string,
 		replyPrefix: string,
@@ -16,14 +26,11 @@ export class GlobalTestManager {
 	): IReply {
 		let reply;
 
-		if (isNil(value)) {
-			return { type: ReplyType.ReactionOneTen, value: globalTestRichEmbedInit(testText) };
-		}
 		if (isEmpty(versionOptions)) {
 			throw new InvalidInputError('No responses available for this test');
 		}
 
-		if (isNaN(+value)) {
+		if (isNil(value) || isNaN(+value)) {
 			throw new InvalidInputError('Given value is invalid');
 		}
 		if (shortCircuit) {

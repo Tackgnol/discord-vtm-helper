@@ -1,5 +1,5 @@
 import { IService } from '../../Services/IService';
-import { GlobalTest, Narration, NPC, Player, Stat, StatInsight, Option } from '../../Models/GameData';
+import { GlobalTest, Narration, NPC, Player, Stat, StatInsight, Option, MessageTest } from '../../Models/GameData';
 import { Game, SessionData } from '../../Models/AppModels';
 import { testNPCWithFacts, testNPCWithoutFacts } from '../SessionDataMocks/NPCMocks';
 import { globalTestWithShortCircuitMock } from '../SessionDataMocks/GlobalTestMocks';
@@ -10,6 +10,10 @@ import { activeSessionMock } from '../SessionDataMocks/ActiveSessionMock';
 import { gameMock } from '../GameMock';
 
 export class BackendServiceMock implements IService {
+	async GetTestByMessageId(messageId: string): Promise<MessageTest> {
+		const response: MessageTest = { messageId: '', testCall: '!vtm-gt-test', gameId: 'x' };
+		return response;
+	}
 	RemovePlayer(playerId: string, gameId: string): Promise<string> {
 		if (!playerId || !gameId) {
 			return Promise.reject('Missing properties!');
@@ -112,5 +116,9 @@ export class BackendServiceMock implements IService {
 			Promise.reject('Insufficient data passed');
 		}
 		return Promise.resolve([gameMock]);
+	}
+
+	AssignActiveMessage(messageId: string, testCall: string): Promise<string> {
+		return Promise.resolve('');
 	}
 }

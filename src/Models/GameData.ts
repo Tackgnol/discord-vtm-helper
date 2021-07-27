@@ -24,27 +24,23 @@ export interface Option {
 	resultMessage: string;
 }
 
-export interface MultiUserMessage {
-	userList: string[];
-	value: string;
+export interface BaseTest {
+	name: string;
 }
 
-export interface Narration {
-	name: string;
+export interface Narration extends BaseTest {
 	narrationText: string;
 	image?: string;
 }
 
-export interface GlobalTest {
-	name: string;
+export interface GlobalTest extends BaseTest {
 	testMessage: string;
 	shortCircuit: boolean;
 	replyPrefix: string;
 	globaltestoptionSet: Option[];
 }
 
-export interface StatInsight {
-	name: string;
+export interface StatInsight extends BaseTest {
 	statName: string;
 	minValue: number;
 	successMessage: string;
@@ -63,7 +59,8 @@ export interface Player {
 	statisticsSet: Stat[];
 }
 
-export interface IPlayerNPCKnowledge {
-	npc: NPC;
-	facts: string[];
+export interface MessageTest {
+	messageId: string;
+	testCall: string;
+	gameId: string;
 }

@@ -6,6 +6,9 @@ import { IService } from '../IService';
 import { GlobalTest, Narration, NPC, Option, Player, Stat, StatInsight } from '../../Models/GameData';
 
 class LocalFileService implements IService {
+	GetTestByMessageId = (messageId: string) => {
+		throw Error('Unimplemented');
+	};
 	RemovePlayer(playerId: string, gameId: string): Promise<string> {
 		throw new Error('Not available in local mode');
 	}
@@ -70,6 +73,10 @@ class LocalFileService implements IService {
 	}
 
 	AssignGameAdmin(playerId: string, channelId: string, gameId: string): Promise<SessionData> {
+		throw new Error('Not available in local mode');
+	}
+
+	AssignActiveMessage(messageId: string, testCall: string): Promise<string> {
 		throw new Error('Not available in local mode');
 	}
 }

@@ -1,12 +1,12 @@
-import { Client, Message, TextChannel } from 'discord.js';
+import { Client, Message, MessageReaction, PartialUser, TextChannel, User } from 'discord.js';
 import { isAdminCommand, parseCommandMessage, parseEventMessage } from '../Common';
 import { find, findIndex, isArray, isNil } from 'lodash';
 import { isNPCCommand } from '../Common/isNPCCommand';
 import { settings } from '../config/settings';
-import { canReplyTo, sendWrapper } from './utils';
+import { canReplyTo } from './utils';
 import Handler from '../Handlers/handler';
 import { IEvent } from '../Models/GameData';
-import { IActiveSession, Game, IReply, IReplyChannels, SessionData, ReplyType } from '../Models/AppModels';
+import { Game, IActiveSession, IReply, IReplyChannels, ReplyType, SessionData } from '../Models/AppModels';
 import { addReactionNumbers } from '../Common/addReactionNumbers';
 import { InvalidInputError } from '../Common/Errors/InvalidInputError';
 import { IService } from '../Services/IService';
@@ -32,14 +32,28 @@ export class DiscordClient {
 		}
 		if (currentGame && canReplyTo(channel)) {
 			if (channel?.type === 'dm') {
-				sendWrapper(this.processDirectMessage(messageContent, currentGame.id, message), this.send, {
+				this.sendWrapper(this.processDirectMessage(messageContent, currentGame.id, message), {
 					message,
+					gameId: currentGame.id,
 				});
 			} else {
-				sendWrapper(this.processChannelMessage(messageContent, <TextChannel>channel, currentGame.id, message), this.send, {
+				this.sendWrapper(this.processChannelMessage(messageContent, <TextChannel>channel, currentGame.id, message), {
 					message,
+					gameId: currentGame.id,
 				});
 			}
+		}
+	}
+
+	async processReaction(reaction: MessageReaction, user: User | PartialUser) {
+		if (!reaction.me) {
+			const { message, emoji } = reaction;
+			const reactionValue = emoji.identifier[0];
+			const channelId = message.channel.id;
+
+			const { testCall, gameId } = await this.service.GetTestByMessageId(message.id);
+			const content = `${testCall} ${reactionValue}`;
+			this.processMessageReaction(content, channelId, gameId, user);
 		}
 	}
 
@@ -53,43 +67,56 @@ export class DiscordClient {
 				replyTo.channel?.send(reply.value);
 				break;
 			case ReplyType.Personal:
+				replyTo.user?.send(reply.value);
 				replyTo.message?.author.send(reply.value);
+				replyTo.channel?.send(reply.value);
 				break;
 			case ReplyType.ReactionOneTen:
 				replyTo.channel?.send(reply.value).then(m => {
 					addReactionNumbers(m);
+					if (reply.test) {
+						this.service.AssignActiveMessage(m.id, reply.test, replyTo.gameId);
+					}
 				});
 				break;
 			case ReplyType.Multi:
 				if (isArray(reply.value)) {
 					reply.value.forEach(v => {
-						const user = replyTo.channel?.members.get(v.recipient);
-						user && user.send(v.message);
+						if (replyTo?.channel instanceof TextChannel) {
+							const user = replyTo.channel?.members.get(v.recipient);
+							user && user.send(v.message);
+						}
 					});
 				} else {
 					throw new InvalidInputError('Invalid test definition!');
 				}
 				break;
-			case ReplyType.NoReply:
-				return;
 			default:
 				throw new InvalidInputError('Invalid message type');
 		}
+	}
+
+	processMessageReaction(content: string, channelId: string, gameId: string, user: User | PartialUser) {
+		if (content.startsWith('!')) {
+			const parsedEventMessage = parseEventMessage(content);
+			return this.sendWrapper(this.handler.handle(channelId, parsedEventMessage, gameId), { user, gameId });
+		}
+		throw new InvalidInputError('All bot commands must start with "!"');
 	}
 
 	processChannelMessage(content: string, channel: TextChannel, gameId: string, message?: Message) {
 		if (content.startsWith('!')) {
 			const parsedEventMessage = parseEventMessage(content);
 			if (!isNil(parsedEventMessage)) {
-				return sendWrapper(this.handleEvent(parsedEventMessage, channel, gameId, message), this.send, { channel });
+				return this.sendWrapper(this.handleEvent(parsedEventMessage, channel, gameId, message), { channel, gameId });
 			}
 			const activeSession = find(this.activeSessions, s => s.channelId === channel.id);
 			const parsedCommandMessage = parseCommandMessage(content, activeSession);
 			if (!isNil(parsedCommandMessage)) {
-				return sendWrapper(
+				return this.sendWrapper(
 					this.handler.handle(channel.id, parsedEventMessage, gameId, message?.author.id ?? '', channel.members),
-					this.send,
-					{ channel }
+
+					{ channel, gameId }
 				);
 			}
 			throw new InvalidInputError('Invalid bot command');
@@ -113,17 +140,17 @@ export class DiscordClient {
 			};
 		}
 
-		return sendWrapper(
-			this.handler.handle(channel.id, parsedEventMessage, gameId, message?.author.id ?? '0', channel.members),
-			this.send,
-			{ channel, message }
+		return this.sendWrapper(
+			this.handler.handle(channel.id, parsedEventMessage, gameId, message?.author.id ?? '', channel.members),
+
+			{ channel, message, gameId }
 		);
 	}
 
 	private async processDirectMessage(content: string, gameId: string, message: Message) {
 		if (message.author.bot) {
 			return new Promise<IReply>(resolve => {
-				resolve({ value: '', type: ReplyType.NoReply });
+				resolve({ test: content, value: '', type: ReplyType.NoReply });
 			});
 		}
 		if (content.startsWith('!')) {
@@ -137,7 +164,7 @@ export class DiscordClient {
 				const messageChannel = await this.discord.channels.fetch(activeSession.channelId);
 
 				if (messageChannel.isText()) {
-					return sendWrapper(
+					return this.sendWrapper(
 						this.handler.handle(
 							activeSession.channelId,
 							parsedEventMessage,
@@ -145,8 +172,7 @@ export class DiscordClient {
 							message.author.id,
 							(<TextChannel>messageChannel).members
 						),
-						this.send,
-						{ message, channel: <TextChannel>messageChannel }
+						{ message, channel: <TextChannel>messageChannel, gameId }
 					);
 				}
 				throw new InvalidInputError('Cannot reply to this channel!');
@@ -169,4 +195,23 @@ export class DiscordClient {
 		}
 		return activeChannel;
 	};
+
+	private sendWrapper(action: Promise<IReply | void>, replyTo?: IReplyChannels) {
+		if (replyTo?.channel === undefined && replyTo?.message === undefined && replyTo?.user === undefined) {
+			throw new Error('Unable to reply no recepients available');
+		}
+		return action
+			.then(result => {
+				if (result) {
+					this.send(result, replyTo);
+				}
+			})
+			.catch(e => {
+				if (replyTo.message) {
+					replyTo?.message?.author.send(e.botMessage ?? e.message);
+				} else {
+					replyTo?.channel?.send(e.botMessage ?? e.message);
+				}
+			});
+	}
 }

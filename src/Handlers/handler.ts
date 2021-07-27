@@ -39,22 +39,22 @@ class Handler {
 		channelId: string,
 		query: Partial<IEvent>,
 		gameId: string,
-		messageAuthor: string,
-		channelMembers: Collection<string, GuildMember>
+		messageAuthor?: string,
+		channelMembers?: Collection<string, GuildMember>
 	): Promise<IReply> {
 		let eventData;
 		const queryType = query.type;
 		const { subPrefixes } = settings;
-		const memberList = channelMembers.map(m => m.id);
+		const memberList = channelMembers?.map(m => m.id) ?? [];
 		const { value } = query;
 		switch (queryType) {
 			case subPrefixes.globalTest:
 				eventData = await this.service.GetEvents(channelId, gameId);
-				const { testMessage, shortCircuit, replyPrefix, globaltestoptionSet } = getGlobalTest(eventData, query);
-				if (typeof value !== 'undefined') {
-					return this.globalTestManager.performTest(testMessage, replyPrefix, globaltestoptionSet, shortCircuit, value);
+				const { name, testMessage, shortCircuit, replyPrefix, globaltestoptionSet } = getGlobalTest(eventData, query);
+				if (typeof value === 'undefined') {
+					return this.globalTestManager.initTest(name, testMessage);
 				}
-				return this.globalTestManager.performTest(testMessage, replyPrefix, globaltestoptionSet, shortCircuit);
+				return this.globalTestManager.performTest(testMessage, replyPrefix, globaltestoptionSet, shortCircuit, value);
 			case subPrefixes.statInsight:
 				eventData = await this.service.GetEvents(channelId, gameId);
 				const { statName, successMessage, minValue } = getStatInsight(eventData, query);
@@ -68,7 +68,10 @@ class Handler {
 				const { narrationText, image } = getNarration(eventData, query);
 				return this.narrationManager.displayNarration(narrationText, image);
 			case subPrefixes.admin:
-				return this.adminManager.fireEvent(query.eventName ?? '', query.value ?? '', gameId, channelId, messageAuthor);
+				if (messageAuthor) {
+					return this.adminManager.fireEvent(query.eventName ?? '', query.value ?? '', gameId, channelId, messageAuthor);
+				}
+				throw new InvalidInputError('Only Players can issue admin commands');
 			case subPrefixes.npcs:
 				if (messageAuthor) {
 					const player = await this.service.GetPlayer(messageAuthor, gameId);
