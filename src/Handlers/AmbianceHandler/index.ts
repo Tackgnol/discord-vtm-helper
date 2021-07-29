@@ -1,5 +1,5 @@
-import AmbianceManager from '../../EventManagers/SoundManager';
-import { settings } from '../../config/settings';
+import AmbianceManager from 'src/EventManagers/SoundManager';
+import { settings } from 'src/config';
 import { VoiceConnection } from 'discord.js';
 
 class AmbianceHandler {

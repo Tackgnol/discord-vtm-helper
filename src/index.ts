@@ -1,6 +1,6 @@
 import Discord from 'discord.js';
-import { settings } from './config/settings';
-import { Auth } from './config/access';
+import { settings } from './config';
+import { Auth } from './config';
 import initializeService from './Services';
 import { IService } from './Services/IService';
 import { DiscordClient } from './DiscordClient';
