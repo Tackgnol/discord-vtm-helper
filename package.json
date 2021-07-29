@@ -1,6 +1,6 @@
 {
   "name": "vampire-helper",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A discord bot to help run VtM Sessions",
   "main": "src/index.ts",
   "license": "MIT",
